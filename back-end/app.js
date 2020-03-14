@@ -3,16 +3,22 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const cors = require('cors');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var app = express();
+const corsOptions = {
+  origin: 'http://localhost:3000', // 허락하고자 하는 요청 주소
+  credentials: true // true로 하면 설정한 내용을 response 헤더에 추가해줍니다.
+};
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
+app.use(cors(corsOptions)); // cors 미들웨어 추가
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

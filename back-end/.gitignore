@@ -90,6 +90,7 @@ build/Release
 node_modules/
 config/
 jspm_packages/
+source/
 
 # TypeScript v1 declaration files
 typings/

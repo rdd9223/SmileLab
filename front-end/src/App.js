@@ -3,36 +3,22 @@ import {Button} from 'react-bootstrap';
 import logo from './logo.svg';
 import './App.css';
 import AceEditor from 'react-ace';
+import {postSource} from './service/app';
 import 'brace/mode/python';
 import 'brace/theme/monokai';
 import 'brace/snippets/python';
 import 'brace/ext/language_tools';
-import { useAsync } from './useAsync';
-import axios from 'axios';
-
-const postSource = async(code) => {
-  try {
-    const response = await axios.post('http://localhost:4000', {
-      source: code
-    });
-    console.log('👉 Returned data:', response);
-    return response.data;
-  } catch (e) {
-    console.log(`😱 Axios request failed: ${e}`);
-  }
-}
 
 function App() {
   const [code, setCode] = useState("");
-  const [state, refetch] = useAsync(postSource(code), [], true);
-  // const {loading, data: result, error} = state;
-
-  // if (loading) return <div>로딩중 ...</div>;
-  // if (error) return <div>에러!!!</div>;
-  // if (!code) return <button onClick={refetch}>불러오기</button>;
+  const [resultCode, setResultCode] = useState("");
+  
+  const fetchPostSource = async(code) => {
+    const result = await postSource(code);
+    setResultCode(result.data.data);
+  }
 
   const onChange = (e) => {
-    console.log("change", e)
     setCode(e);
   }
 
@@ -57,7 +43,7 @@ function App() {
                 tabSize: 2,
               }
             }/>
-            <Button variant="primary" on>실행</Button>
+            <Button variant="primary" onClick={() => fetchPostSource(code)}>실행</Button>
             <AceEditor
               placeholder="코드를 입력해주세요"
               mode="python"
@@ -65,7 +51,7 @@ function App() {
               name="result"
               readOnly={true}
               fontSize={14}
-              value={code}
+              value={resultCode}
               showGutter={true}
               setOptions={{
                 showLineNumbers: true,

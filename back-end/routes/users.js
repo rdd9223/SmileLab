@@ -18,9 +18,7 @@ router.post('/', async(req, res) => {
 
   fs.writeFileSync(path.join(sourcePath, "Main.py"), req.body.source);
   sourcePath = sourcePath.replace(/\\/gi ,"/");
-  //sourcePath.split("\\\\").join("\\")
-  // docker run --rm -v C:\Users\rdd92:/usr/src -w /usr/src python:3 python hello1.py
-  // const docker = spawn("docker", ["run", "--rm", "-v", `${sourcePath}:/usr/src`, "-w", "/usr/src", "python:3", "python", "Main.py"]);
+  
   const docker = await exec(`docker run --rm -v ${sourcePath}:/usr/src -w /usr/src python:3 python Main.py`, (err, out, stderr) => {
 
     if (out) {

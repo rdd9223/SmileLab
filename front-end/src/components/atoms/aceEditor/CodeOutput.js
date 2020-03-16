@@ -8,6 +8,7 @@ import 'brace/ext/language_tools';
 const CodeOutput = (props) => {
   return (
     <AceEditor
+      style={{height: '200px'}}
       placeholder="코드를 입력해주세요"
       mode="python"
       theme="monokai"

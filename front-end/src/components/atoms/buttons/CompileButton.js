@@ -11,11 +11,11 @@ const Compile = props => {
 
   return (
     <Button
-      style={{ position: "absolute", bottom: "15px" }}
+      style={{ position: "absolute", bottom: "15px", left: "400px" }}
       variant="primary"
       onClick={() => fetchPostSource(props.code)}
     >
-      실행
+      Compile
     </Button>
   );
 };

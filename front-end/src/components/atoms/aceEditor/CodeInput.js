@@ -9,7 +9,6 @@ const CodeInput = (props) => {
   return (
     <AceEditor
       style={{
-        height: '300px',
         margin: 0,
         padding: 0
       }}

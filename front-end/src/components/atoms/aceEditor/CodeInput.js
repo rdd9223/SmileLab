@@ -9,8 +9,7 @@ const CodeInput = (props) => {
   return (
     <AceEditor
       style={{
-        margin: 0,
-        padding: 0
+        width: "100%"
       }}
       placeholder="코드를 입력해주세요"
       onChange={props.onChange}

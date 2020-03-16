@@ -17,7 +17,7 @@ const CompileContainer = () => {
   }
 
   return (
-    <Container className="App" style={{width: '550px'}}>
+    <Container className="App" style={{width: '500px'}}>
       <div style={{position: "relative", margin: '10px'}}>
         <CodeLoadButton onChange={onChange}/>
         <CodeInput code={code} onChange={onChange} />

@@ -11,7 +11,7 @@ const Compile = props => {
 
   return (
     <Button
-      style={{ position: "absolute", bottom: "15px", left: "400px" }}
+      style={{ position: "absolute", bottom: "15px", right: "4%" }}
       variant="primary"
       onClick={() => fetchPostSource(props.code)}
     >

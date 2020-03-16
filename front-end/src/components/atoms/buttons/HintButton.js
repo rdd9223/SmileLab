@@ -5,7 +5,7 @@ const HintButton = props => {
 
   return (
     <Button
-      style={{ position: "absolute", bottom: "15px", left: "450px" }}
+      style={{ position: "absolute", bottom: "15px", right: "4%" }}
       variant="primary"
       onClick={() => alert('힌트를 보여줘요')}
     >

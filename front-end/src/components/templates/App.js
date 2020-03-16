@@ -1,17 +1,19 @@
 import React from 'react';
 import {Container, Row, Col} from 'react-bootstrap';
-import CompileContainer from '../molecules/CompileContainer';
-import ExpressionContainer from '../molecules/ExpressionContainer';
+import CompileContainer from '../organisms/CompileContainer';
+import ExpressionContainer from '../organisms/ExpressionContainer';
+import Navbar from '../organisms/MainNavbar';
 
 const App = () => {
 
   return (
     <Container className="App">
+      <Navbar/>
       <Row>
-        <Col xl={6}>
+        <Col>
           <ExpressionContainer />
         </Col>
-        <Col xl={6}>
+        <Col>
           <CompileContainer />
         </Col>
       </Row>

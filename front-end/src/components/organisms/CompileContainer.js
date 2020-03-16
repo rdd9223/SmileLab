@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import { Container } from "react-bootstrap";
 import CodeInput from '../atoms/aceEditor/CodeInput';
 import CodeOutput from '../atoms/aceEditor/CodeOutput';
 import CompileButton from '../atoms/buttons/CompileButton';
@@ -17,7 +16,7 @@ const CompileContainer = () => {
   }
 
   return (
-    <Container className="App" style={{width: '500px'}}>
+    <div style={{float: 'center'}}>
       <div style={{position: "relative", margin: '10px'}}>
         <CodeLoadButton onChange={onChange}/>
         <CodeInput code={code} onChange={onChange} />
@@ -31,7 +30,7 @@ const CompileContainer = () => {
         <CodeSaveButton code={code} />
         <CheckResultButton />
       </div>
-    </Container>
+    </div>
   );
 }
 

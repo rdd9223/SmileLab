@@ -1,5 +1,5 @@
 import React from "react";
-import App from "./organisms/App";
+import App from "./templates/App";
 
 const Root = () => {
   return <App />;

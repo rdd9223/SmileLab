@@ -2,7 +2,11 @@ import React from "react";
 import App from "./templates/App";
 
 const Root = () => {
-  return <App />;
+  return (
+    <div>
+      <App/>
+    </div>
+  )
 };
 
 export default Root;

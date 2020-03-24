@@ -7,7 +7,7 @@ const ExpressToCodeArea = () => {
   return (
     <div style={{position: "relative", height: '750px'}}>
       <IdeaTextArea />
-      <HintButton />
+      <HintButton message={"의사코드 활용 예시"}/>
     </div>
   )
 }

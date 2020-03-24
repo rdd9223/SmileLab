@@ -24,7 +24,7 @@ const CompileContainer = () => {
       </div>
       <div style={{position: "relative", height: '200px', margin: '10px'}}>
         <CodeOutput resultCode={resultCode} />
-        <HintButton />
+        <HintButton resultCode={resultCode} />
       </div>
       <div style={{height: '200px', margin: '10px'}}>
         <CodeSaveButton code={code} />

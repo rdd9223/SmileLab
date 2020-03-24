@@ -10,6 +10,9 @@ const FormRadio = (props) => {
       label={props.name}
       name={props.group}
       id={props.name}
+      checked={props.checked}
+      value={props.name}
+      onChange={props.onChange}
     />
   );
 }

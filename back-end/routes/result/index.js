@@ -1,6 +1,7 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
 
-router.use('/', );
+router.use("/", require("./result"));
+router.use("/save", require("./save"));
 
 module.exports = router;

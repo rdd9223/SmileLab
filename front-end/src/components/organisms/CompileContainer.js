@@ -28,7 +28,7 @@ const CompileContainer = () => {
       </div>
       <div style={{height: '200px', margin: '10px'}}>
         <CodeSaveButton code={code} />
-        <CheckResultButton />
+        <CheckResultButton code={code} />
       </div>
     </div>
   );

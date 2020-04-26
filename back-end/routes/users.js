@@ -29,4 +29,16 @@ router.post('/', async(req, res) => {
   })
 });
 
+router.post('/check', async(req, res) => {
+
+  fs.writeFileSync(path.join(sourcePath, "Main.py"), req.body.source);
+  sourcePath = sourcePath.replace(/\\/gi ,"/");
+
+  if (out) {
+    res.status(200).send(authUtil.successTrue(statusCode.OK, '컴파일 성공', out))
+  } else {
+    res.status(200).send(authUtil.successTrue(statusCode.BAD_REQUEST, "컴파일 실패", stderr))
+  }
+});
+
 module.exports = router;

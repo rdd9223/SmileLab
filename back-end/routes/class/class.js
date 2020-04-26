@@ -12,7 +12,7 @@ router.get("/", async (req, res) => {
 // 클래스 추가
 router.post("/", async (req, res) => {});
 
-// 게시글 작성
+// 클래스 삭제
 router.delete("/", async (req, res) => {});
 
 module.exports = router;

@@ -8,13 +8,13 @@ const secretOrPrivateKey = require("../../config/secretKey");
 const options = {
   algorithm: "HS256",
   expiresIn: "7d",
-  issuer: "fundito",
+  issuer: "smileLab",
 };
 
 const refreshOptions = {
   algorithm: "HS256",
   expiresIn: "14d",
-  issuer: "fundito",
+  issuer: "smileLab",
 };
 
 const crypto = {

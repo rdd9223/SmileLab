@@ -7,9 +7,9 @@ const USER = require("../../model/User");
 
 // 회원가입
 router.post("/", async (req, res) => {
-  const { id, pw, name, phone_number, type } = req.body;
+  const { id, pw, name, phone_number, type, class_idx } = req.body;
 
-  USER.signUp(id, pw, name, phone_number, type)
+  USER.signUp({ id, pw, name, phone_number, type, class_idx })
     .then(({ json }) => {
       res.status(200).send(json);
     })
@@ -29,7 +29,7 @@ router.post("/", async (req, res) => {
 // ID 증복체크
 router.post("/idcheck", async (req, res) => {
   const { id } = req.body;
-
+  console.log(id);
   USER.doubleCheck(id)
     .then(({ json }) => {
       res.status(200).send(json);

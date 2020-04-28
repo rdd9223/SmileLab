@@ -9,7 +9,7 @@ const USER = require("../../model/User");
 router.post("/", async (req, res) => {
   const { id, pw } = req.body;
 
-  USER.login(id, pw)
+  USER.login({ id, pw })
     .then(({ json }) => {
       res.status(200).send(json);
     })

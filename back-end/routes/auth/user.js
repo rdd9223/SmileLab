@@ -30,8 +30,9 @@ router.get("/", jwt.checkLogin, async (req, res) => {
 // 내 정보 수정
 router.put("/", jwt.checkLogin, async (req, res) => {
   const userIdx = req.decoded.idx;
+  const { pw, name, phone_number, class_idx } = req.body;
 
-  USER.putInfo(userIdx)
+  USER.putInfo({ pw, name, phone_number, class_idx, userIdx })
     .then(({ json }) => {
       res.status(200).send(json);
     })

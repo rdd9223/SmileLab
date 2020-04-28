@@ -98,7 +98,7 @@ const user = {
       const getClassInfoQuery = `SELECT class.name FROM take, class WHERE student_idx = ${userIdx} AND take.class_idx = class.class_idx`;
       const getUserInfoQuery = `SELECT id, name, phone_number, type, (${getClassInfoQuery}) as class_name FROM user WHERE user_idx = '${userIdx}'`;
       const getUserInfoResult = await pool.queryParam_None(getUserInfoQuery);
-      console.log(userIdx);
+
       if (getUserInfoQuery[0] !== undefined) {
         return resolve({
           json: authUtil.successTrue(
@@ -114,9 +114,31 @@ const user = {
       }
     });
   },
-  putInfo: (userIdx) => {
+  putInfo: ({ pw, name, phone_number, class_idx, userIdx }) => {
     return new Promise(async (resolve, reject) => {
-      const updateUserInfoQuery = `UPDATE user SET pw = ?, salt = ?, name = ?, phone_number = ?, class`;
+      const { salt, hashedPW } = await encription.encrypt(pw);
+
+      const updateUserInfoQuery = `UPDATE user u, take t SET u.pw = ?, u.salt = ?, u.name = ?, u.phone_number = ?, t.class_idx = ? WHERE u.user_idx = ${userIdx} AND t.student_idx = ${userIdx}`;
+      const updateUserInfoResult = await pool.queryParam_Parse(updateUserInfoQuery, [
+        hashedPW,
+        salt,
+        name,
+        phone_number,
+        class_idx,
+      ]);
+
+      if (updateUserInfoResult === undefined) {
+        return resolve({
+          json: authUtil.successFalse(
+            statusCode.DB_ERROR,
+            responseMessage.X_UPDATE_FAIL("유저정보")
+          ),
+        });
+      } else {
+        return resolve({
+          json: authUtil.successTrue(statusCode.OK, responseMessage.X_UPDATE_SUCCESS("유저정보")),
+        });
+      }
     });
   },
 };

@@ -96,7 +96,7 @@ const user = {
     return new Promise(async (resolve, reject) => {
       // TODO: 클래스도 같이 나오게 하기
       const getClassInfoQuery = `SELECT class.name FROM take, class WHERE student_idx = ${userIdx} AND take.class_idx = class.class_idx`;
-      const getUserInfoQuery = `SELECT id, name, phone_number, type FROM user WHERE user_idx = '${userIdx}'`;
+      const getUserInfoQuery = `SELECT id, name, phone_number, type, (${getClassInfoQuery}) as class_name FROM user WHERE user_idx = '${userIdx}'`;
       const getUserInfoResult = await pool.queryParam_None(getUserInfoQuery);
       console.log(userIdx);
       if (getUserInfoQuery[0] !== undefined) {

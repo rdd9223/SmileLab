@@ -10,7 +10,7 @@ const board = {
     return new Promise(async (resolve, reject) => {
       const getUserTakeClassQuery = `SELECT class_idx FROM take WHERE student_idx = ${userIdx}`;
       const getBoardListQuery = `SELECT * FROM board WHERE class_idx = (${getUserTakeClassQuery}) ORDER BY board_idx DESC LIMIT ${
-        page - 1
+        (page - 1) * 10
       }, 10`;
       const getBoardListResult = await pool.queryParam_Parse(getBoardListQuery);
 

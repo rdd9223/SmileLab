@@ -2,6 +2,8 @@ const statusCode = require("../module/utils/statusCode");
 const responseMessage = require("../module/utils/responseMessage");
 const authUtil = require("../module/utils/authUtil");
 const pool = require("../module/db/pool");
+const moment = require("moment");
+require("moment-timezone");
 
 const board = {
   getBoardList: ({ userIdx, page }) => {
@@ -30,8 +32,39 @@ const board = {
       }
     });
   },
-  postBoard: () => {
-    return new Promise(async (resolve, reject) => {});
+  postBoard: ({ userIdx, title, contents }) => {
+    return new Promise(async (resolve, reject) => {
+      const date = moment().format("YYYY-MM-DD HH:mm:ss");
+      if (!title || !contents) {
+        return resolve({
+          json: authUtil.successFalse(statusCode.BAD_REQUEST, responseMessage.NULL_VALUE),
+        });
+      }
+      const getUserTakeClassQuery = `SELECT class_idx FROM take WHERE student_idx = ${userIdx}`;
+      const postBoardQuery = `INSERT INTO board (title, contents, writer_idx, date, class_idx) VALUES (?, ?, ?, ?, (${getUserTakeClassQuery}))`;
+      const postBoardResult = await pool.queryParam_Parse(postBoardQuery, [
+        title,
+        contents,
+        userIdx,
+        date,
+      ]);
+
+      if (postBoardResult.affectedRows !== 0) {
+        return resolve({
+          json: authUtil.successTrue(
+            statusCode.CREATED,
+            responseMessage.X_CREATE_SUCCESS("게시글")
+          ),
+        });
+      } else {
+        return resolve({
+          json: authUtil.successFalse(
+            statusCode.BAD_REQUEST,
+            responseMessage.X_CREATE_FAIL("게시글")
+          ),
+        });
+      }
+    });
   },
   getBoard: () => {
     return new Promise(async (resolve, reject) => {});

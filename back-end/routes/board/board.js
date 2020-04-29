@@ -31,9 +31,9 @@ router.get("/:page", jwt.checkLogin, async (req, res) => {
 // 게시글 상세 조회
 router.get("/:boardIdx", jwt.checkLogin, async (req, res) => {
   const userIdx = req.decoded.idx;
-  const boardIdx = req.params;
+  const { boardIdx } = req.params;
 
-  BOARD.getBoardList({ userIdx, boardIdx })
+  BOARD.getBoard({ userIdx, boardIdx })
     .then(({ json }) => {
       res.status(200).send(json);
     })
@@ -55,7 +55,7 @@ router.post("/", jwt.checkLogin, async (req, res) => {
   const userIdx = req.decoded.idx;
   const { title, contents } = req.body;
 
-  BOARD.getBoardList({ userIdx, title, contents })
+  BOARD.postBoard({ userIdx, title, contents })
     .then(({ json }) => {
       res.status(200).send(json);
     })

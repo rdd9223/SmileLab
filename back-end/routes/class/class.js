@@ -30,9 +30,9 @@ router.get("/", async (req, res) => {
 // 클래스 추가
 router.post("/", jwt.checkLogin, async (req, res) => {
   const userIdx = req.decoded.idx;
-  const { name } = req.body;
+  const { className } = req.body;
 
-  CLASS.postClass({ name })
+  CLASS.postClass({ className })
     .then(({ json }) => {
       res.status(200).send(json);
     })

@@ -29,7 +29,7 @@ router.post("/", async (req, res) => {
 // ID 증복체크
 router.post("/idcheck", async (req, res) => {
   const { id } = req.body;
-  console.log(id);
+
   USER.doubleCheck(id)
     .then(({ json }) => {
       res.status(200).send(json);

@@ -15,7 +15,6 @@ const classInfo = {
       const getClassInfoQuery = `SELECT *, (${getProfessorInfoQuery}) as professor_name FROM class WHERE name LIKE '%${className}%' ORDER BY name`;
       const getClassInfoResult = await pool.queryParam_None(getClassInfoQuery);
 
-      console.log(getClassInfoResult);
       if (getClassInfoResult === undefined) {
         return resolve({
           json: authUtil.successFalse(

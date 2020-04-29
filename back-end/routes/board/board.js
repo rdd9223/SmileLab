@@ -7,7 +7,7 @@ const jwt = require("../../module/auth/jwt");
 const BOARD = require("../../model/Board");
 
 // 게시글 목록 조회
-router.get("/:page", jwt.checkLogin, async (req, res) => {
+router.get("/list/:page", jwt.checkLogin, async (req, res) => {
   const userIdx = req.decoded.idx;
   const { page } = req.params;
 

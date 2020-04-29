@@ -18,7 +18,7 @@ const board = {
         return resolve({
           json: authUtil.successTrue(
             statusCode.OK,
-            responseMessage.X_READ_SUCCESS(`${page}페이지 게시물`),
+            responseMessage.X_READ_ALL_SUCCESS(`${page}페이지 게시물`),
             getBoardListResult
           ),
         });
@@ -26,7 +26,7 @@ const board = {
         return resolve({
           json: authUtil.successFalse(
             statusCode.BAD_REQUEST,
-            responseMessage.X_READ_FAIL(`${page}페이지 게시물`)
+            responseMessage.X_READ_ALL_FAIL(`${page}페이지 게시물`)
           ),
         });
       }
@@ -66,8 +66,28 @@ const board = {
       }
     });
   },
-  getBoard: () => {
-    return new Promise(async (resolve, reject) => {});
+  getBoard: ({ userIdx, boardIdx }) => {
+    return new Promise(async (resolve, reject) => {
+      const getBoardInfoQuery = `SELECT * FROM board WHERE board_idx = ${boardIdx}`;
+      const getBoardInfoResult = await pool.queryParam_Parse(getBoardInfoQuery);
+
+      if (getBoardInfoResult[0] !== undefined) {
+        return resolve({
+          json: authUtil.successTrue(
+            statusCode.OK,
+            responseMessage.X_READ_SUCCESS("게시글"),
+            getBoardInfoResult
+          ),
+        });
+      } else {
+        return resolve({
+          json: authUtil.successFalse(
+            statusCode.BAD_REQUEST,
+            responseMessage.X_READ_FAIL("게시글")
+          ),
+        });
+      }
+    });
   },
 };
 

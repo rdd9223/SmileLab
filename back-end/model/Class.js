@@ -33,8 +33,24 @@ const classInfo = {
       }
     });
   },
-  postClass: ({ className }) => {
-    return new Promise(async (resolve, reject) => {});
+  postClass: ({ className, userIdx }) => {
+    return new Promise(async (resolve, reject) => {
+      const postClassQuery = `INSERT INTO class (name, professor_idx) VALUES (?, ?)`;
+      const postClassResult = await pool.queryParam_Parse(postClassQuery, [className, userIdx]);
+
+      if (postClassResult.affectedRows !== 0) {
+        return resolve({
+          json: authUtil.successTrue(statusCode.CREATED, responseMessage.X_CREATE_SUCCESS("강의")),
+        });
+      } else {
+        return resolve({
+          json: authUtil.successFalse(
+            statusCode.BAD_REQUEST,
+            responseMessage.X_CREATE_FAIL("강의")
+          ),
+        });
+      }
+    });
   },
   deleteClass: ({ userIdx, class_idx }) => {
     return new Promise(async (resolve, reject) => {});

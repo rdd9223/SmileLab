@@ -32,7 +32,7 @@ router.post("/", jwt.checkLogin, async (req, res) => {
   const userIdx = req.decoded.idx;
   const { className } = req.body;
 
-  CLASS.postClass({ className })
+  CLASS.postClass({ className, userIdx })
     .then(({ json }) => {
       res.status(200).send(json);
     })

@@ -8,9 +8,9 @@ const USER = require("../../model/User");
 
 // 내 정보 조회
 router.get("/", jwt.checkLogin, async (req, res) => {
-  const userIdx = req.decoded.idx;
+  const { user_idx, type } = req.decoded;
 
-  USER.getInfo(userIdx)
+  USER.getInfo(user_idx)
     .then(({ json }) => {
       res.status(200).send(json);
     })
@@ -29,10 +29,10 @@ router.get("/", jwt.checkLogin, async (req, res) => {
 
 // 내 정보 수정
 router.put("/", jwt.checkLogin, async (req, res) => {
-  const userIdx = req.decoded.idx;
+  const { user_idx, type } = req.decoded;
   const { pw, name, phone_number, class_idx } = req.body;
 
-  USER.putInfo({ pw, name, phone_number, class_idx, userIdx })
+  USER.putInfo({ pw, name, phone_number, class_idx, user_idx })
     .then(({ json }) => {
       res.status(200).send(json);
     })

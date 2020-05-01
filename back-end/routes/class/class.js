@@ -29,10 +29,10 @@ router.get("/", async (req, res) => {
 
 // 클래스 추가
 router.post("/", jwt.checkLogin, async (req, res) => {
-  const userIdx = req.decoded.idx;
+  const { user_idx, type } = req.decoded;
   const { className } = req.body;
 
-  CLASS.postClass({ className, userIdx })
+  CLASS.postClass({ className, user_idx })
     .then(({ json }) => {
       res.status(200).send(json);
     })
@@ -51,10 +51,10 @@ router.post("/", jwt.checkLogin, async (req, res) => {
 
 // 클래스 삭제
 router.delete("/", jwt.checkLogin, async (req, res) => {
-  const userIdx = req.decoded.idx;
+  const { user_idx, type } = req.decoded;
   const { class_idx } = req.body;
 
-  CLASS.deleteClass({ userIdx, class_idx })
+  CLASS.deleteClass({ user_idx, class_idx })
     .then(({ json }) => {
       res.status(200).send(json);
     })

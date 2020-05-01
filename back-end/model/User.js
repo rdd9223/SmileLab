@@ -14,13 +14,13 @@ const user = {
         });
       }
 
-      const getUserInfoQuery = `SELECT user_idx, pw, salt FROM user WHERE id='${id}'`;
+      const getUserInfoQuery = `SELECT user_idx, type, pw, salt FROM user WHERE id='${id}'`;
       const getUserInfoResult = await pool.queryParam_None(getUserInfoQuery);
 
       const { hashed } = await encription.encryptWithSalt(pw, getUserInfoResult[0].salt);
 
       if (getUserInfoResult[0].pw === hashed) {
-        const token = jwt.sign(getUserInfoResult[0].user_idx);
+        const token = jwt.sign([getUserInfoResult[0].user_idx, getUserInfoResult[0].type]);
         return resolve({
           json: authUtil.successTrue(statusCode.OK, responseMessage.SIGN_IN_SUCCESS, token),
         });
@@ -92,10 +92,10 @@ const user = {
       }
     });
   },
-  getInfo: (userIdx) => {
+  getInfo: (user_idx) => {
     return new Promise(async (resolve, reject) => {
-      const getClassInfoQuery = `SELECT class.name FROM take, class WHERE student_idx = ${userIdx} AND take.class_idx = class.class_idx`;
-      const getUserInfoQuery = `SELECT id, name, phone_number, type, (${getClassInfoQuery}) as class_name FROM user WHERE user_idx = '${userIdx}'`;
+      const getClassInfoQuery = `SELECT class.name FROM take, class WHERE student_idx = ${user_idx} AND take.class_idx = class.class_idx`;
+      const getUserInfoQuery = `SELECT id, name, phone_number, type, (${getClassInfoQuery}) as class_name FROM user WHERE user_idx = '${user_idx}'`;
       const getUserInfoResult = await pool.queryParam_None(getUserInfoQuery);
 
       if (getUserInfoQuery[0] !== undefined) {
@@ -113,11 +113,11 @@ const user = {
       }
     });
   },
-  putInfo: ({ pw, name, phone_number, class_idx, userIdx }) => {
+  putInfo: ({ pw, name, phone_number, class_idx, user_idx }) => {
     return new Promise(async (resolve, reject) => {
       const { salt, hashedPW } = await encription.encrypt(pw);
 
-      const updateUserInfoQuery = `UPDATE user u, take t SET u.pw = ?, u.salt = ?, u.name = ?, u.phone_number = ?, t.class_idx = ? WHERE u.user_idx = ${userIdx} AND t.student_idx = ${userIdx}`;
+      const updateUserInfoQuery = `UPDATE user u, take t SET u.pw = ?, u.salt = ?, u.name = ?, u.phone_number = ?, t.class_idx = ? WHERE u.user_idx = ${user_idx} AND t.student_idx = ${user_idx}`;
       const updateUserInfoResult = await pool.queryParam_Parse(updateUserInfoQuery, [
         hashedPW,
         salt,

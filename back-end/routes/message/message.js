@@ -8,10 +8,10 @@ const MESSAGE = require("../../model/Message");
 
 // 메세지 목록 조회
 router.get("/:page", jwt.checkLogin, async (req, res) => {
-  const userIdx = req.decoded.idx;
+  const { user_idx, type } = req.decoded;
   const { page } = req.params;
 
-  MESSAGE.getMessageList({ userIdx, page })
+  MESSAGE.getMessageList({ user_idx, page })
     .then(({ json }) => {
       res.status(200).send(json);
     })
@@ -30,10 +30,10 @@ router.get("/:page", jwt.checkLogin, async (req, res) => {
 
 // 메세지 내용 조회
 router.get("/:messageIdx", jwt.checkLogin, async (req, res) => {
-  const userIdx = req.decoded.idx;
+  const { user_idx, type } = req.decoded;
   const { messageIdx } = req.params;
 
-  MESSAGE.getMessageList({ userIdx, messageIdx })
+  MESSAGE.getMessageList({ user_idx, messageIdx })
     .then(({ json }) => {
       res.status(200).send(json);
     })

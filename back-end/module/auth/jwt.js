@@ -21,7 +21,8 @@ const crypto = {
   sign: (user) => {
     // 토큰 발급기
     const payload = {
-      idx: user,
+      user_idx: user[0],
+      type: user[1],
     };
     // 발급받은 refreshToken은 반드시 디비에 저장해야 한다.
     const result = {

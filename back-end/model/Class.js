@@ -33,7 +33,7 @@ const classInfo = {
       }
     });
   },
-  postClass: ({ className, userIdx }) => {
+  postClass: ({ className, user_idx }) => {
     return new Promise(async (resolve, reject) => {
       if (!className) {
         return resolve({
@@ -42,7 +42,7 @@ const classInfo = {
       }
       const getClassInfoQuery = `SELECT class_idx FROM class WHERE name = '${className}'`;
       const postClassQuery = `INSERT class (name, professor_idx) SELECT ?, ? FROM DUAL WHERE NOT EXISTS (${getClassInfoQuery})`;
-      const postClassResult = await pool.queryParam_Parse(postClassQuery, [className, userIdx]);
+      const postClassResult = await pool.queryParam_Parse(postClassQuery, [className, user_idx]);
 
       if (postClassResult.affectedRows !== 0) {
         return resolve({
@@ -58,9 +58,9 @@ const classInfo = {
       }
     });
   },
-  deleteClass: ({ userIdx, class_idx }) => {
+  deleteClass: ({ user_idx, class_idx }) => {
     return new Promise(async (resolve, reject) => {
-      const deleteClassQuery = `DELETE FROM class WHERE professor_idx = ${userIdx} AND class_idx = ${class_idx}`;
+      const deleteClassQuery = `DELETE FROM class WHERE professor_idx = ${user_idx} AND class_idx = ${class_idx}`;
       const deleteClassResult = await pool.queryParam_Parse(deleteClassQuery);
 
       if (deleteClassResult.affectedRows === 0) {

@@ -5,7 +5,7 @@ const pool = require("../module/db/pool");
 const moment = require("moment");
 
 const message = {
-  postMessage: ({ userIdx, class_idx, contents, receiver }) => {
+  postMessage: ({ user_idx, class_idx, contents, receiver }) => {
     return new Promise(async (resolve, reject) => {
       const date = moment().format("YYYY-MM-DD HH:mm:ss");
       const ALL = 0;
@@ -66,10 +66,10 @@ const message = {
       }
     });
   },
-  getMessageList: ({ userIdx, page }) => {
+  getMessageList: ({ user_idx, page }) => {
     return new Promise(async (resolve, reject) => {
       const getClassNameQuery = `SELECT DISTINCT name FROM class WHERE class_idx = message.from_user_idx`;
-      const getUserMessageListQuery = `SELECT *, (${getClassNameQuery}) class_name FROM message WHERE to_user_idx = ${userIdx} ORDER BY date LIMIT ${
+      const getUserMessageListQuery = `SELECT *, (${getClassNameQuery}) class_name FROM message WHERE to_user_idx = ${user_idx} ORDER BY date LIMIT ${
         (page - 1) * 10
       }, 10`;
       const getUserMessageListResult = await pool.queryParam_Parse(getUserMessageListQuery);

@@ -10,7 +10,7 @@ const USER = require("../../model/User");
 router.get("/", jwt.checkLogin, async (req, res) => {
   const { user_idx, type } = req.decoded;
 
-  USER.getInfo(user_idx)
+  USER.getInfo({ user_idx, type })
     .then(({ json }) => {
       res.status(200).send(json);
     })

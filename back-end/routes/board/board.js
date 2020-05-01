@@ -52,10 +52,10 @@ router.get("/:boardIdx", jwt.checkLogin, async (req, res) => {
 
 // 게시글 작성
 router.post("/", jwt.checkLogin, async (req, res) => {
-  const userIdx = req.decoded.idx;
+  const { user_idx, type } = req.decoded;
   const { title, contents } = req.body;
 
-  BOARD.postBoard({ userIdx, title, contents })
+  BOARD.postBoard({ user_idx, title, contents })
     .then(({ json }) => {
       res.status(200).send(json);
     })

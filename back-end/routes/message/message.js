@@ -7,10 +7,11 @@ const jwt = require("../../module/auth/jwt");
 const MESSAGE = require("../../model/Message");
 
 // 메세지 목록 조회
-router.get("/", jwt.checkLogin, async (req, res) => {
+router.get("/:page", jwt.checkLogin, async (req, res) => {
   const userIdx = req.decoded.idx;
+  const { page } = req.params;
 
-  MESSAGE.getMessageList({ userIdx })
+  MESSAGE.getMessageList({ userIdx, page })
     .then(({ json }) => {
       res.status(200).send(json);
     })

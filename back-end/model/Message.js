@@ -66,10 +66,12 @@ const message = {
       }
     });
   },
-  getMessageList: ({ userIdx }) => {
+  getMessageList: ({ userIdx, page }) => {
     return new Promise(async (resolve, reject) => {
       const getClassNameQuery = `SELECT DISTINCT name FROM class WHERE class_idx = message.from_user_idx`;
-      const getUserMessageListQuery = `SELECT *, (${getClassNameQuery}) class_name FROM message WHERE to_user_idx = ${userIdx} ORDER BY date`;
+      const getUserMessageListQuery = `SELECT *, (${getClassNameQuery}) class_name FROM message WHERE to_user_idx = ${userIdx} ORDER BY date LIMIT ${
+        (page - 1) * 10
+      }, 10`;
       const getUserMessageListResult = await pool.queryParam_Parse(getUserMessageListQuery);
 
       if (getUserMessageListResult[0] === null) {
@@ -80,7 +82,7 @@ const message = {
         return resolve({
           json: authUtil.successTrue(
             statusCode.OK,
-            responseMessage.X_READ_ALL_SUCCESS("메세지"),
+            responseMessage.X_READ_ALL_SUCCESS(page + "페이지 메세지"),
             getUserMessageListResult
           ),
         });

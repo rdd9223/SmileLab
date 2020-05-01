@@ -12,7 +12,7 @@ router.post("/", jwt.checkLogin, async (req, res) => {
   const { class_idx } = req.body;
 
   console.log(user_idx, type);
-  TAKE.takeClass({ user_idx, class_idx })
+  TAKE.takeClass({ user_idx, class_idx, type })
     .then(({ json }) => {
       res.status(200).send(json);
     })
@@ -33,7 +33,7 @@ router.post("/", jwt.checkLogin, async (req, res) => {
 router.get("/", jwt.checkLogin, async (req, res) => {
   const { user_idx, type } = req.decoded;
 
-  TAKE.getClassInfo({ user_idx })
+  TAKE.getClassInfo({ user_idx, type })
     .then(({ json }) => {
       res.status(200).send(json);
     })

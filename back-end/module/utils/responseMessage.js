@@ -17,6 +17,7 @@ module.exports = {
   EXPIRED_TOKEN: "유효기간이 지난 토큰",
   INVALID_TOKEN: "잘못된 토큰",
 
+  X_UNAUTHORIZED: (x) => `유저의 타입이 ${x}입니다.`,
   X_CREATE_SUCCESS: (x) => `${x} 작성 성공`,
   X_CREATE_FAIL: (x) => `${x} 작성 실패`,
   X_READ_ALL_SUCCESS: (x) => `${x} 전체 조회 성공`,

@@ -35,7 +35,13 @@ const classInfo = {
   },
   postClass: ({ className, userIdx }) => {
     return new Promise(async (resolve, reject) => {
-      const postClassQuery = `INSERT INTO class (name, professor_idx) VALUES (?, ?)`;
+      if (!className) {
+        return resolve({
+          json: authUtil.successFalse(statusCode.BAD_REQUEST, responseMessage.NULL_VALUE),
+        });
+      }
+      const getClassInfoQuery = `SELECT class_idx FROM class WHERE name = '${className}'`;
+      const postClassQuery = `INSERT class (name, professor_idx) SELECT ?, ? FROM DUAL WHERE NOT EXISTS (${getClassInfoQuery})`;
       const postClassResult = await pool.queryParam_Parse(postClassQuery, [className, userIdx]);
 
       if (postClassResult.affectedRows !== 0) {

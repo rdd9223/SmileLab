@@ -53,7 +53,23 @@ const classInfo = {
     });
   },
   deleteClass: ({ userIdx, class_idx }) => {
-    return new Promise(async (resolve, reject) => {});
+    return new Promise(async (resolve, reject) => {
+      const deleteClassQuery = `DELETE FROM class WHERE professor_idx = ${userIdx} AND class_idx = ${class_idx}`;
+      const deleteClassResult = await pool.queryParam_Parse(deleteClassQuery);
+
+      if (deleteClassResult.affectedRows === 0) {
+        return resolve({
+          json: authUtil.successFalse(
+            statusCode.BAD_REQUEST,
+            responseMessage.X_DELETE_FAIL("강의")
+          ),
+        });
+      } else {
+        return resolve({
+          json: authUtil.successTrue(statusCode.OK, responseMessage.X_DELETE_SUCCESS("강의")),
+        });
+      }
+    });
   },
 };
 

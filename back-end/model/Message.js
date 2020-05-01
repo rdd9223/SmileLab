@@ -3,7 +3,6 @@ const responseMessage = require("../module/utils/responseMessage");
 const authUtil = require("../module/utils/authUtil");
 const pool = require("../module/db/pool");
 const moment = require("moment");
-require("moment-timezone");
 
 const message = {
   postMessage: ({ userIdx, class_idx, contents, receiver }) => {
@@ -68,7 +67,32 @@ const message = {
     });
   },
   getMessageList: ({ userIdx }) => {
-    return new Promise(async (resolve, reject) => {});
+    return new Promise(async (resolve, reject) => {
+      const getClassNameQuery = `SELECT DISTINCT name FROM class WHERE class_idx = message.from_user_idx`;
+      const getUserMessageListQuery = `SELECT *, (${getClassNameQuery}) class_name FROM message WHERE to_user_idx = ${userIdx} ORDER BY date`;
+      const getUserMessageListResult = await pool.queryParam_Parse(getUserMessageListQuery);
+
+      if (getUserMessageListResult[0] === null) {
+        return resolve({
+          json: authUtil.successTrue(statusCode.OK, responseMessage.NO_X("메세지")),
+        });
+      } else if (getUserMessageListResult[0] !== null) {
+        return resolve({
+          json: authUtil.successTrue(
+            statusCode.OK,
+            responseMessage.X_READ_ALL_SUCCESS("메세지"),
+            getUserMessageListResult
+          ),
+        });
+      } else {
+        return resolve({
+          json: authUtil.successFalse(
+            statusCode.BAD_REQUEST,
+            responseMessage.X_READ_ALL_FAIL("메세지")
+          ),
+        });
+      }
+    });
   },
   getMessageInfo: ({ userIdx, messageIdx }) => {
     return new Promise(async (resolve, reject) => {});

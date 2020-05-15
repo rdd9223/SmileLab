@@ -1,7 +1,7 @@
 import React from "react";
 import CodeContainer from "./pages/CodeContainer";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Navbar from "./components/organisms/MainNavbar";
+import Navbar from "./components/templates/MainNavbar";
 
 const Root = () => {
   return (

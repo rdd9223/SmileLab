@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import CompileContainer from "../components/organisms/CompileContainer";
-import ExpressionContainer from "../components/organisms/ExpressionContainer";
+import CompileContainer from "../components/templates/CompileContainer";
+import ExpressionContainer from "../components/templates/ExpressionContainer";
 
 const App = () => {
   return (

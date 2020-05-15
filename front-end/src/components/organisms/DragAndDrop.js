@@ -1,11 +1,11 @@
 import React, { useRef, useState } from "react";
 import { Stage, Layer } from "react-konva";
 import { Button, Row, Col, Container } from "react-bootstrap";
-import Oval from "../atoms/figure/Oval";
-import Square from "../atoms/figure/Square";
-import EditableText from "../atoms/figure/EditableText";
-import ArrowLine from "../atoms/figure/ArrowLine";
-import Parallelogram from "../atoms/figure/Parallelogram";
+import Oval from "../molecules/figure/Oval";
+import Square from "../molecules/figure/Square";
+import EditableText from "../molecules/figure/EditableText";
+import ArrowLine from "../molecules/figure/ArrowLine";
+import Parallelogram from "../molecules/figure/Parallelogram";
 
 const DragAndDrop = (props) => {
   const stageRef = useRef();

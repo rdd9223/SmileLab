@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import CodeInput from "../atoms/aceEditor/CodeInput";
-import CodeOutput from "../atoms/aceEditor/CodeOutput";
-import CompileButton from "../atoms/buttons/CompileButton";
-import HintButton from "../atoms/buttons/HintButton";
-import CodeLoadButton from "../atoms/inputs/CodeLoadInput";
-import CodeSaveButton from "../atoms/buttons/CodeSaveButton";
-import CheckResultButton from "../atoms/buttons/CheckResultButton";
+import CodeInput from "../molecules/aceEditor/CodeInput";
+import CodeOutput from "../molecules/aceEditor/CodeOutput";
+import CompileButton from "../molecules/buttons/CompileButton";
+import HintButton from "../molecules/buttons/HintButton";
+import CodeLoadButton from "../molecules/inputs/CodeLoadInput";
+import CodeSaveButton from "../molecules/buttons/CodeSaveButton";
+import CheckResultButton from "../molecules/buttons/CheckResultButton";
 
 const CompileContainer = () => {
   const [code, setCode] = useState("");

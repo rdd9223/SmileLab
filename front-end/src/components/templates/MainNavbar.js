@@ -1,9 +1,9 @@
 import React from "react";
 import { Navbar } from "react-bootstrap";
-import LogoLink from "../atoms/nav/LogoLink";
-import DefaulteNav from "../molecules/DefaultNav";
-import StudentNav from "../molecules/StudentNav";
-import ProfesserNav from "../molecules/ProfesserNav";
+import LogoLink from "../molecules/nav/LogoLink";
+import DefaulteNav from "../organisms/DefaultNav";
+import StudentNav from "../organisms/StudentNav";
+import ProfesserNav from "../organisms/ProfesserNav";
 
 const MainNavbar = ({ userType = 2 }) => {
   const renderUserTypeNav = (idx) => {

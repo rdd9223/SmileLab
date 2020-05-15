@@ -43,8 +43,17 @@ const take = {
       }
     });
   },
-  getClassInfo: ({ user_idx }) => {
-    return new Promise(async (resolve, reject) => {});
+  getClassInfo: ({ user_idx, type }) => {
+    return new Promise(async (resolve, reject) => {
+      if (type === userType.Student) {
+        return resolve({
+          json: authUtil.successFalse(
+            statusCode.UNAUTHORIZED,
+            responseMessage.X_UNAUTHORIZED("학생")
+          ),
+        });
+      }
+    });
   },
 };
 

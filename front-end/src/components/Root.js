@@ -1,12 +1,12 @@
 import React from "react";
-import App from "./templates/App";
+import CodeContainer from "./templates/CodeContainer";
 
 const Root = () => {
   return (
     <div>
-      <App/>
+      <CodeContainer />
     </div>
-  )
+  );
 };
 
 export default Root;

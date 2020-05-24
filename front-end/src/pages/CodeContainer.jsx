@@ -3,7 +3,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import CompileContainer from "../components/templates/CompileContainer";
 import ExpressionContainer from "../components/templates/ExpressionContainer";
 
-const App = () => {
+const CodeContainer = () => {
   return (
     <Container className="App">
       <Row>
@@ -18,4 +18,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default CodeContainer;

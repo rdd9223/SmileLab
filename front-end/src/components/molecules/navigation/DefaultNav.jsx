@@ -1,6 +1,6 @@
 import React from "react";
 import { Nav } from "react-bootstrap";
-import NavLink from "../molecules/nav/NavLink";
+import NavLink from "../../atoms/NavLink";
 
 const DefaultNav = () => {
   return (

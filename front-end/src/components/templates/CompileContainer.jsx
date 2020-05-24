@@ -20,7 +20,7 @@ const CompileContainer = () => {
       <div style={{ position: "relative", margin: "10px" }}>
         <CodeLoadButton onChange={onChange} />
         <CodeInput code={code} onChange={onChange} />
-        <CompileButton code={code} resultCode={resultCode} setResultCode={setResultCode} />
+        <CompileButton code={code} setResultCode={setResultCode} />
       </div>
       <div style={{ position: "relative", height: "200px", margin: "10px" }}>
         <CodeOutput resultCode={resultCode} />

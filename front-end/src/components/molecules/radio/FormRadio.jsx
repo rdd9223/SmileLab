@@ -1,8 +1,7 @@
-import React from 'react';
-import {Form} from 'react-bootstrap';
+import React from "react";
+import { Form } from "react-bootstrap";
 
 const FormRadio = (props) => {
-
   return (
     <Form.Check
       custom
@@ -15,6 +14,6 @@ const FormRadio = (props) => {
       onChange={props.onChange}
     />
   );
-}
+};
 
 export default FormRadio;

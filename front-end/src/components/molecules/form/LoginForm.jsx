@@ -4,28 +4,41 @@ import FormLabel from "../../atoms/FormLabel";
 import FormText from "../../atoms/FormText";
 import FormControl from "../../atoms/FormControl";
 import Button from "../../atoms/Button";
+import styled from "styled-components";
+
+const Wrapper = styled.div`
+  margin-top: 10rem;
+`;
+
+const Column = styled(Col)`
+  display: flex;
+  justify-content: center;
+  Button {
+    width: 100%;
+  }
+`;
 
 const LoginForm = () => {
   return (
-    <div>
+    <Wrapper>
       <Form>
         <Form.Group>
           <FormText name={"아이디와 비밀번호를 입력해주세요"} />
           <FormLabel name={"ID"} />
-          <FormControl type={"id"} placeholder={"Press ID"} />
+          <FormControl type={"id"} placeholder={"ID"} />
           <FormLabel name={"PW"} />
           <FormControl type={"password"} placeholder={"Password"} />
         </Form.Group>
         <Row>
-          <Col>
+          <Column>
             <Button type={"submit"} onClick={""} variant={"primary"} name={"로그인"} />
-          </Col>
-          <Col>
+          </Column>
+          <Column>
             <Button onClick={""} variant={"primary"} name={"회원가입"} />
-          </Col>
+          </Column>
         </Row>
       </Form>
-    </div>
+    </Wrapper>
   );
 };
 

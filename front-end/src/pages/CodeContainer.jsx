@@ -5,7 +5,7 @@ import ExpressionContainer from "../components/templates/ExpressionContainer";
 
 const CodeContainer = () => {
   return (
-    <Container className="App">
+    <Container>
       <Row>
         <Col>
           <ExpressionContainer />

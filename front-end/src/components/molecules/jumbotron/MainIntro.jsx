@@ -12,7 +12,7 @@ const MainIntro = () => {
     <Wrapper>
       <Jumbotron
         header={"SmileLab"}
-        text={"안녕하세요 smileLab입니다. 재미있게 파이썬 코딩을 해봐요"}
+        text={<p>안녕하세요 smileLab입니다. 재미있게 파이썬 코딩을 해봐요</p>}
       />
     </Wrapper>
   );

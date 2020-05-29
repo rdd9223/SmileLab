@@ -4,7 +4,6 @@ import "brace/mode/python";
 import "brace/theme/monokai";
 import "brace/snippets/python";
 import "brace/ext/language_tools";
-import styled from "styled-components";
 
 const CodeEditor = (props) => {
   const { setOptions, value, name, readOnly, onChange, style } = props;

@@ -1,12 +1,12 @@
 import React from "react";
-import { Button } from "react-bootstrap";
+import { Button as Button1 } from "react-bootstrap";
 
-const Button1 = ({ style, variant = "primary", onClick, name, type }) => {
+const Button = ({ style, variant = "primary", onClick, name, type }) => {
   return (
-    <Button style={style} variant={variant} onClick={onClick} type={type}>
+    <Button1 style={style} variant={variant} onClick={onClick} type={type}>
       {name}
-    </Button>
+    </Button1>
   );
 };
 
-export default Button1;
+export default Button;

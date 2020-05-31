@@ -1,10 +1,10 @@
 import React from "react";
 import { Form, Row, Col } from "react-bootstrap";
-import FormLabel from "../../atoms/FormLabel";
-import FormText from "../../atoms/FormText";
-import FormControl from "../../atoms/FormControl";
-import Button from "../../atoms/Button";
+import FormText from "../atoms/FormText";
+import Button from "../atoms/Button";
 import styled from "styled-components";
+import FormLabelSet from "../molecules/form/FormLabelSet";
+import { Link } from "react-router-dom";
 
 const Wrapper = styled.div`
   margin-top: 10rem;
@@ -18,23 +18,27 @@ const Column = styled(Col)`
   }
 `;
 
+const StyledLink = styled(Link)`
+  width: 100%;
+`;
+
 const LoginForm = () => {
   return (
     <Wrapper>
       <Form>
         <Form.Group>
           <FormText name={"아이디와 비밀번호를 입력해주세요"} />
-          <FormLabel name={"ID"} />
-          <FormControl type={"id"} placeholder={"ID"} />
-          <FormLabel name={"PW"} />
-          <FormControl type={"password"} placeholder={"Password"} />
+          <FormLabelSet name={"ID"} type={"id"} placeholder={"ID"} />
+          <FormLabelSet name={"PW"} type={"password"} placeholder={"Password"} />
         </Form.Group>
         <Row>
           <Column>
-            <Button type={"submit"} onClick={""} variant={"primary"} name={"로그인"} />
+            <Button type={"submit"} onClick={""} name={"로그인"} />
           </Column>
           <Column>
-            <Button onClick={""} variant={"primary"} name={"회원가입"} />
+            <StyledLink to="/signup">
+              <Button onClick={""} name={"회원가입"} />
+            </StyledLink>
           </Column>
         </Row>
       </Form>

@@ -9,7 +9,7 @@ const StudentNav = () => {
       <NavLink name="활용방법" route="/menual" />
       <NavLink name="시작하기" route="/start" />
       <NavLink name="문의하기" route="/ask" />
-      <NavLink name="내 학습" route="/myClass" />
+      <NavLink name="내 학습" route="/myclass" />
       <NavLink name="커뮤니티" route="/community" />
     </Nav>
   );

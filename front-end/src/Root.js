@@ -5,6 +5,7 @@ import Navbar from "./components/templates/MainNavbar";
 import MainContainer from "./pages/MainContainer";
 import IntroContainer from "./pages/IntroContainer";
 import SignUpContainer from "./pages/SignUpContainer";
+import MyClassContainer from "./pages/MyClassContainer";
 
 const Root = () => {
   return (
@@ -15,6 +16,7 @@ const Root = () => {
         <Route path="/start" component={CodeContainer} />
         <Route path="/about" component={IntroContainer} />
         <Route path="/signup" component={SignUpContainer} />
+        <Route path="/myclass" component={MyClassContainer} />
       </Switch>
     </Router>
   );

@@ -5,7 +5,7 @@ import LoginForm from "../components/organisms/LoginForm";
 import styled from "styled-components";
 
 const Wrapper = styled.div`
-  width: 90%;
+  width: 60em;
   margin: 50px auto;
   height: 600px;
 `;

@@ -5,7 +5,7 @@ import Intro from "../components/molecules/jumbotron/Intro";
 import Image from "../components/atoms/Images";
 
 const Wrapper = styled.div`
-  width: 90%;
+  width: 60rem;
   margin: 50px auto;
   height: 600px;
 `;

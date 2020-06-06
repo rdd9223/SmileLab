@@ -9,7 +9,7 @@ import FormCheck from "../components/atoms/FormCheck";
 import Button from "../components/atoms/Button";
 
 const Wrapper = styled.div`
-  width: 60%;
+  width: 60em;
   margin: 50px auto;
 `;
 

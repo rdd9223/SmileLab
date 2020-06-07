@@ -1,11 +1,11 @@
 import React from "react";
-import Td from "../../atoms/Td";
+import Td from "../molecules/table/Td";
 
 const TableBody = ({ rows }) => {
   return (
     <tbody>
-      {rows.map((item, i) => {
-        return <Td key={i} body={item} />;
+      {rows.map((item) => {
+        return <Td key={item.idx} body={item} />;
       })}
     </tbody>
   );

@@ -1,5 +1,5 @@
 import React from "react";
-import Th from "../../atoms/Th";
+import Th from "../molecules/table/Th";
 
 const TableHeader = ({ headers }) => {
   return (

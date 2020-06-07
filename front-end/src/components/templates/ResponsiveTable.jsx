@@ -1,7 +1,7 @@
 import React from "react";
 import { Table } from "react-bootstrap";
-import TableHeader from "../molecules/table/TableHeader";
-import TableBody from "../molecules/table/TableBody";
+import TableHeader from "../organisms/TableHeader";
+import TableBody from "../organisms/TableBody";
 
 const ResponsiveTable = ({ headers, rows }) => {
   return (

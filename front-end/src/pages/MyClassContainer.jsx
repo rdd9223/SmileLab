@@ -1,5 +1,5 @@
-import React from "react";
-import MyClassTable from "../components/templates/MyClassTable";
+import React, { useState } from "react";
+import MyClassTable from "../components/organisms/MyClassTable";
 import styled from "styled-components";
 import { Form } from "react-bootstrap";
 import Button from "../components/atoms/Button";
@@ -14,8 +14,16 @@ const Wrapper = styled.div`
 `;
 
 const MyClassContainer = () => {
-  const headers = ["날짜", "변수", "연산자", "데이터", "조건문", "반복문", "함수"];
-  const rows = [
+  const [header, setHeader] = useState([
+    "날짜",
+    "변수",
+    "연산자",
+    "데이터",
+    "조건문",
+    "반복문",
+    "함수",
+  ]);
+  const [data, setData] = useState([
     {
       idx: 1,
       date: "2020.06.01",
@@ -46,12 +54,12 @@ const MyClassContainer = () => {
       repeat: 1,
       function: 1,
     },
-  ];
+  ]);
   return (
     <Form>
       <Wrapper>
-        <MyClassTable headers={headers} rows={rows} />
-        <Button type={"submit"} name={"삭제"} size={"sm"} onClick={""} />
+        <MyClassTable headers={header} rows={data} />
+        <Button type={"submit"} name={"삭제"} size={"sm"} onClick={() => alert("일괄삭제")} />
       </Wrapper>
     </Form>
   );

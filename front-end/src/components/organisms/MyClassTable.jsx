@@ -1,12 +1,12 @@
 import React from "react";
 import { Table } from "react-bootstrap";
-import TableHeader from "../organisms/TableHeader";
-import MyClassTableBody from "../organisms/MyClassTableBody";
+import MyClassTableHeader from "../molecules/table/MyClassTableHeader";
+import MyClassTableBody from "./MyClassTableBody";
 
 const MyClassTable = ({ headers, rows }) => {
   return (
     <Table responsive>
-      <TableHeader headers={headers} />
+      <MyClassTableHeader headers={headers} />
       <MyClassTableBody rows={rows} />
     </Table>
   );

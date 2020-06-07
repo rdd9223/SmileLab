@@ -1,7 +1,7 @@
 import React from "react";
 import FormCheck from "../../atoms/FormCheck";
 
-const Td = ({ body, key }) => {
+const Td = ({ body }) => {
   const renderOX = (value) => {
     if (value === 0) {
       return "-";
@@ -22,7 +22,7 @@ const Td = ({ body, key }) => {
       <td>{renderOX(body.repeat)}</td>
       <td>{renderOX(body.function)}</td>
       <td>
-        <FormCheck type="checkbox" label="" name={"deleteSelected"} id={key} />
+        <FormCheck type="checkbox" label="" name={"deleteSelected"} />
       </td>
     </tr>
   );

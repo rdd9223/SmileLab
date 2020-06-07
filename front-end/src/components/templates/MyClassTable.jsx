@@ -1,15 +1,15 @@
 import React from "react";
 import { Table } from "react-bootstrap";
 import TableHeader from "../organisms/TableHeader";
-import TableBody from "../organisms/TableBody";
+import MyClassTableBody from "../organisms/MyClassTableBody";
 
-const ResponsiveTable = ({ headers, rows }) => {
+const MyClassTable = ({ headers, rows }) => {
   return (
     <Table responsive>
       <TableHeader headers={headers} />
-      <TableBody rows={rows} />
+      <MyClassTableBody rows={rows} />
     </Table>
   );
 };
 
-export default ResponsiveTable;
+export default MyClassTable;

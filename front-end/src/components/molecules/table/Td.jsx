@@ -1,5 +1,4 @@
 import React from "react";
-import Button from "../../atoms/Button";
 import FormCheck from "../../atoms/FormCheck";
 
 const Td = ({ body, key }) => {

@@ -1,5 +1,5 @@
 import React from "react";
-import ResponsiveTable from "../components/templates/ResponsiveTable";
+import MyClassTable from "../components/templates/MyClassTable";
 import styled from "styled-components";
 import { Form } from "react-bootstrap";
 import Button from "../components/atoms/Button";
@@ -50,7 +50,7 @@ const MyClassContainer = () => {
   return (
     <Form>
       <Wrapper>
-        <ResponsiveTable headers={headers} rows={rows} />
+        <MyClassTable headers={headers} rows={rows} />
         <Button type={"submit"} name={"삭제"} size={"sm"} onClick={""} />
       </Wrapper>
     </Form>

@@ -1,7 +1,7 @@
 import React from "react";
 import Td from "../molecules/table/Td";
 
-const TableBody = ({ rows }) => {
+const MyClassTableBody = ({ rows }) => {
   return (
     <tbody>
       {rows.map((item) => {
@@ -11,4 +11,4 @@ const TableBody = ({ rows }) => {
   );
 };
 
-export default TableBody;
+export default MyClassTableBody;

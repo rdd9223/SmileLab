@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import CommunityTable from "../components/templates/CommunityTable";
 import Jumbotron from "components/atoms/Jumbotron";
+import Modal from "components/atoms/Modal";
 
 const Wrapper = styled.div`
   width: 50em;
@@ -83,13 +84,15 @@ const CommunityContainer = () => {
       writer: "강영우",
     },
   ]);
+  const [modalShow, setModalShow] = useState(false);
 
   return (
     <Wrapper>
       <div>
         <Jumbotron header={"Class Community"} text={"자유롭게 생각을 나눠보는 공간입니다."} />
       </div>
-      <CommunityTable headers={headers} rows={data} />
+      <CommunityTable headers={headers} rows={data} setModalShow={setModalShow} />
+      <Modal show={modalShow} onHide={() => setModalShow(false)} />
     </Wrapper>
   );
 };

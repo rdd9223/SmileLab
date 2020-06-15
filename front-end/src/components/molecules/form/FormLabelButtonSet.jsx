@@ -13,7 +13,7 @@ const FormLabelButtonSet = ({ variant, onClick, type, buttonName, name, placehol
           <FormControl type={type} placeholder={placeholder} />
         </Col>
         <Col md={3}>
-          <Button variant={variant} onClick={onClick} type={"submit"} name={buttonName} />
+          <Button variant={variant} onClick={onClick} name={buttonName} />
         </Col>
       </Row>
     </>

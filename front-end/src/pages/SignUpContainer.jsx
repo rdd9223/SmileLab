@@ -61,8 +61,6 @@ class SignUpContainer extends React.Component {
     //TODO
     //임시 데이터
     this.state.modalShow = true;
-    //this.setState({modalShow: true});
-    console.log(this.state.modalShow);
   }
 
 

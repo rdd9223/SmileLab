@@ -28,20 +28,10 @@ const StyledLink = styled(Link)`
 class LoginForm extends React.Component {
   constructor(props) {
     super(props);
-    var token = localStorage.getItem('loginToken')
-    if(token!=null){
-      axios.get("http://localhost:4000/auth/user" , { headers: { token: token } })
-      .then((res) => {
-        if(res.data.status === 200){
-          this.setState({isLogin: true});
-        }
-        //토큰 만료 시 예외처리는 나중에
-      });
-    }
+    
     this.state = {
       id: null,
       pw: null,
-      isLogin: false,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -54,14 +44,8 @@ class LoginForm extends React.Component {
       console.log(res);
       if(res.data.status === 200){
         localStorage.setItem('loginToken', res.data.data.token);
-        /*axios.get("http://localhost:4000/auth/user" , { headers: { token: res.data.data.token } })
-        .then((res) => {
-          this.setState({userName: res.data.data.name});
-          console.log(this.state.userName);
-          console.log(res);
-        })*/
-        console.log("로그인 성공!");
         this.setState({isLogin : true});
+        window.location.reload();
       }
       return res;
     })
@@ -75,7 +59,7 @@ class LoginForm extends React.Component {
   }
 
   render() {
-    if(this.state.isLogin == null){
+    
         return (
           <Wrapper>
             <Form onSubmit={this.handleSubmit}>
@@ -97,25 +81,7 @@ class LoginForm extends React.Component {
             </Form>
           </Wrapper>
         );
-      }else{
-        return (
-        <Wrapper>
-          <h6>로그인 되었습니다</h6>
-          <h6>상단에서 원하는 메뉴를 선택하세요.</h6>
-          <Row>
-            <Column>
-              <h5>로그아웃</h5>
-            </Column>
-            <Column>
-            <h5>내정보</h5>
-            </Column>
-            <Column>
-            <h5>메세지함</h5>
-            </Column>
-          </Row>
-        </Wrapper>
-        );
-      }
+  
   }
 };
 

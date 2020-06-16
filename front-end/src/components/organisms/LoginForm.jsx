@@ -70,11 +70,11 @@ class LoginForm extends React.Component {
               </Form.Group>
               <Row>
                 <Column>
-                  <Button type={"submit"} onClick={""} name={"로그인"} />
+                  <Button type={"submit"} name={"로그인"} />
                 </Column>
                 <Column>
                   <StyledLink to="/signup">
-                    <Button onClick={""} name={"회원가입"} />
+                    <Button name={"회원가입"} />
                   </StyledLink>
                 </Column>
               </Row>

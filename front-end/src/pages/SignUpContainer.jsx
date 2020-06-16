@@ -7,6 +7,7 @@ import { Form } from "react-bootstrap";
 import FormLabel from "../components/atoms/FormLabel";
 import FormCheck from "../components/atoms/FormCheck";
 import Button from "../components/atoms/Button";
+import Modal from "../components/organisms/ClassModal"
 import axios from "axios";
 
 const Wrapper = styled.div`
@@ -15,19 +16,22 @@ const Wrapper = styled.div`
 `;
 
 class SignUpContainer extends React.Component {
+  
   constructor(props) {
     super(props);
     this.state = {
-      id: 'aaa',
+      id: null,
       password1: null,
       password2: null,
       phone_number: null,
       name: null,
       type: null,
-      class_idx: null,
+      class_idx: 5,
       isDouble: true,
       isValidPassword: false,
+      modalShow : false,
     };
+    
   }
 
   isDouble(event) {
@@ -52,10 +56,18 @@ class SignUpContainer extends React.Component {
     });
   }
 
+  
   searchClass(){
     //TODO
     //임시 데이터
+    this.state.modalShow = true;
+    //this.setState({modalShow: true});
+    console.log(this.state.modalShow);
+  }
 
+
+  handleClose() {
+    this.setState({modalShow: false});
   }
 
   checkPassword(event){
@@ -82,6 +94,7 @@ class SignUpContainer extends React.Component {
 
   handleSubmit(event) {
     console.log(this.state);
+    //id, pw, name, phone_number, type, class_idx
     //id, pw, name, phone_number, type, class_idx 
     if(this.state.isDouble){
       alert("아이디 중복 검사를 해 주세요!");
@@ -90,8 +103,9 @@ class SignUpContainer extends React.Component {
     }else{
       axios.post("http://localhost:4000/auth/signup", {
         id: this.state.id,
-        pw: this.state.password,
+        pw: this.state.password1,
         phone_number: this.state.phone_number,
+        name: this.state.name,
         type: this.state.type,
         class_idx: this.state.class_idx
       })
@@ -116,7 +130,7 @@ class SignUpContainer extends React.Component {
             <br />
             <FormLabelButtonSet name={"아이디 *"} type={"id"} buttonName={"중복확인"} 
             onChange={(event) => this.setState({id: event.target.value })}  
-            onClick={this.isDouble.bind(this)}/>
+            onClick={this.isDouble.bind(this)} />
             <FormText name="이메일 형식으로 된 아이디를 입력해주세요." />
           </Form.Group>
           <Form.Group>
@@ -133,12 +147,12 @@ class SignUpContainer extends React.Component {
             <FormLabelSet name={"휴대전화 *"} onChange={(event) => this.setState({phone_number: event.target.value })} type={"phoneNumber"} />
           </Form.Group>
           <Form.Group>
-            <FormLabelButtonSet name={"클래스"} type={"class"} buttonName={"검색하기"} />
+            <Modal />
           </Form.Group>
           <Form.Group>
             <FormLabel name={"가입유형 *"} />
-            <FormCheck type="radio" label="교수자" name="userType" id="1" />
-            <FormCheck type="radio" label="학습자" name="userType" id="2" />
+            <FormCheck type="radio" label="교수자" name="userType" id="1" onChange={(event) => this.setState({type: event.target.id })} />
+            <FormCheck type="radio" label="학습자" name="userType" id="2" onChange={(event) => this.setState({type: event.target.id })} />
           </Form.Group>
           <Form.Group>
             <Button name="회원가입" type="submit" />

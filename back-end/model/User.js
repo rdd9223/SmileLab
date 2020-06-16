@@ -17,6 +17,13 @@ const user = {
       const getUserInfoQuery = `SELECT user_idx, type, pw, salt FROM user WHERE id='${id}'`;
       const getUserInfoResult = await pool.queryParam_None(getUserInfoQuery);
 
+      //ID가 존재하지 않을 때 getUserInfoResult[0]이 NULL이 됨.
+      if (getUserInfoResult[0] == null){
+        return resolve({
+          json: authUtil.successFalse(statusCode.BAD_REQUEST, responseMessage.MISS_MATCH_USER_INFO)
+        })
+      } 
+
       const { hashed } = await encription.encryptWithSalt(pw, getUserInfoResult[0].salt);
 
       if (getUserInfoResult[0].pw === hashed) {

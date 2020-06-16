@@ -4,7 +4,7 @@ import { Modal as rbModal, Button } from "react-bootstrap";
 const Modal = ({ show, onHide }) => {
   return (
     <rbModal
-      show={"false"}
+      show={show}
       onHide={onHide}
       size="lg"
       aria-labelledby="contained-rbmodal-title-vcenter"

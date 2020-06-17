@@ -7,18 +7,23 @@ import IntroContainer from "./pages/IntroContainer";
 import SignUpContainer from "./pages/SignUpContainer";
 import MyClassContainer from "./pages/MyClassContainer";
 import CommunityContainer from "pages/CommunityContainer";
+import AskContainer from "pages/AskContainer";
+import CodeResultContainer from "pages/CodeResultContainer";
 
 const Root = () => {
+  const userType = window.sessionStorage.getItem('userType');
   return (
     <Router>
-      <Navbar />
+      <Navbar userType={userType}/>
       <Switch>
         <Route exact path="/" component={MainContainer} />
         <Route path="/start" component={CodeContainer} />
         <Route path="/about" component={IntroContainer} />
         <Route path="/signup" component={SignUpContainer} />
         <Route path="/myclass" component={MyClassContainer} />
+        <Route path="/ask" component={AskContainer} />
         <Route path="/community" component={CommunityContainer} />
+        <Route path="/result" component={CodeResultContainer} />
       </Switch>
     </Router>
   );

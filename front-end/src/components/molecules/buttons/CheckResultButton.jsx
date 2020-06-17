@@ -14,7 +14,7 @@ const CheckResultButton = (props) => {
     <Button
       style={{ float: "right" }}
       variant={"primary"}
-      onClick={fetchCompileResult(code)}
+      onClick={() => fetchCompileResult(code)}
       name={"결과 확인하기"}
     />
   );

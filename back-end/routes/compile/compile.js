@@ -10,9 +10,10 @@ const resMessage = require("../../module/utils/responseMessage");
 // 컴파일 하기
 router.post("/", async (req, res) => {
   let sourcePath = path.join(__dirname, `../source/${req.body.userId}`);
+  console.log(sourcePath);
 
-  if (!fs.existsSync(sourcePath)) {
-    fs.mkdirSync(sourcePath);
+  if (!fs.existsSync(sourcePath, {recursive: true })) {
+    fs.mkdirSync(sourcePath, {recursive: true });
   }
 
   fs.writeFileSync(path.join(sourcePath, "Main.py"), req.body.source);

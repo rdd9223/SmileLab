@@ -43,7 +43,7 @@ class LoginForm extends React.Component {
     .then((res) => {
       console.log(res);
       if(res.data.status === 200){
-        localStorage.setItem('loginToken', res.data.data.token);
+        window.sessionStorage.setItem('loginToken', res.data.data.token);
         this.setState({isLogin : true});
         window.location.reload();
       }

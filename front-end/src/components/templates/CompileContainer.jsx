@@ -6,6 +6,7 @@ import HintButton from "../molecules/buttons/HintButton";
 import CodeLoadButton from "../molecules/inputs/CodeLoadInput";
 import CodeSaveButton from "../molecules/buttons/CodeSaveButton";
 import CheckResultButton from "../molecules/buttons/CheckResultButton";
+import { Link } from "react-router-dom";
 
 const CompileContainer = () => {
   const [code, setCode] = useState("");
@@ -28,7 +29,10 @@ const CompileContainer = () => {
       </div>
       <div style={{ height: "200px", margin: "10px" }}>
         <CodeSaveButton code={code} />
-        <CheckResultButton code={code} />
+        <Link to="/result">
+          <CheckResultButton code={code} />
+        </Link>
+        
       </div>
     </div>
   );

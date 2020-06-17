@@ -5,11 +5,11 @@ import DefaulteNav from "../molecules/navigation/DefaultNav";
 import StudentNav from "../molecules/navigation/StudentNav";
 import ProfesserNav from "../molecules/navigation/ProfesserNav";
 
-const MainNavbar = ({ userType = 2 }) => {
+const MainNavbar = ({ userType }) => {
   const renderUserTypeNav = (idx) => {
-    if (idx === 0) {
+    if (idx == 0) {
       return <DefaulteNav />;
-    } else if (idx === 1) {
+    } else if (idx == 1) {
       return <ProfesserNav />;
     } else {
       return <StudentNav />;

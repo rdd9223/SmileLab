@@ -7,7 +7,6 @@ import ProfesserNav from "../molecules/navigation/ProfesserNav";
 
 const MainNavbar = ({ userType }) => {
   const renderUserTypeNav = (idx) => {
-    console.log(idx);
     if (idx == 0) {
       return <DefaulteNav />;
     } else if (idx == 1) {

@@ -10,7 +10,7 @@ import axios from "axios";
 class MainContainer extends React.Component {
   constructor(props) {
     super(props);
-    var token = localStorage.getItem('loginToken')
+    var token = window.sessionStorage.getItem('loginToken')
     if(token!=null){
       axios.get("http://localhost:4000/auth/user" , { headers: { token: token } })
       .then((res) => {
@@ -29,7 +29,6 @@ class MainContainer extends React.Component {
   }
 
   logout(){
-    localStorage.removeItem('loginToken');
     this.setState({isLogin: false});
     window.sessionStorage.clear();
     window.sessionStorage.setItem('userType', 0);

@@ -4,6 +4,7 @@ import { Row, Col } from "react-bootstrap";
 import LoginForm from "../components/organisms/LoginForm";
 import styled from "styled-components";
 import axios from "axios";
+import LoginInfoBox from "../components/organisms/LoginInfoBox";
 
 
 
@@ -16,7 +17,6 @@ class MainContainer extends React.Component {
       .then((res) => {
         if(res.data.status === 200){
           this.setState({isLogin: true});
-          console.log(res.data.data);
           window.sessionStorage.setItem('userId',res.data.data.id);
           window.sessionStorage.setItem('userType', res.data.data.type);
         }
@@ -28,19 +28,12 @@ class MainContainer extends React.Component {
     };
   }
 
-  logout(){
-    this.setState({isLogin: false});
-    window.sessionStorage.clear();
-    window.sessionStorage.setItem('userType', 0);
-  }
-  
   render(){
     const Wrapper = styled.div`
     width: 60em;
     margin: 50px auto;
     height: 600px;
   `;
-  
   
     if(this.state.isLogin == false){
       return (
@@ -63,19 +56,7 @@ class MainContainer extends React.Component {
               <MainIntro />
             </Col>
             <Col lg={4}>
-              <h6>로그인 되었습니다</h6>
-              <h6>상단에서 원하는 메뉴를 선택하세요.</h6>
-              <Row >
-                <Col>
-                  <h5 onClick={this.logout.bind(this)}>로그아웃</h5>
-                </Col>
-                <Col>
-                <h5>내정보</h5>
-                </Col>
-                <Col>
-                <h5>메세지함</h5>
-                </Col>
-              </Row>
+              <LoginInfoBox />
             </Col>
           </Row>
           

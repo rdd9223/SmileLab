@@ -46,6 +46,8 @@ class LoginForm extends React.Component {
         window.sessionStorage.setItem('loginToken', res.data.data.token);
         this.setState({isLogin : true});
         window.location.reload();
+      }else if(res.data.status === 400){
+        alert(res.data.message);
       }
       return res;
     })
@@ -59,28 +61,27 @@ class LoginForm extends React.Component {
   }
 
   render() {
-    
-        return (
-          <Wrapper>
-            <Form onSubmit={this.handleSubmit}>
-              <Form.Group>
-                <FormText name={"아이디와 비밀번호를 입력해주세요"} />
-                <FormLabelSet onChange={(event) => this.setState({id: event.target.value })} type={"id"} placeholder={"ID"} />
-                <FormLabelSet onChange={(event) => this.setState({pw: event.target.value })} type={"password"} placeholder={"Password"} />
-              </Form.Group>
-              <Row>
-                <Column>
-                  <Button type={"submit"} name={"로그인"} />
-                </Column>
-                <Column>
-                  <StyledLink to="/signup">
-                    <Button name={"회원가입"} />
-                  </StyledLink>
-                </Column>
-              </Row>
-            </Form>
-          </Wrapper>
-        );
+    return (
+      <Wrapper>
+        <Form onSubmit={this.handleSubmit}>
+          <Form.Group>
+            <FormText name={"아이디와 비밀번호를 입력해주세요"} />
+            <FormLabelSet onChange={(event) => this.setState({id: event.target.value })} type={"id"} placeholder={"ID"} />
+            <FormLabelSet onChange={(event) => this.setState({pw: event.target.value })} type={"password"} placeholder={"Password"} />
+          </Form.Group>
+          <Row>
+            <Column>
+              <Button type={"submit"} name={"로그인"} />
+            </Column>
+            <Column>
+              <StyledLink to="/signup">
+                <Button name={"회원가입"} />
+              </StyledLink>
+            </Column>
+          </Row>
+        </Form>
+      </Wrapper>
+    );
   
   }
 };

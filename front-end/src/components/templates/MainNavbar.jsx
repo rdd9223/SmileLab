@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { Navbar } from "react-bootstrap";
 import LogoLink from "../atoms/LogoLink";
 import DefaulteNav from "../molecules/navigation/DefaultNav";
@@ -6,6 +6,7 @@ import StudentNav from "../molecules/navigation/StudentNav";
 import ProfesserNav from "../molecules/navigation/ProfesserNav";
 
 const MainNavbar = ({ userType }) => {
+  const [userType2, setUserType] = useState(window.sessionStorage.getItem('userType'));
   const renderUserTypeNav = (idx) => {
     if (idx == 0) {
       return <DefaulteNav />;
@@ -19,7 +20,7 @@ const MainNavbar = ({ userType }) => {
   return (
     <Navbar bg="primary" variant="dark">
       <LogoLink route="/" name="SMILE LAB" />
-      {renderUserTypeNav(userType)}
+      {renderUserTypeNav(userType2)}
     </Navbar>
   );
 };

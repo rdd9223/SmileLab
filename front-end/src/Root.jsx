@@ -9,6 +9,7 @@ import MyClassContainer from "./pages/MyClassContainer";
 import CommunityContainer from "pages/CommunityContainer";
 import AskContainer from "pages/AskContainer";
 import CodeResultContainer from "pages/CodeResultContainer";
+import MessageContainer from "pages/MessageContainer";
 
 const Root = () => {
   const userType = window.sessionStorage.getItem('userType');
@@ -24,6 +25,7 @@ const Root = () => {
         <Route path="/ask" component={AskContainer} />
         <Route path="/community" component={CommunityContainer} />
         <Route path="/result" component={CodeResultContainer} />
+        <Route path="/message" component={MessageContainer} />
       </Switch>
     </Router>
   );

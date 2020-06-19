@@ -26,8 +26,6 @@ class ClassModal extends React.Component{
                 console.log(e);
                 return;
             });
-
-        
     }
 
     

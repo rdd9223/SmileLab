@@ -1,12 +1,14 @@
 import ast
 from pprint import pprint
+import os
+import sys
 
 
 def main():
-    with open("c:/Users/rdd92/Desktop/Develop/SmileLab/smileLab/back-end/source/10/Main.py", "r", encoding='UTF8') as source:
+    with open("./src/Main.py", encoding='UTF8') as source:
         tree = ast.parse(source.read())
 
-    print(ast.dump(tree) + "\n")
+    #print(ast.dump(tree) + "\n")
     analyzer = Analyzer()
     analyzer.visit(tree)
     analyzer.report()

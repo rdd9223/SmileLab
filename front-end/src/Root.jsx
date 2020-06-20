@@ -7,9 +7,10 @@ import IntroContainer from "./pages/IntroContainer";
 import SignUpContainer from "./pages/SignUpContainer";
 import MyClassContainer from "./pages/MyClassContainer";
 import CommunityContainer from "pages/CommunityContainer";
-import AskContainer from "pages/AskContainer";
-import CodeResultContainer from "pages/CodeResultContainer";
-import MessageContainer from "pages/MessageContainer";
+import AskContainer from "./pages/AskContainer";
+import CodeResultContainer from "./pages/CodeResultContainer";
+import MessageContainer from "./pages/MessageContainer";
+import MyPageContainer from "./pages/MyPageContainer";
 
 const Root = () => {
   const userType = window.sessionStorage.getItem('userType');
@@ -26,6 +27,7 @@ const Root = () => {
         <Route path="/community" component={CommunityContainer} />
         <Route path="/result" component={CodeResultContainer} />
         <Route path="/message" component={MessageContainer} />
+        <Route path="/mypage" component={MyPageContainer} />
       </Switch>
     </Router>
   );

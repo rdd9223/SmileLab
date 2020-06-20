@@ -30,7 +30,9 @@ class LoginInfoBox extends React.Component {
                             <h5 onClick={() => logout()}>로그아웃</h5>
                         </Col>
                         <Col>
-                            <h5>내정보</h5>
+                            <Link to={"/mypage"}>
+                                <h5>내 정보</h5>
+                            </Link>
                         </Col>
                         <Col>
                             <Link to={"/message"}>
@@ -51,7 +53,9 @@ class LoginInfoBox extends React.Component {
                             <h5 onClick={() => logout()}>로그아웃</h5>
                         </Col>
                         <Col>
-                            <h5>내정보</h5>
+                            <Link to={"/mypage"}>
+                                <h5>내 정보</h5>
+                            </Link>
                         </Col>
                     </Row>
                 </Container>

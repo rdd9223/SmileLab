@@ -22,7 +22,6 @@ class CodeResultContainer extends React.Component {
         super(props);
         //console.log(window.sessionStorage.getItem('userId'));
         this.loadResult = this.loadResult.bind(this);
-
         this.loadResult();
 
         this.state = {
@@ -39,7 +38,12 @@ class CodeResultContainer extends React.Component {
         });
     }
 
-    
+    async saveResult(){
+        await axios.post("http://localhost:4000/result/save",{ })
+        .then((res) => {
+            console.log(res);
+        });
+    }
 
     render(){
         return (
@@ -86,7 +90,7 @@ class CodeResultContainer extends React.Component {
                                         { this.state.data !=null && (this.state.data.For !==0 || this.state.data.While !== 0) &&
                                             <Col><FormCheck checked={true}  /></Col>
                                         }
-                                        { this.state.data !=null && (this.state.data.For ===0 || this.state.data.While === 0) &&
+                                        { this.state.data !=null && (this.state.data.For ===0 && this.state.data.While === 0) &&
                                             <Col><FormCheck checked={false}  /></Col>
                                         }
                                     </Row>
@@ -126,7 +130,7 @@ class CodeResultContainer extends React.Component {
                                         
                                     </Col>
                                     <Col lg={3}>
-                                        <Button name="결과 저장"/>
+                                        <Button name="결과 저장" onClick={this.saveResult}/>
                                     </Col>
                                 </Row>
                             </Col>

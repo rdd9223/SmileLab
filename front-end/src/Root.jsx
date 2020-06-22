@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import CodeContainer from "./pages/CodeContainer";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Navbar from "./components/templates/MainNavbar";
@@ -13,7 +13,8 @@ import MessageContainer from "./pages/MessageContainer";
 import MyPageContainer from "./pages/MyPageContainer";
 
 const Root = () => {
-  const userType = window.sessionStorage.getItem('userType');
+  const [userType, setUserType] = useState(window.sessionStorage.getItem('userType'));
+
   return (
     <Router>
       <Navbar userType={userType}/>

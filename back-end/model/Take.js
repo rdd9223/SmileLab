@@ -53,6 +53,41 @@ const take = {
           ),
         });
       }
+      
+      const getClassInfoQuery = `SELECT class.name, class_idx FROM class  WHERE professor_idx = ${user_idx}`;
+      const getClassInfoResult = await pool.queryParam_Parse(getClassInfoQuery);
+
+      return resolve({
+          json: authUtil.successTrue(
+            statusCode.OK,
+            responseMessage.X_READ_SUCCESS("클래스"),
+            getClassInfoResult
+          ),
+        })
+
+    });
+  },
+  getStudentFromClass: ({ type, idx }) => {
+    return new Promise(async (resolve, reject) => {
+      if (type === userType.Student) {
+        return resolve({
+          json: authUtil.successFalse(
+            statusCode.UNAUTHORIZED,
+            responseMessage.X_UNAUTHORIZED("학생")
+          ),
+        });
+      }
+      
+      const getStudentFromClassQuery = `SELECT user.name, class_idx FROM take, user WHERE class_idx = ${idx}`;
+      const getStudentFromClassResult = await pool.queryParam_Parse(getStudentFromClassQuery);
+
+      return resolve({
+          json: authUtil.successTrue(
+            statusCode.OK,
+            responseMessage.X_READ_SUCCESS("수강 학생"),
+            getStudentFromClassResult
+          ),
+        })
     });
   },
 };

@@ -31,7 +31,6 @@ class MyPageContainer extends React.Component {
             }
         })
         .then((res) => {
-            console.log(res);
             this.setState({
                 id: res.data.data.id, 
                 name: res.data.data.name, 
@@ -44,78 +43,104 @@ class MyPageContainer extends React.Component {
             id: null,
             password1: null,
             password2: null,
-            phone_number: null,
-            name: null,
+            phone_number: '',
+            name: '',
             class_idx: 5,
             isValidPassword: false,
             modalShow : false,
             isSuccess : false,
         };
     }
-    //pw, name, phone_number, class_idx
-    handleSubmit(){
-        axios.put("http://localhost:4000/auth/user",{
-            pw: this.state.password1,
-            name: this.state.name,
-            phone_number: this.state.phone_number,
-            class_idx: this.state.class_idx
-        },
-        {
-            headers:{
-                token: window.sessionStorage.getItem('loginToken'),
-            }
-        })
-        .then((res) => {
-            if(res.data.status === 200)
-                alert("변경 성공!")
+
+    checkPassword(event){
+        const { name, value, id } = event.target
+
+        this.setState({ [id] : value  }, () => {
+        if (id === 'password1' || id === 'password2')
+            this.isValidPassword();
         });
+    }
+
+    isValidPassword(){
+        if(this.state.password1 != null && this.state.password1 == this.state.password2) {
+            this.setState({isValidPassword: true});
+        }
+        else {
+            this.setState({isValidPassword: false});
+        }
+    }
+
+    async handleSubmit(event){
+        event.preventDefault();
+        if(!this.state.isValidPassword){
+            alert("비밀번호를 확인 해 주세요.");
+        }
+        else{
+            await axios.put("http://localhost:4000/auth/user",{
+                pw: this.state.password1,
+                name: this.state.name,
+                phone_number: this.state.phone_number,
+                class_idx: this.state.class_idx
+            },
+            {
+                headers:{
+                    token: window.sessionStorage.getItem('loginToken'),
+                }
+            })
+            .then((res) => {
+                if(res.data.status === 200){
+                    alert(res.data.message);
+                    window.location.href="/";
+                }   
+            });
+        }
     }
 
     render(){
         return(
             <Wrapper>
                 <Container>
-                    <Jumbotron header={"회원 정보 수정"} text={"123123"}/>
+                    <Jumbotron header={"회원 정보 수정"} text={"이름과 전화번호, 비밀번호를 변경할 수 있습니다."}/>
                 </Container>
-                
-                <Form onSubmit={this.handleSubmit.bind(this)}>
-                    <Form.Group>
-                        <Text text={"* 표시는 필수 입력 항목입니다."} />
-                        <br />
-                        <Text text={"아이디: "+this.state.id}/>
-                    </Form.Group>
-                    <Row> 
-                        <Col>
-                            <Form.Group>
-                                <FormLabelSet name={"비밀번호"} type={"password"} id={"password1"} onChange={(event) => this.setState({password1: event.target.value })}/>
-                                <FormText name="6자 이상, 영문/숫자/특수문자 포함" />
-                            </Form.Group>
-                        </Col>
-                        <Col>
-                            <Form.Group>
-                                <FormLabelSet name={"비밀번호 확인"} type={"password"} id={"password2"} onChange={(event) => this.setState({password2: event.target.value })}/>
-                            </Form.Group>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <Form.Group>
-                                <FormLabelSet name={"이름 *"} type={"name"} value={this.state.name} onChange={(event) => this.setState({name: event.target.value })} />
-                            </Form.Group>
-                        </Col>
-                        <Col>
-                            <Form.Group>
-                                <FormLabelSet name={"휴대전화 *"} type={"phoneNumber"} value={this.state.phone_number} onChange={(event) => this.setState({phone_number: event.target.value })} />
-                            </Form.Group>
-                        </Col>
-                    </Row>
-                    <Form.Group>
-                        <Modal />
-                    </Form.Group>
-                    <Form.Group>
-                        <Button name="변경하기" type="submit" />
-                    </Form.Group>
-                </Form>
+                <Container>
+                    <Form onSubmit={this.handleSubmit.bind(this)}>
+                        <Form.Group>
+                            <br />
+                            <Text text={"아이디  "+this.state.id}/>
+                        </Form.Group>
+                        <Row> 
+                            <Col>
+                                <Form.Group>
+                                    <FormLabelSet name={"비밀번호"} type={"password"} id={"password1"} onChange={(event) => this.checkPassword(event)} />
+                                    <FormText name="6자 이상, 영문/숫자/특수문자 포함" />
+                                </Form.Group>
+                            </Col>
+                            <Col>
+                                <Form.Group>
+                                    <FormLabelSet name={"비밀번호 확인"} type={"password"} id={"password2"} onChange={(event) => this.checkPassword(event)} />
+                                </Form.Group>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <Form.Group>
+                                    <FormLabelSet name={"이름 *"} type={"name"} value={this.state.name} onChange={(event) => this.setState({name: event.target.value })} />
+                                </Form.Group>
+                            </Col>
+                            <Col>
+                                <Form.Group>
+                                    <FormLabelSet name={"휴대전화 *"} type={"phoneNumber"} value={this.state.phone_number} onChange={(event) => this.setState({phone_number: event.target.value })} />
+                                </Form.Group>
+                            </Col>
+                        </Row>
+                        <Form.Group>
+                            <Modal />
+                        </Form.Group>
+                        <Form.Group>
+                            <Button name="변경하기" type="submit" />
+                        </Form.Group>
+                    </Form>
+                </Container>
             </Wrapper>
         )
     }

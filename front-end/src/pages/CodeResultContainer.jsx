@@ -136,7 +136,6 @@ class CodeResultContainer extends React.Component {
                             </Col>
                         </Row>
                     </Wrapper>
-                    
                 </Wrapper>
             </Container>
             

@@ -31,7 +31,6 @@ class ClassModal extends React.Component{
     
 
     handleModalShowHide(event) {
-
         this.setState({ showHide: !this.state.showHide })
     }
 
@@ -61,7 +60,6 @@ class ClassModal extends React.Component{
             </div>
         )
     }
-    
 }
 
 export default ClassModal;

@@ -72,7 +72,6 @@ class SignUpContainer extends React.Component {
 
   checkPassword(event){
     const { name, value, id } = event.target
-    console.log(id);
 
     this.setState({
       [id] : value 

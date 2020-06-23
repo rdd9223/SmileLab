@@ -8,7 +8,7 @@ def main():
     with open("./src/Main.py", encoding='UTF8') as source:
         tree = ast.parse(source.read())
 
-    pprint(ast.dump(tree) + "\n")
+    #pprint(ast.dump(tree) + "\n")
     analyzer = Analyzer()
     analyzer.visit(tree)
     analyzer.report()
@@ -21,7 +21,7 @@ class Analyzer(ast.NodeVisitor):
     def visit_Assign(self, node):
         "할당정의 카운터 ex) a=5"
         self.stats["Assign"] += 1
-        print(type(node.value))
+        #print(type(node.value))
         if isinstance(node.value, ast.List):
             self.stats["list"] += 1
         if isinstance(node.value, ast.Tuple):

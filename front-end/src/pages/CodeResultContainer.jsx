@@ -33,7 +33,7 @@ class CodeResultContainer extends React.Component {
         await axios.post("http://localhost:4000/compile/result",{ userId: window.sessionStorage.getItem('userId') })
         .then((res) => {
             //console.log(res.data.data);
-            //this.setState({data: eval("("+res.data.data+")")});
+            this.setState({data: eval("("+res.data.data+")")});
             console.log(this.state.data)
         });
     }

@@ -15,7 +15,7 @@ def main():
 
 class Analyzer(ast.NodeVisitor):
     def __init__(self):
-        self.stats = {"input": 0, "Return": 0, "Logical": 0, "Compare": 0, "Function": 0, "While": 0, "For": 0, "If": 0, "ElseIf": 0, "Elif": 0, "tuple": 0,
+        self.stats = {"input": 0, "Return": 0, "Logical": 0, "Compare": 0, "Function": 0, "While": 0, "For": 0, "If": 0, "ElseIf": 0, "Elif": 0, "tuple": 0, "UniqIf": 0, 
                       "list": 0, "num": 0, "AugAssign": 0, "Assign": 0, "BinOp": 0, "Expr": 0, "Name": [], "Str": 0, "Constant": 0, "FunctionUse": [], "FunctionDef": [], "UnusedFunc": 0 }
 
     def visit_Assign(self, node):
@@ -79,6 +79,10 @@ class Analyzer(ast.NodeVisitor):
 
     def visit_If(self, node):
         "조건문 카운터"
+        for element in node.body:
+            if isinstance(element, ast.If) :
+                if len(element.orelse) != 0 :
+                    self.stats["UniqIf"] += 1
         if len(node.orelse) == 0 :
             self.stats["If"] += 1
             self.generic_visit(node)

@@ -21,7 +21,6 @@ class Analyzer(ast.NodeVisitor):
     def visit_Assign(self, node):
         "할당정의 카운터 ex) a=5"
         self.stats["Assign"] += 1
-        #print(type(node.value))
         if isinstance(node.value, ast.List):
             self.stats["list"] += 1
         if isinstance(node.value, ast.Tuple):
@@ -31,6 +30,7 @@ class Analyzer(ast.NodeVisitor):
                 self.stats["Str"] += 1
             if isinstance(node.value.value, int):
                 self.stats["num"] += 1
+        
         # if isinstance(node.targets[0], ast.Tuple):
         #     for i in range(2):
         #         self.visit_Name(node.targets[0].elts[i])
@@ -50,19 +50,46 @@ class Analyzer(ast.NodeVisitor):
         "연산자 카운터 ex) a=3*6"
         self.stats["BinOp"] += 1
         self.generic_visit(node)
-
-    def visit_Expr(self, node):
-        "표현식에 대한 방문 정의 ex)3*7+5"
-        self.stats["Expr"] += 1
-        
-        if isinstance(node.value, ast.Call):
-            length = len(node.value.args)
-            name = str(length)+node.value.func.id
+    def visit_Call(self, node):
+        if isinstance(node.func, ast.Attribute):
+            length = len(node.args) + 1
+            name = str(length)+node.func.attr
+            #print(name)
             if name in self.stats["FunctionUse"]:
                 pass
             else:
                 if name in self.stats["FunctionDef"]:
                     self.stats["FunctionUse"].append(name)
+        else:
+            length = len(node.args)
+            name = str(length)+node.func.id
+            if name in self.stats["FunctionUse"]:
+                pass
+            else:
+                if name in self.stats["FunctionDef"]:
+                    self.stats["FunctionUse"].append(name)
+
+    def visit_Expr(self, node):
+        "표현식에 대한 방문 정의 ex)3*7+5"
+        self.stats["Expr"] += 1
+        if isinstance(node.value, ast.Call):
+            if isinstance(node.value.func, ast.Attribute):
+                length = len(node.value.args) + 1
+                name = str(length)+node.value.func.attr
+                #print(name)
+                if name in self.stats["FunctionUse"]:
+                    pass
+                else:
+                    if name in self.stats["FunctionDef"]:
+                        self.stats["FunctionUse"].append(name)
+            else:
+                length = len(node.value.args)
+                name = str(length)+node.value.func.id
+                if name in self.stats["FunctionUse"]:
+                    pass
+                else:
+                    if name in self.stats["FunctionDef"]:
+                        self.stats["FunctionUse"].append(name)
         # self.generic_visit(node)
 
     def visit_Name(self, node):

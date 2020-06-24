@@ -70,7 +70,7 @@ class CodeResultContainer extends React.Component {
         //  str += "break문 또는 continue문을 활용하여 반복문을 종료시키거나 초기조건으로 돌아갈 수 있습니다.\n"
         //}
       }
-      if((this.state.data.If + this.state.data.ElseIf + this.state.data.Elif) > 0) {
+      if(( this.state.data.If + this.state.data.ElseIf + this.state.data.Elif ) > 0) {
         str += "조건문 중 if문을 총 "+this.state.data.If+"회 사용하였습니다." +
           "조건문 중 if else 문을 총 "+this.state.data.ElseIf+"회 사용하였습니다." +
           "조건문 중 if elif else 문을 총 "+this.state.data.Elif+"회 사용하였습니다.\n"

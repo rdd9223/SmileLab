@@ -53,6 +53,7 @@ router.post("/result", async (req, res) => {
     (err, out, stderr) => {
       if (out) {
         console.log(out);
+        console.log(stderr)
         res.status(200).send(authUtil.successTrue(statusCode.OK, "컴파일 성공", out));
       } else {
         res.status(200).send(authUtil.successTrue(statusCode.BAD_REQUEST, "컴파일 실패", stderr));

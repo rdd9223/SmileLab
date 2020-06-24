@@ -9,8 +9,9 @@ import CheckResultButton from "../molecules/buttons/CheckResultButton";
 import { Link } from "react-router-dom";
 
 const CompileContainer = () => {
-  const [code, setCode] = useState("");
+  const [code, setCode] = useState((localStorage.getItem('currentCode') != null) ? localStorage.getItem('currentCode') : "");
   const [resultCode, setResultCode] = useState("");
+  const [isSuccess, setSuccess] = useState(false);
 
   const onChange = (e) => {
     setCode(e);
@@ -32,7 +33,6 @@ const CompileContainer = () => {
         <Link to="/result">
           <CheckResultButton code={code} />
         </Link>
-        
       </div>
     </div>
   );

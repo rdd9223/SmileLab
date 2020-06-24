@@ -1,24 +1,36 @@
 import ast
 from pprint import pprint
+import os
+import sys
 
 
 def main():
-    with open("c:/Users/rdd92/Desktop/Develop/SmileLab/smileLab/back-end/source/10/Main.py", "r", encoding='UTF8') as source:
+    with open("./src/Main.py", encoding='UTF8') as source:
         tree = ast.parse(source.read())
 
-    print(ast.dump(tree) + "\n")
+    #pprint(ast.dump(tree) + "\n")
     analyzer = Analyzer()
     analyzer.visit(tree)
     analyzer.report()
 
 class Analyzer(ast.NodeVisitor):
     def __init__(self):
-        self.stats = {"input": 0, "Return": 0, "Logical": 0, "Compare": 0, "Function": 0, "While": 0, "For": 0, "If": 0, "tuple": 0,
-                      "list": 0, "num": 0, "AugAssign": 0, "Assign": 0, "BinOp": 0, "Expr": 0, "Name": [], "Str": 0, "Constant": 0}
+        self.stats = {"input": 0, "Return": 0, "Logical": 0, "Compare": 0, "Function": 0, "While": 0, "For": 0, "If": 0, "ElseIf": 0, "Elif": 0, "tuple": 0, "UniqIf": 0, 
+                      "list": 0, "num": 0, "AugAssign": 0, "Assign": 0, "BinOp": 0, "Expr": 0, "Name": [], "Str": 0, "Constant": 0, "FunctionUse": [], "FunctionDef": [], "UnusedFunc": 0 }
 
     def visit_Assign(self, node):
         "할당정의 카운터 ex) a=5"
         self.stats["Assign"] += 1
+        if isinstance(node.value, ast.List):
+            self.stats["list"] += 1
+        if isinstance(node.value, ast.Tuple):
+            self.stats["tuple"] += 1
+        if isinstance(node.value, ast.Constant):
+            if isinstance(node.value.value, str):
+                self.stats["Str"] += 1
+            if isinstance(node.value.value, int):
+                self.stats["num"] += 1
+        
         # if isinstance(node.targets[0], ast.Tuple):
         #     for i in range(2):
         #         self.visit_Name(node.targets[0].elts[i])
@@ -38,10 +50,46 @@ class Analyzer(ast.NodeVisitor):
         "연산자 카운터 ex) a=3*6"
         self.stats["BinOp"] += 1
         self.generic_visit(node)
+    def visit_Call(self, node):
+        if isinstance(node.func, ast.Attribute):
+            length = len(node.args) + 1
+            name = str(length)+node.func.attr
+            #print(name)
+            if name in self.stats["FunctionUse"]:
+                pass
+            else:
+                if name in self.stats["FunctionDef"]:
+                    self.stats["FunctionUse"].append(name)
+        else:
+            length = len(node.args)
+            name = str(length)+node.func.id
+            if name in self.stats["FunctionUse"]:
+                pass
+            else:
+                if name in self.stats["FunctionDef"]:
+                    self.stats["FunctionUse"].append(name)
 
     def visit_Expr(self, node):
         "표현식에 대한 방문 정의 ex)3*7+5"
         self.stats["Expr"] += 1
+        if isinstance(node.value, ast.Call):
+            if isinstance(node.value.func, ast.Attribute):
+                length = len(node.value.args) + 1
+                name = str(length)+node.value.func.attr
+                #print(name)
+                if name in self.stats["FunctionUse"]:
+                    pass
+                else:
+                    if name in self.stats["FunctionDef"]:
+                        self.stats["FunctionUse"].append(name)
+            else:
+                length = len(node.value.args)
+                name = str(length)+node.value.func.id
+                if name in self.stats["FunctionUse"]:
+                    pass
+                else:
+                    if name in self.stats["FunctionDef"]:
+                        self.stats["FunctionUse"].append(name)
         # self.generic_visit(node)
 
     def visit_Name(self, node):
@@ -50,7 +98,7 @@ class Analyzer(ast.NodeVisitor):
             pass
         else:
             self.stats["Name"].append(node.id)
-
+ 
     def visit_AugAssign(self, node):
         "단항연산자 카운터"
         self.stats["AugAssign"] += 1
@@ -58,8 +106,20 @@ class Analyzer(ast.NodeVisitor):
 
     def visit_If(self, node):
         "조건문 카운터"
-        self.stats["If"] += 1
-        self.generic_visit(node)
+        for element in node.body:
+            if isinstance(element, ast.If) :
+                if len(element.orelse) != 0 :
+                    self.stats["UniqIf"] += 1
+        if len(node.orelse) == 0 :
+            self.stats["If"] += 1
+            self.generic_visit(node)
+        else:
+            if isinstance(node.orelse[0],ast.If):
+                self.stats["Elif"] += 1
+            else:
+                self.stats["ElseIf"] += 1
+                self.generic_visit(node)
+        
 
     def visit_For(self, node):
         "for 카운터"
@@ -74,6 +134,9 @@ class Analyzer(ast.NodeVisitor):
     def visit_FunctionDef(self, node):
         "함수정의 카운터"
         self.stats["Function"] += 1
+        length = len(node.args.args)
+        name = str(length)+node.name
+        self.stats["FunctionDef"].append(name)
         self.generic_visit(node)
 
     def visit_BoolOp(self, node):
@@ -97,6 +160,7 @@ class Analyzer(ast.NodeVisitor):
         self.generic_visit(node)
 
     def report(self):
+        self.stats["UnusedFunc"] = (len(self.stats["FunctionDef"])-len(self.stats["FunctionUse"]))
         pprint(self.stats)
 
 

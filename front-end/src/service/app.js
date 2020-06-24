@@ -13,6 +13,7 @@ export const postSource = async (code) => {
   })
   .then((res) => {
     console.log(res);
+    localStorage.setItem('currentCode', code);
     return res;
   })
   .catch((e) => {

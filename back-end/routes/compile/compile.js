@@ -33,14 +33,39 @@ router.post("/", async (req, res) => {
 
 // 컴파일 결과 확인하기
 router.post("/result", async (req, res) => {
+
+  let sourcePath = path.join(__dirname, `../source/${req.body.userId}`);
+
+  //console.log(sourcePath);
+
+/*
+  python3 astRunner.py test001
   fs.writeFileSync(path.join(sourcePath, "Main.py"), req.body.source);
   sourcePath = sourcePath.replace(/\\/gi, "/");
+*/
+  let testPath = path.join(__dirname, `../../module/tools/`);
+  sourcePath = sourcePath.replace(/\\/gi, "/");
+  testPath = testPath.replace(/\\/gi, "/");
 
+  const docker = await exec(
+    //`docker run --rm python:3 python3 ../../module/tools/astRunner.py ${req.body.userId}`,
+    `docker run --rm -v ${sourcePath}:/usr/src/src  \ -v ${testPath}:/usr/src/test -w /usr/src python:3 python test/astRunner.py ../src/Main.py`,
+    (err, out, stderr) => {
+      if (out) {
+        console.log(out);
+        console.log(stderr)
+        res.status(200).send(authUtil.successTrue(statusCode.OK, "컴파일 성공", out));
+      } else {
+        res.status(200).send(authUtil.successTrue(statusCode.BAD_REQUEST, "컴파일 실패", stderr));
+      }
+    }
+  );
+/*
   if (out) {
     res.status(200).send(authUtil.successTrue(statusCode.OK, "컴파일 성공", out));
   } else {
     res.status(200).send(authUtil.successTrue(statusCode.BAD_REQUEST, "컴파일 실패", stderr));
-  }
+  }*/
 });
 
 module.exports = router;

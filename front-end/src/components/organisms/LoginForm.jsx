@@ -35,17 +35,30 @@ class LoginForm extends React.Component {
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-  handleSubmit(event) {
-    axios.post("http://localhost:4000/auth/signin", {
+  async handleSubmit(event) {
+    event.preventDefault();
+    await axios.post("http://localhost:4000/auth/signin", {
       id: this.state.id,
       pw: this.state.pw
     })
     .then((res) => {
-      console.log(res);
+      //로그인 성공 시 반환되는 토큰을 session에 저장
+      //그 후 한번 더 토큰을 이용해 서버에 접속하여 userType과 userId를 Session에 저장 함.
       if(res.data.status === 200){
         window.sessionStorage.setItem('loginToken', res.data.data.token);
-        this.setState({isLogin : true});
-        window.location.reload();
+        axios.get("http://localhost:4000/auth/user" , { headers: { token: res.data.data.token } })
+          .then((res) => {
+            if(res.data.status === 200){
+              this.setState({isLogin: true});
+              window.sessionStorage.setItem('userId',res.data.data.id);
+              window.sessionStorage.setItem('userType', res.data.data.type);
+              window.location.reload(true);
+            }
+            //토큰 만료 시 예외처리는 나중에
+          });
+        
+      }else if(res.data.status === 400){
+        alert(res.data.message);
       }
       return res;
     })
@@ -55,32 +68,31 @@ class LoginForm extends React.Component {
     });
 
     //임시로 submit 되는 현상을 막음
-    event.preventDefault();
+    
   }
 
   render() {
-    
-        return (
-          <Wrapper>
-            <Form onSubmit={this.handleSubmit}>
-              <Form.Group>
-                <FormText name={"아이디와 비밀번호를 입력해주세요"} />
-                <FormLabelSet onChange={(event) => this.setState({id: event.target.value })} type={"id"} placeholder={"ID"} />
-                <FormLabelSet onChange={(event) => this.setState({pw: event.target.value })} type={"password"} placeholder={"Password"} />
-              </Form.Group>
-              <Row>
-                <Column>
-                  <Button type={"submit"} name={"로그인"} />
-                </Column>
-                <Column>
-                  <StyledLink to="/signup">
-                    <Button name={"회원가입"} />
-                  </StyledLink>
-                </Column>
-              </Row>
-            </Form>
-          </Wrapper>
-        );
+    return (
+      <Wrapper>
+        <Form onSubmit={this.handleSubmit}>
+          <Form.Group>
+            <FormText name={"아이디와 비밀번호를 입력해주세요"} />
+            <FormLabelSet onChange={(event) => this.setState({id: event.target.value })} type={"id"} placeholder={"ID"} />
+            <FormLabelSet onChange={(event) => this.setState({pw: event.target.value })} type={"password"} placeholder={"Password"} />
+          </Form.Group>
+          <Row>
+            <Column>
+              <Button type={"submit"} name={"로그인"} />
+            </Column>
+            <Column>
+              <StyledLink to="/signup">
+                <Button name={"회원가입"} />
+              </StyledLink>
+            </Column>
+          </Row>
+        </Form>
+      </Wrapper>
+    );
   
   }
 };

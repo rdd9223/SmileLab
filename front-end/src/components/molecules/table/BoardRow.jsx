@@ -1,9 +1,9 @@
 import React, { useCallback, useState } from "react";
 
-const BoardRow = ({ body, setModalShow }) => {
+const BoardRow = ({ idx, body, setModalShow, onClick }) => {
   return (
     <>
-      <tr onClick={() => setModalShow(true)}>
+      <tr onClick={() => onClick(idx)}>
         <td>{body.idx}</td>
         <td>{body.title}</td>
         <td>{body.writer}</td>

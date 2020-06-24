@@ -1,30 +1,29 @@
 import React from "react";
-import { Modal as rbModal, Button } from "react-bootstrap";
+import { Modal , Button } from "react-bootstrap";
 
-const Modal = ({ show, onHide }) => {
+const Modal1 = ({ show = false, onHide, title, contents }) => {
   return (
-    <rbModal
+    <Modal
       show={show}
       onHide={onHide}
       size="lg"
       aria-labelledby="contained-rbmodal-title-vcenter"
       centered
     >
-      <rbModal.Header closeButton>
-        <rbModal.Title id="contained-rbmodal-title-vcenter">rbModal heading</rbModal.Title>
-      </rbModal.Header>
-      <rbModal.Body>
-        <h4>Centered rbModal</h4>
+      <Modal.Header closeButton>
+        <Modal.Title id="contained-rbmodal-title-vcenter">{title}</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <h4></h4>
         <p>
-          Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis
-          in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
+          {contents}
         </p>
-      </rbModal.Body>
-      <rbModal.Footer>
+      </Modal.Body>
+      <Modal.Footer>
         <Button onClick={onHide}>Close</Button>
-      </rbModal.Footer>
-    </rbModal>
+      </Modal.Footer>
+    </Modal>
   );
 };
 
-export default Modal;
+export default Modal1;

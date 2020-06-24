@@ -16,7 +16,7 @@ def main():
 class Analyzer(ast.NodeVisitor):
     def __init__(self):
         self.stats = {"input": 0, "Return": 0, "Logical": 0, "Compare": 0, "Function": 0, "While": 0, "For": 0, "If": 0, "tuple": 0,
-                      "list": 0, "num": 0, "AugAssign": 0, "Assign": 0, "BinOp": 0, "Expr": 0, "Name": [], "Str": 0, "Constant": 0}
+                      "list": 0, "num": 0, "AugAssign": 0, "Assign": 0, "BinOp": 0, "Expr": 0, "Name": [], "Str": 0, "Constant": 0, "FunctionUse": [], "FunctionDef": [], "UnusedFunc": 0 }
 
     def visit_Assign(self, node):
         "할당정의 카운터 ex) a=5"
@@ -27,7 +27,6 @@ class Analyzer(ast.NodeVisitor):
         if isinstance(node.value, ast.Tuple):
             self.stats["tuple"] += 1
         if isinstance(node.value, ast.Constant):
-            print("zzzzz")
             if isinstance(node.value.value, str):
                 self.stats["Str"] += 1
             if isinstance(node.value.value, int):
@@ -55,6 +54,15 @@ class Analyzer(ast.NodeVisitor):
     def visit_Expr(self, node):
         "표현식에 대한 방문 정의 ex)3*7+5"
         self.stats["Expr"] += 1
+        
+        if isinstance(node.value, ast.Call):
+            length = len(node.value.args)
+            name = str(length)+node.value.func.id
+            if name in self.stats["FunctionUse"]:
+                pass
+            else:
+                if name in self.stats["FunctionDef"]:
+                    self.stats["FunctionUse"].append(name)
         # self.generic_visit(node)
 
     def visit_Name(self, node):
@@ -87,6 +95,10 @@ class Analyzer(ast.NodeVisitor):
     def visit_FunctionDef(self, node):
         "함수정의 카운터"
         self.stats["Function"] += 1
+        length = len(node.args.args)
+        name = str(length)+node.name
+        self.stats["FunctionDef"].append(name)
+        
         self.generic_visit(node)
 
     def visit_BoolOp(self, node):
@@ -110,6 +122,7 @@ class Analyzer(ast.NodeVisitor):
         self.generic_visit(node)
 
     def report(self):
+        self.stats["UnusedFunc"] = (len(self.stats["FunctionDef"])-len(self.stats["FunctionUse"]))
         pprint(self.stats)
 
 

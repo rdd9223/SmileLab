@@ -71,9 +71,9 @@ class CodeResultContainer extends React.Component {
         //}
       }
       if(this.state.data.If > 0) {
-        str += "조건문 중 if문을 총 "+this.state.data.If+"회 사용하였습니다." /*+
-          "조건문 중 if else 문을 총 "+this.state.data.If+"회 사용하였습니다." +
-          "조건문 중 if elif else 문을 총 "+this.state.data.If+"회 사용하였습니다."*/
+        str += "조건문 중 if문을 총 "+this.state.data.If+"회 사용하였습니다." +
+          "조건문 중 if else 문을 총 "+this.state.data.ElseIf+"회 사용하였습니다." +
+          "조건문 중 if elif else 문을 총 "+this.state.data.Elif+"회 사용하였습니다.\n"
       }
       if(this.state.data.Function > 0) {
         str += "정의된 함수는 "+this.state.data.Function+"개 입니다.\n"
@@ -107,41 +107,41 @@ class CodeResultContainer extends React.Component {
                   <Row>
                     <Col><Text text={"변수"}/></Col>
                     { this.state.data !=null && this.state.data.Name.length !== 0 &&
-                      <Col><FormCheck checked={true}  /></Col>
+                      <Col><FormCheck checked={true} /></Col>
                     }
                     { this.state.data !=null && this.state.data.Name.length === 0 &&
-                      <Col><FormCheck checked={false}  /></Col>
+                      <Col><FormCheck checked={false} /></Col>
                     }
                   </Row>
                   <Row>
                   <Col><Text text={"연산자"}/></Col>
                   { this.state.data !=null && this.state.data.Expr !== 0 &&
-                    <Col><FormCheck checked={true}  /></Col>
+                    <Col><FormCheck checked={true} /></Col>
                   }
                   { this.state.data !=null && this.state.data.Expr === 0 &&
-                    <Col><FormCheck checked={false}  /></Col>
+                    <Col><FormCheck checked={false} /></Col>
                   }
                   </Row>
                   <Row>
                     <Col><Text text={"데이터"}/></Col>
-                    <Col><FormCheck checked={true}  /></Col>
+                    <Col><FormCheck checked={false} /></Col>
                   </Row>
                   <Row>
                     <Col><Text text={"조건문"}/></Col>
                     { (this.state.data !=null && this.state.data.If !== 0) &&
-                      <Col><FormCheck checked={true}  /></Col>
+                      <Col><FormCheck checked={true} /></Col>
                     }
                     { (this.state.data !=null && this.state.data.If === 0) &&
-                      <Col><FormCheck checked={false}  /></Col>
+                      <Col><FormCheck checked={false} /></Col>
                     }
                   </Row>
                   <Row>
                     <Col><Text text={"반복"}/></Col>
                     { this.state.data !=null && (this.state.data.For !==0 || this.state.data.While !== 0) &&
-                      <Col><FormCheck checked={true}  /></Col>
+                      <Col><FormCheck checked={true} /></Col>
                     }
                     { this.state.data !=null && (this.state.data.For ===0 && this.state.data.While === 0) &&
-                      <Col><FormCheck checked={false}  /></Col>
+                      <Col><FormCheck checked={false} /></Col>
                     }
                   </Row>
                   <Row>

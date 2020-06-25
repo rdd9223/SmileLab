@@ -8,14 +8,14 @@ def main():
     with open("./src/Main.py", encoding='UTF8') as source:
         tree = ast.parse(source.read())
 
-    #pprint(ast.dump(tree) + "\n")
+   #pprint(ast.dump(tree) + "\n")
     analyzer = Analyzer()
     analyzer.visit(tree)
     analyzer.report()
 
 class Analyzer(ast.NodeVisitor):
     def __init__(self):
-        self.stats = {"input": 0, "Return": 0, "Logical": 0, "Compare": 0, "Function": 0, "While": 0, "For": 0, "If": 0, "ElseIf": 0, "Elif": 0, "tuple": 0, "UniqIf": 0, 
+        self.stats = {"input": 0, "Return": 0, "Logical": 0, "Compare": 0, "Function": 0, "While": 0, "For": 0, "If": 0, "ElseIf": 0, "Elif": 0, "tuple": 0, "UniqIf": 0, "SelfOp" : 0,
                       "list": 0, "num": 0, "AugAssign": 0, "Assign": 0, "BinOp": 0, "Expr": 0, "Name": [], "Str": 0, "Constant": 0, "FunctionUse": [], "FunctionDef": [], "UnusedFunc": 0 }
 
     def visit_Assign(self, node):
@@ -30,6 +30,14 @@ class Analyzer(ast.NodeVisitor):
                 self.stats["Str"] += 1
             if isinstance(node.value.value, int):
                 self.stats["num"] += 1
+        #자기자신에 대한 사칙연산
+        if len(node.targets) == 1 and isinstance(node.targets[0], ast.Name) :
+            if isinstance(node.value, ast.BinOp):
+                if isinstance(node.value.left, ast.Name) and (node.targets[0].id is node.value.left.id):
+                    self.stats["SelfOp"] += 1
+                if isinstance(node.value.right, ast.Name) and (node.targets[0].id is node.value.right.id):
+                    self.stats["SelfOp"] += 1
+                    
         
         # if isinstance(node.targets[0], ast.Tuple):
         #     for i in range(2):

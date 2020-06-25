@@ -78,7 +78,7 @@ const take = {
         });
       }
       
-      const getStudentFromClassQuery = `SELECT user.name, class_idx FROM take, user WHERE class_idx = ${idx}`;
+      const getStudentFromClassQuery = `SELECT user.name, class_idx FROM take LEFT JOIN user ON take.student_idx = user.user_idx WHERE class_idx = ${idx}`;
       const getStudentFromClassResult = await pool.queryParam_Parse(getStudentFromClassQuery);
 
       return resolve({

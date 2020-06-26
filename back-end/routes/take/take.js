@@ -104,5 +104,25 @@ router.get("/:idx", jwt.checkLogin, async (req, res) => {
         );
     });
 });
+router.get("/:idx/:student", jwt.checkLogin, async(req, res) => {
+  const { type, user_idx } = req.decoded;
+  const { idx, student } = req.params;
+
+  TAKE.getStudentCompileInfo({ type, idx, student })
+    .then(({ json }) => {
+      res.status(200).send(json);
+    })
+    .catch((err) => {
+      console.log(err);
+      res
+        .status(200)
+        .send(
+          authUtil.successFalse(
+            statusCode.INTERNAL_SERVER_ERROR,
+            responseMessage.INTERNAL_SERVER_ERROR
+          )
+        );
+    });
+});
 
 module.exports = router;

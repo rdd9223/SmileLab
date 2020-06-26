@@ -13,12 +13,18 @@ def main():
     analyzer.visit(tree)
     analyzer.report()
 
+
 class Analyzer(ast.NodeVisitor):
     def __init__(self):
+        self.innerFuncs = ["abs","all","any","chr","dir","divmod","zip","type","tuple","sum","str","sorted","round",
+                            "range","pow","ord","open","oct","min","mas","map","list","len","isinstance","int","input",
+                            "id","hex","filter","eval","enumerate"]
+
         self.stats = {"input": 0, "Return": 0, "Logical": 0, "Compare": 0, "Function": 0, "While": 0, "For": 0,
                         "If": 0, "ElseIf": 0, "Elif": 0, "tuple": 0, "UniqIf": 0, "SelfOp" : 0, "FuncNoArgs" : 0,
                         "list": 0, "num": 0, "AugAssign": 0, "Assign": 0, "BinOp": 0, "Expr": 0, "Name": [], "Str": 0, 
-                        "Constant": 0, "FunctionUse": [], "FunctionDef": [], "UnusedFunc": 0, "ParamOverThree" : 0}
+                        "Constant": 0, "FunctionUse": [], "FunctionDef": [], "UnusedFunc": 0, "ParamOverThree" : 0,
+                        "CountPrint": [], "PrintRepeat" : 0, "UsedInnerFunc" : []}
 
     def visit_Assign(self, node):
         "할당정의 카운터 ex) a=5"
@@ -60,29 +66,13 @@ class Analyzer(ast.NodeVisitor):
         "연산자 카운터 ex) a=3*6"
         self.stats["BinOp"] += 1
         self.generic_visit(node)
-    def visit_Call(self, node):
-        if isinstance(node.func, ast.Attribute):
-            length = len(node.args) + 1
-            name = str(length)+node.func.attr
-            #print(name)
-            if name in self.stats["FunctionUse"]:
-                pass
-            else:
-                if name in self.stats["FunctionDef"]:
-                    self.stats["FunctionUse"].append(name)
-        else:
-            length = len(node.args)
-            name = str(length)+node.func.id
-            if name in self.stats["FunctionUse"]:
-                pass
-            else:
-                if name in self.stats["FunctionDef"]:
-                    self.stats["FunctionUse"].append(name)
 
     def visit_Expr(self, node):
         "표현식에 대한 방문 정의 ex)3*7+5"
         self.stats["Expr"] += 1
+
         if isinstance(node.value, ast.Call):
+
             if isinstance(node.value.func, ast.Attribute):
                 length = len(node.value.args) + 1
                 name = str(length)+node.value.func.attr
@@ -91,6 +81,8 @@ class Analyzer(ast.NodeVisitor):
                 else:
                     if name in self.stats["FunctionDef"]:
                         self.stats["FunctionUse"].append(name)
+                if node.value.func.attr in self.innerFuncs :
+                    self.stats["UsedInnerFunc"] += 1
             else:
                 length = len(node.value.args)
                 name = str(length)+node.value.func.id
@@ -99,6 +91,24 @@ class Analyzer(ast.NodeVisitor):
                 else:
                     if name in self.stats["FunctionDef"]:
                         self.stats["FunctionUse"].append(name)
+                if node.value.func.id in self.innerFuncs and node.value.func.id not in self.stats["UsedInnerFunc"]:
+                    self.stats["UsedInnerFunc"].append(node.value.func.id)
+            if isinstance(node.value.func, ast.Name):
+                if node.value.func.id == 'print':
+                    if node.value.args:
+                        cursor = None
+                        for item in self.stats["CountPrint"] :
+                            #print(item)
+                            if item[node.value.args[0].value] :
+                                item[node.value.args[0].value] += 1
+                                cursor = item[node.value.args[0].value]
+                                if item[node.value.args[0].value] > 2 :
+                                    self.stats["PrintRepeat"] += 1
+      
+                        if not isinstance(node.value.args[0], ast.Call) and cursor is None :
+                            if not isinstance(node.value.args[0], ast.IfExp) :
+                                self.stats["CountPrint"].append({ str(node.value.args[0].value) : 1})
+                                #print(self.stats["CountPrint"])
         # self.generic_visit(node)
 
     def visit_Name(self, node):

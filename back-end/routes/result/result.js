@@ -27,7 +27,26 @@ router.get("/", jwt.checkLogin ,async (req, res) => {
 });
 
 // 내 컴파일 기록 삭제
-router.delete("/", async (req, res) => {});
+router.delete("/", jwt.checkLogin, async (req, res) => {
+  const { user_idx } = req.decoded;
+  const { class_idx } = req.body;
+  RESULT.deleteResult({ user_idx, class_idx })
+  .then(({ json }) => {
+      res.status(200).send(json);
+    })
+    .catch((err) => {
+      console.log(err);
+      res
+        .status(200)
+        .send(
+          authUtil.successFalse(
+            statusCode.INTERNAL_SERVER_ERROR,
+            responseMessage.INTERNAL_SERVER_ERROR
+          )
+        );
+    });
+
+});
 
 // 1명 컴파일 결과 조회
 router.get("/:writer_idx", async (req, res) => {});

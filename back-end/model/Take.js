@@ -67,18 +67,23 @@ const take = {
 
     });
   },
+  getTake: ({ user_idx, type }) => {
+    return new Promise(async (resolve, reject) => {
+      const getTakeQuery = `SELECT class.name, take.class_idx FROM take LEFT JOIN class ON take.class_idx = class.class_idx  WHERE take.student_idx = ${user_idx}`;
+      const getTakeResult = await pool.queryParam_Parse(getTakeQuery);
+      return resolve({
+          json: authUtil.successTrue(
+            statusCode.OK,
+            responseMessage.X_READ_SUCCESS("클래스"),
+            getTakeResult
+          ),
+        })
+
+    });
+  },
   getStudentFromClass: ({ type, idx }) => {
     return new Promise(async (resolve, reject) => {
-      if (type === userType.Student) {
-        return resolve({
-          json: authUtil.successFalse(
-            statusCode.UNAUTHORIZED,
-            responseMessage.X_UNAUTHORIZED("학생")
-          ),
-        });
-      }
-      
-      const getStudentFromClassQuery = `SELECT user.name, class_idx FROM take LEFT JOIN user ON take.student_idx = user.user_idx WHERE class_idx = ${idx}`;
+      const getStudentFromClassQuery = `SELECT take.student_idx, user.name, class_idx FROM take LEFT JOIN user ON take.student_idx = user.user_idx WHERE class_idx = ${idx}`;
       const getStudentFromClassResult = await pool.queryParam_Parse(getStudentFromClassQuery);
 
       return resolve({
@@ -88,6 +93,38 @@ const take = {
             getStudentFromClassResult
           ),
         })
+    });
+  },
+  getStudentCompileInfo: ({ type, idx, student }) => {
+    return new Promise(async (resolve, reject) => {
+      if (type === userType.Student) {
+        return resolve({
+          json: authUtil.successFalse(
+            statusCode.UNAUTHORIZED,
+            responseMessage.X_UNAUTHORIZED("학생")
+          ),
+        });
+      }
+      const getStudentCompileInfoQuery = `SELECT * FROM result WHERE writer_idx = ${student}`;
+      console.log(getStudentCompileInfoQuery)
+      const getStudentCompileInfoResult = await pool.queryParam_Parse(getStudentCompileInfoQuery);
+      //console.log(getStudentCompileInfoResult)
+      if(getStudentCompileInfoResult !== undefined ){
+        return resolve({
+          json: authUtil.successTrue(
+            statusCode.OK,
+            responseMessage.X_READ_ALL_SUCCESS(`컴파일 결과`),
+            getStudentCompileInfoResult
+          ),
+        });
+      } else {
+        return resolve({
+          json: authUtil.successFalse(
+            statusCode.BAD_REQUEST,
+            responseMessage.X_READ_ALL_FAIL(`컴파일 결과`)
+          ),
+        });
+      }
     });
   },
 };

@@ -28,6 +28,24 @@ router.get("/", async (req, res) => {
     });
 });
 
+router.get("/list", async (req, res) => {
+  CLASS.getClassList()
+    .then(({ json }) => {
+      res.status(200).send(json);
+    })
+    .catch((err) => {
+      console.log(err);
+      res
+        .status(200)
+        .send(
+          authUtil.successFalse(
+            statusCode.INTERNAL_SERVER_ERROR,
+            responseMessage.INTERNAL_SERVER_ERROR
+          )
+        );
+    });
+});
+
 // 클래스 추가
 router.post("/", jwt.checkLogin, async (req, res) => {
   const { user_idx, type } = req.decoded;

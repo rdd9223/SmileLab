@@ -51,6 +51,8 @@ router.post("/result", async (req, res) => {
     //`docker run --rm python:3 python3 ../../module/tools/astRunner.py ${req.body.userId}`,
     `docker run --rm -v ${sourcePath}:/usr/src/src  \ -v ${testPath}:/usr/src/test -w /usr/src python:3 python test/astRunner.py ../src/Main.py`,
     (err, out, stderr) => {
+      console.log(out)
+      console.log(stderr)
       if (out) {
         res.status(200).send(authUtil.successTrue(statusCode.OK, "컴파일 성공", out));
       } else {

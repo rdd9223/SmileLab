@@ -29,6 +29,29 @@ router.post("/", jwt.checkLogin, async (req, res) => {
     });
 });
 
+//학생이 듣고 있는 수강과목 조회하기
+router.get("/take", jwt.checkLogin, async (req, res) => {
+  const { user_idx, type } = req.decoded;
+
+  TAKE.getTake({ user_idx, type })
+    .then(({ json }) => {
+      res.status(200).send(json);
+    })
+    .catch((err) => {
+      console.log(err);
+      res
+        .status(200)
+        .send(
+          authUtil.successFalse(
+            statusCode.INTERNAL_SERVER_ERROR,
+            responseMessage.INTERNAL_SERVER_ERROR
+          )
+        );
+    });
+});
+
+
+
 // 수강클래스와 학생 전체 조회하기 -> 교수가 가지고 있는 클래스 조회하기
 // 2020 06 22.
 // 수정 내용 :
@@ -66,6 +89,26 @@ router.get("/:idx", jwt.checkLogin, async (req, res) => {
   const { idx } = req.params;
 
   TAKE.getStudentFromClass({ type, idx })
+    .then(({ json }) => {
+      res.status(200).send(json);
+    })
+    .catch((err) => {
+      console.log(err);
+      res
+        .status(200)
+        .send(
+          authUtil.successFalse(
+            statusCode.INTERNAL_SERVER_ERROR,
+            responseMessage.INTERNAL_SERVER_ERROR
+          )
+        );
+    });
+});
+router.get("/:idx/:student", jwt.checkLogin, async(req, res) => {
+  const { type, user_idx } = req.decoded;
+  const { idx, student } = req.params;
+
+  TAKE.getStudentCompileInfo({ type, idx, student })
     .then(({ json }) => {
       res.status(200).send(json);
     })

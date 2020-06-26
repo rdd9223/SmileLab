@@ -77,6 +77,28 @@ const classInfo = {
       }
     });
   },
+  getClassList: () => {
+    return new Promise(async (resolve, reject) => {
+      const getClassListQuery = `SELECT class_idx, class.name as class_name, user.name as professor_name FROM class LEFT JOIN user ON class.professor_idx = user.user_idx WHERE user.type = 1`
+      const getClassListResult = await pool.queryParam_Parse(getClassListQuery);
+      if (getClassListResult === undefined) {
+        return resolve({
+          json: authUtil.successFalse(
+            statusCode.BAD_REQUEST,
+            responseMessage.X_READ_FAIL("클래스")
+          ),
+        });
+      } else {
+        return resolve({
+          json: authUtil.successTrue(
+            statusCode.OK,
+            responseMessage.X_READ_SUCCESS("클래스"),
+            getClassListResult
+          ),
+        });
+      }
+    });
+  },
 };
 
 module.exports = classInfo;

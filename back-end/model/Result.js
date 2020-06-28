@@ -9,7 +9,6 @@ const result = {
   getMyCompileResult: ( { user_idx }) => {
     return new Promise(async (resolve, reject) => {
        const getMyCompileResultQuery = `SELECT * FROM result WHERE result.writer_idx = ${user_idx}`;
-       console.log(getMyCompileResultQuery)
        const getMyCompileResultResult = await pool.queryParam_Parse(getMyCompileResultQuery);
        if(getMyCompileResultResult !== undefined ){
         return resolve({

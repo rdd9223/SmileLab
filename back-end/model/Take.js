@@ -108,7 +108,6 @@ const take = {
       const getStudentCompileInfoQuery = `SELECT * FROM result WHERE writer_idx = ${student}`;
       console.log(getStudentCompileInfoQuery)
       const getStudentCompileInfoResult = await pool.queryParam_Parse(getStudentCompileInfoQuery);
-      //console.log(getStudentCompileInfoResult)
       if(getStudentCompileInfoResult !== undefined ){
         return resolve({
           json: authUtil.successTrue(

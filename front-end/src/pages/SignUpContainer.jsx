@@ -27,12 +27,15 @@ class SignUpContainer extends React.Component {
       phone_number: null,
       name: null,
       type: null,
-      class_idx: 5,
+      class_idx: null,
+      class_name: '',
       isDouble: true,
       isValidPassword: false,
       modalShow : false,
       isSuccess : false,
     };
+
+    this.updateClass = this.updateClass.bind(this);
     
   }
 
@@ -63,6 +66,13 @@ class SignUpContainer extends React.Component {
     //TODO
     //임시 데이터
     this.state.modalShow = true;
+  }
+
+  updateClass(data){
+    this.setState({
+      class_idx : data.class_idx,
+      class_name : data.class_name,
+    });
   }
 
 
@@ -158,7 +168,7 @@ class SignUpContainer extends React.Component {
               <FormLabelSet name={"휴대전화 *"} onChange={(event) => this.setState({phone_number: event.target.value })} type={"phoneNumber"} />
             </Form.Group>
             <Form.Group>
-              <Modal />
+              <Modal updateClass={this.updateClass} />
             </Form.Group>
             <Form.Group>
               <FormLabel name={"가입유형 *"} />

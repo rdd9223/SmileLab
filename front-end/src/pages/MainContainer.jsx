@@ -56,7 +56,7 @@ class MainContainer extends React.Component {
               <MainIntro />
             </Col>
             <Col lg={4}>
-              <LoginInfoBox />
+              <LoginInfoBox userType={this.props.userType}/>
             </Col>
           </Row>
           

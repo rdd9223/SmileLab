@@ -43,12 +43,12 @@ class SignUpContainer extends React.Component {
     this.handleSubmit  = this.handleSubmit.bind(this);
   }
 
-  isDouble(event) {
-    axios.post('http://localhost:4000/auth/signup/idcheck', {
+  //alert 가 안뜨는 현상 발생
+  async isDouble() {
+    await axios.post('http://localhost:4000/auth/signup/idcheck', {
       id: this.state.id
     })
     .then((res) => {
-      console.log(res);
       if (res.data.status === 200){
         alert(res.data.message);
         this.setState({isDouble : false});
@@ -56,7 +56,6 @@ class SignUpContainer extends React.Component {
         alert(res.data.message);
         this.setState({isDouble : true});
       }
-
       return res;
     })
     .catch((e) => {
@@ -132,7 +131,6 @@ class SignUpContainer extends React.Component {
     event.preventDefault();
   }
   render(){
-
     if(this.state.isSuccess){
       return(
         <Wrapper>

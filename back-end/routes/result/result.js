@@ -29,8 +29,9 @@ router.get("/", jwt.checkLogin ,async (req, res) => {
 // 내 컴파일 기록 삭제
 router.delete("/", jwt.checkLogin, async (req, res) => {
   const { user_idx } = req.decoded;
-  const { class_idx } = req.body;
-  RESULT.deleteResult({ user_idx, class_idx })
+  const data = req.body.data;
+  
+  RESULT.deleteResult({ data })
   .then(({ json }) => {
       res.status(200).send(json);
     })
@@ -45,7 +46,6 @@ router.delete("/", jwt.checkLogin, async (req, res) => {
           )
         );
     });
-
 });
 
 // 1명 컴파일 결과 조회

@@ -31,8 +31,24 @@ const result = {
   getOtherCompileResult: () => {
     return new Promise(async (resolve, reject) => {});
   },
-  deleteResult: () => {
-    return new Promise(async (resolve, reject) => {});
+  deleteResult: (data) => {
+    return new Promise(async (resolve, reject) => {
+      const deleteResultQuery = `DELETE FROM result WHERE result_idx IN (${data.data})`;
+      const deleteResultResult = await pool.queryParam_Parse(deleteResultQuery);
+
+      if (deleteResultResult.affectedRows === 0) {
+        return resolve({
+          json: authUtil.successFalse(
+            statusCode.BAD_REQUEST,
+            responseMessage.X_DELETE_FAIL("결과")
+          ),
+        });
+      } else {
+        return resolve({
+          json: authUtil.successTrue(statusCode.OK, responseMessage.X_DELETE_SUCCESS("결과")),
+        });
+      }
+    });
   },
   saveResult: ({ user_idx, variable, operator, data, conditional, repeat, func }) => {
     return new Promise(async (resolve, reject) => {

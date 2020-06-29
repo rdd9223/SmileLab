@@ -18,7 +18,9 @@ class MyClassContainer extends React.Component {
   constructor(props){
     super(props);
     
-    this.loadResult = this.loadResult.bind(this)
+    this.loadResult = this.loadResult.bind(this);
+    this.deleteResult = this.deleteResult.bind(this);
+    this.onClick = this.onClick.bind(this);
     this.loadResult();
     this.state = {
       header : [
@@ -31,6 +33,7 @@ class MyClassContainer extends React.Component {
         "함수",
         "",
       ],
+      checked : [],
       data : null,
     }
   }
@@ -44,14 +47,55 @@ class MyClassContainer extends React.Component {
     });
   }
 
+  async onClick(e){
+    if(e.target.checked){
+      if(!this.state.checked.includes(e.target.id)){
+        var joined = this.state.checked.concat(e.target.id);
+        await this.setState({ checked: joined });
+      }
+    }else{
+      if(this.state.checked.includes(e.target.id)){
+        var joined = [].concat(this.state.checked);
+        var idx = this.state.checked.indexOf(e.target.id);
+        if (idx > -1) joined.splice(idx, 1)
+        await this.setState({ checked: joined });
+      }
+    }
+  }
+
+  deleteResult(){
+
+    var ids = ''
+    for(var i = 0; i < this.state.checked.length; i += 1){
+      ids += this.state.checked[i]
+      if(i < this.state.checked.length -1 ) ids += ","
+    }
+    console.log(ids);
+
+    axios.delete("http://localhost:4000/result",{
+      headers:{
+        token: window.sessionStorage.getItem('loginToken'),
+      }, data: {
+        data : ids
+      },
+    }).then((res) => {
+      console.log(res);
+      if(res.data.status === 200){
+        alert(res.data.message);
+        window.location.reload(true);
+
+      }
+    })
+  }
+
   render(){
     return (
     <Form>
       <Wrapper>
         {this.state.data != null && 
-          <MyClassTable headers={this.state.header} rows={this.state.data} />
+          <MyClassTable headers={this.state.header} rows={this.state.data} onClick={this.onClick} />
         }
-        <Button type={"submit"} name={"삭제"} size={"sm"} onClick={() => alert("일괄삭제")} />
+        <Button name={"삭제"} size={"sm"} onClick={this.deleteResult} />
       </Wrapper>
     </Form>
   );

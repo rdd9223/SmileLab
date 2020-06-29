@@ -5,7 +5,7 @@ const Td = ({ body }) => {
   const renderOX = (value) => {
     if (value === 0) {
       return "-";
-    } else if (value === 1) {
+    } else if (value >= 1) {
       return "✔";
     } else {
       return value;

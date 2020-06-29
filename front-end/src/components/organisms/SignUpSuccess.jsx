@@ -7,6 +7,7 @@ import styled from "styled-components";
 const SignUpSuccess = () => {
     const Wrapper = styled.div`
       width: 50em;
+      text-align: center;
       margin-top: 200px;
       margin-left: auto;
       margin-right: auto;

@@ -1,5 +1,5 @@
 import React from "react";
-import FormCheck from "../../atoms/FormCheck";
+import Check from "../../atoms/Check";
 
 const Td = ({ body, onClick }) => {
   const renderOX = (value) => {
@@ -22,7 +22,7 @@ const Td = ({ body, onClick }) => {
       <td>{renderOX(body.repeat)}</td>
       <td>{renderOX(body.function)}</td>
       <td>
-        <FormCheck id={body.result_idx} type="checkbox" label="" name={"deleteSelected"} onClick={onClick} />
+        <Check id={body.result_idx} type="checkbox" label="" name={"deleteSelected"} onClick={onClick} />
       </td>
     </tr>
   );

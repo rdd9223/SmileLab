@@ -49,7 +49,7 @@ class CodeResultContainer extends React.Component {
             " 또한, input 함수를 활용한 변수는 "+this.state.data.input+"개 입니다. \n"
         }
         if(this.state.data.BinOp + this.state.data.AugAssign +this.state.data.Compare +this.state.data.Logical > 0){
-          str += "연산자 활용 횟수는 총 "+this.state.data.BinOp+"번 입니다.\n"+
+          str += "연산자 활용 횟수는 총 "+(this.state.data.BinOp + this.state.data.AugAssign +this.state.data.Compare +this.state.data.Logical)+"번 입니다.\n"+
             "이 중 사칙연산은 "+this.state.data.BinOp+
             "번, 단항연산은"+this.state.data.AugAssign+
             "번, 비교연산은 "+this.state.data.Compare+

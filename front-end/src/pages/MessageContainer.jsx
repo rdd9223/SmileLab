@@ -83,17 +83,17 @@ class MessageContainer extends React.Component {
 
         return(
             <Wrapper>
-                <Jumbotron header={"Messages"} text={"메세지함 입니다. 멘트는 모르겠습니다."}/>
+                <Jumbotron header={"Messages"} text={"메세지를 확인하세요."}/>
                 <Container>
                     <Row>
-                        <Col>
+                        <Col lg={7}>
                             <Container1>
                                 <MessageTable headers={this.state.headers} rows={this.state.data} onClick={this.onClickMessage}/>
                                 <Button name={"이전"} size="sm" onClick={this.getPrevMessage}/>
                                 <Button name={"다음"} size="sm" onClick={this.getNextMessage}/>
                             </Container1>
                         </Col>
-                        <Col>
+                        <Col lg={5}>
                             <Container1>
                                 <MessageBox message={this.state.currentMessage} />
                             </Container1>

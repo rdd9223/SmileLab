@@ -1,11 +1,11 @@
 import React from "react";
 import FormCheck from "../../atoms/FormCheck";
 
-const Td = ({ body }) => {
+const Td = ({ body, onClick }) => {
   const renderOX = (value) => {
     if (value === 0) {
       return "-";
-    } else if (value === 1) {
+    } else if (value >= 1) {
       return "✔";
     } else {
       return value;
@@ -22,7 +22,7 @@ const Td = ({ body }) => {
       <td>{renderOX(body.repeat)}</td>
       <td>{renderOX(body.function)}</td>
       <td>
-        <FormCheck type="checkbox" label="" name={"deleteSelected"} />
+        <FormCheck id={body.result_idx} type="checkbox" label="" name={"deleteSelected"} onClick={onClick} />
       </td>
     </tr>
   );

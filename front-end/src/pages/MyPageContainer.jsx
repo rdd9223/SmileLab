@@ -45,11 +45,18 @@ class MyPageContainer extends React.Component {
             password2: null,
             phone_number: '',
             name: '',
-            class_idx: 5,
+            class_idx: null,
             isValidPassword: false,
             modalShow : false,
             isSuccess : false,
         };
+        this.updateClass = this.updateClass.bind(this)
+    }
+
+    updateClass(data){
+        this.setState({
+            class_idx : data.class_idx,
+        });
     }
 
     checkPassword(event){
@@ -90,7 +97,7 @@ class MyPageContainer extends React.Component {
             .then((res) => {
                 if(res.data.status === 200){
                     alert(res.data.message);
-                    window.location.href="/";
+                    window.location.href="/"; 
                 }   
             });
         }
@@ -134,7 +141,7 @@ class MyPageContainer extends React.Component {
                             </Col>
                         </Row>
                         <Form.Group>
-                            <Modal />
+                            <Modal updateClass={this.updateClass} />
                         </Form.Group>
                         <Form.Group>
                             <Button name="변경하기" type="submit" />

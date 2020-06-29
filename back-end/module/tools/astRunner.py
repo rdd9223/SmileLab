@@ -93,21 +93,22 @@ class Analyzer(ast.NodeVisitor):
                         self.stats["FunctionUse"].append(name)
                 if node.value.func.id in self.innerFuncs and node.value.func.id not in self.stats["UsedInnerFunc"]:
                     self.stats["UsedInnerFunc"].append(node.value.func.id)
-            if isinstance(node.value.func, ast.Name):
-                if node.value.func.id == 'print':
-                    if node.value.args:
-                        cursor = None
-                        for item in self.stats["CountPrint"] :
-                            #print(item)
-                            if item[node.value.args[0].value] :
-                                item[node.value.args[0].value] += 1
-                                cursor = item[node.value.args[0].value]
-                                if item[node.value.args[0].value] > 2 :
-                                    self.stats["PrintRepeat"] += 1
-      
-                        if not isinstance(node.value.args[0], ast.Call) and cursor is None :
-                            if not isinstance(node.value.args[0], ast.IfExp) :
-                                self.stats["CountPrint"].append({ str(node.value.args[0].value) : 1})
+                  
+            #if isinstance(node.value.func, ast.Name):
+            #    if node.value.func.id == 'print':
+            #        if node.value.args:
+            #            cursor = None
+            #            for item in self.stats["CountPrint"] :
+            #                #print(item)
+            #                if item[node.value.args[0].value] :
+            #                    item[node.value.args[0].value] += 1
+            #                    cursor = item[node.value.args[0].value]
+            #                    if item[node.value.args[0].value] > 2 :
+            #                        self.stats["PrintRepeat"] += 1
+            # 
+            #            if not isinstance(node.value.args[0], ast.Call) and cursor is None :
+            #                if not isinstance(node.value.args[0], ast.IfExp) :
+            #                    self.stats["CountPrint"].append({ str(node.value.args[0].value) : 1})
                                 #print(self.stats["CountPrint"])
         # self.generic_visit(node)
 

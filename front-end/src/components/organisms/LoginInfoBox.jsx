@@ -13,7 +13,6 @@ const logout = () =>{
 class LoginInfoBox extends React.Component {
     constructor(props) {
         super(props);
-        
         this.state = {
             userType: window.sessionStorage.getItem('userType'),
         };

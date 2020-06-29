@@ -5,6 +5,7 @@ import Jumbotron from "components/atoms/Jumbotron";
 import Modal1 from "components/atoms/Modal";
 import Button from "components/atoms/Button";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const Wrapper = styled.div`
   width: 50em;
@@ -22,10 +23,10 @@ class CommunityContainer extends React.Component {
       headers : ['#', '제목', '작성자', '작성일'],
       data : [],
       modalShow: false,
-      currentModal: {
+      currentModal : {
         title : '',
-        author: '',
-        contents: '',
+        author : '',
+        contents : '',
       },
       currentPage : 1 ,
     }
@@ -45,12 +46,16 @@ class CommunityContainer extends React.Component {
       }
     })
     .then((res) => {
+      console.log(res)
       if(res.data.status === 200 && res.data.success)
-        this.setState({data: res.data.data});
-        this.setState({currentModal : {
+        if( res.data.data.length > 0 ){
+          this.setState({data: res.data.data});
+          this.setState({currentModal : {
           title : this.state.data[0].title, 
           contents: this.state.data[0].contents
         }});
+        }
+        
     });
   }
 
@@ -100,6 +105,9 @@ class CommunityContainer extends React.Component {
         <Wrapper>
           <Button name={"이전"} size={"md"} onClick={this.getPrevBoard}/>
           <Button name={"다음"} size={"md"} onClick={this.getNextBoard}/>
+          <Link to="/write">
+            <Button name={"글쓰기"} size={"md"} />
+          </Link>
         </Wrapper>
       </Wrapper>
     );
@@ -108,80 +116,3 @@ class CommunityContainer extends React.Component {
 };
 
 export default CommunityContainer;
-
-
-/*
-  const [headers, setHeaders] = useState(["#", "제목", "작성자", "작성일"]);
-  const [data, setData] = useState([
-    {
-      idx: 1,
-      date: "2020.06.01",
-      title: "강영우 ",
-      writer: "강영우",
-      contents:
-        "아 진짜 졸려 뒤지겠다 내가 왜이러고 있어야하냐 진자 레전드다 전설이고 레전드고 오졌고 지렸고 레릿고",
-    },
-    {
-      idx: 2,
-      date: "2020.06.01",
-      title: "강영우 최고",
-      writer: "강영우",
-    },
-    {
-      idx: 3,
-      date: "2020.06.01",
-      title: "강영우 최고",
-      writer: "강영우",
-    },
-    {
-      idx: 3,
-      date: "2020.06.01",
-      title: "강영우 최고",
-      writer: "강영우",
-    },
-    {
-      idx: 3,
-      date: "2020.06.01",
-      title: "강영우 최고",
-      writer: "강영우",
-    },
-    {
-      idx: 3,
-      date: "2020.06.01",
-      title: "강영우 최고",
-      writer: "강영우",
-    },
-    {
-      idx: 3,
-      date: "2020.06.01",
-      title: "강영우 최고",
-      writer: "강영우",
-    },
-    {
-      idx: 3,
-      date: "2020.06.01",
-      title: "강영우 최고",
-      writer: "강영우",
-    },
-    {
-      idx: 3,
-      date: "2020.06.01",
-      title: "강영우 최고",
-      writer: "강영우",
-    },
-    {
-      idx: 3,
-      date: "2020.06.01",
-      title: "강영우 최고",
-      writer: "강영우",
-    },
-    {
-      idx: 3,
-      date: "2020.06.01",
-      title: "강영우 최고",
-      writer: "강영우",
-    },
-  ]);
-  
-  const [modalShow, setModalShow] = useState(false);
-  */

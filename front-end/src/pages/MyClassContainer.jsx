@@ -3,6 +3,7 @@ import MyClassTable from "../components/organisms/MyClassTable";
 import styled from "styled-components";
 import { Form } from "react-bootstrap";
 import Button from "../components/atoms/Button";
+import axios from "axios";
 
 const Wrapper = styled.div`
   width: 50em;
@@ -13,56 +14,93 @@ const Wrapper = styled.div`
   }
 `;
 
-const MyClassContainer = () => {
-  const [header, setHeader] = useState([
-    "날짜",
-    "변수",
-    "연산자",
-    "데이터",
-    "조건문",
-    "반복문",
-    "함수",
-  ]);
-  const [data, setData] = useState([
-    {
-      idx: 1,
-      date: "2020.06.01",
-      variable: 0,
-      operator: 0,
-      data: 0,
-      conditional: 0,
-      repeat: 1,
-      function: 1,
-    },
-    {
-      idx: 2,
-      date: "2020.06.01",
-      variable: 1,
-      operator: 1,
-      data: 1,
-      conditional: 1,
-      repeat: 1,
-      function: 1,
-    },
-    {
-      idx: 3,
-      date: "2020.06.01",
-      variable: 1,
-      operator: 1,
-      data: 1,
-      conditional: 1,
-      repeat: 1,
-      function: 1,
-    },
-  ]);
-  return (
+class MyClassContainer extends React.Component {
+  constructor(props){
+    super(props);
+    
+    this.loadResult = this.loadResult.bind(this);
+    this.deleteResult = this.deleteResult.bind(this);
+    this.onClick = this.onClick.bind(this);
+    this.loadResult();
+    this.state = {
+      header : [
+        "날짜",
+        "변수",
+        "연산자",
+        "데이터",
+        "조건문",
+        "반복문",
+        "함수",
+        "",
+      ],
+      checked : [],
+      data : null,
+    }
+  }
+
+  loadResult(){
+    axios.get("http://localhost:4000/result", { headers : {
+      token : window.sessionStorage.getItem('loginToken'),
+    }})
+    .then((res)=>{
+      this.setState({data : res.data.data});
+    });
+  }
+
+  async onClick(e){
+    if(e.target.checked){
+      if(!this.state.checked.includes(e.target.id)){
+        var joined = this.state.checked.concat(e.target.id);
+        await this.setState({ checked: joined });
+      }
+    }else{
+      if(this.state.checked.includes(e.target.id)){
+        var joined = [].concat(this.state.checked);
+        var idx = this.state.checked.indexOf(e.target.id);
+        if (idx > -1) joined.splice(idx, 1)
+        await this.setState({ checked: joined });
+      }
+    }
+  }
+
+  deleteResult(){
+
+    var ids = ''
+    for(var i = 0; i < this.state.checked.length; i += 1){
+      ids += this.state.checked[i]
+      if(i < this.state.checked.length -1 ) ids += ","
+    }
+    console.log(ids);
+
+    axios.delete("http://localhost:4000/result",{
+      headers:{
+        token: window.sessionStorage.getItem('loginToken'),
+      }, data: {
+        data : ids
+      },
+    }).then((res) => {
+      console.log(res);
+      if(res.data.status === 200){
+        alert(res.data.message);
+        window.location.reload(true);
+
+      }
+    })
+  }
+
+  render(){
+    return (
     <Form>
       <Wrapper>
-        <MyClassTable headers={header} rows={data} />
-        <Button type={"submit"} name={"삭제"} size={"sm"} onClick={() => alert("일괄삭제")} />
+        {this.state.data != null && 
+          <MyClassTable headers={this.state.header} rows={this.state.data} onClick={this.onClick} />
+        }
+        <Button name={"삭제"} size={"sm"} onClick={this.deleteResult} />
       </Wrapper>
     </Form>
   );
+  }
+  
 };
 
 export default MyClassContainer;

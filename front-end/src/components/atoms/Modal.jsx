@@ -1,7 +1,7 @@
 import React from "react";
 import { Modal , Button } from "react-bootstrap";
 
-const Modal1 = ({ show = false, onHide, title, contents }) => {
+const Modal1 = ({ show = false, onHide, title, contents, writer, date }) => {
   return (
     <Modal
       show={show}
@@ -12,9 +12,13 @@ const Modal1 = ({ show = false, onHide, title, contents }) => {
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-rbmodal-title-vcenter">{title}</Modal.Title>
+        
       </Modal.Header>
-      <Modal.Body>
-        <h4></h4>
+      <Modal.Body style={{height: "300px"}}>
+        <small>작성자 : {writer}</small>
+        <br/>
+        <small>{date}</small>
+        <br/><br/>
         <p>
           {contents}
         </p>

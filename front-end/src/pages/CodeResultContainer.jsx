@@ -10,7 +10,6 @@ import FormCheck from "../components/atoms/FormCheck";
 const Wrapper = styled.div`
   width: 60rem;
   margin: 50px auto;
-  height: 600px;
 `;
 
 const resetCode = () => {
@@ -26,7 +25,7 @@ class CodeResultContainer extends React.Component {
 
     this.state = {
         data: null,
-        result : ''
+        result : '잠시만 기다려주세요...'
     }
   }
 

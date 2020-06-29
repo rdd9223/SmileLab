@@ -29,6 +29,7 @@ class MyClassContainer extends React.Component {
         "조건문",
         "반복문",
         "함수",
+        "",
       ],
       data : null,
     }

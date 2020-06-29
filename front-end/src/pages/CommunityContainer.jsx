@@ -5,6 +5,7 @@ import Jumbotron from "components/atoms/Jumbotron";
 import Modal1 from "components/atoms/Modal";
 import Button from "components/atoms/Button";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const Wrapper = styled.div`
   width: 50em;
@@ -104,6 +105,9 @@ class CommunityContainer extends React.Component {
         <Wrapper>
           <Button name={"이전"} size={"md"} onClick={this.getPrevBoard}/>
           <Button name={"다음"} size={"md"} onClick={this.getNextBoard}/>
+          <Link to="/write">
+            <Button name={"글쓰기"} size={"md"} />
+          </Link>
         </Wrapper>
       </Wrapper>
     );

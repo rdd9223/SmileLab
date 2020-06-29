@@ -13,7 +13,7 @@ class MessageRow extends React.Component {
                     <td>{this.props.body.message_idx}</td>
                     <td>{this.props.body.class_name}</td>
                     <td>{this.props.body.date}</td>
-                    <td><Button name={"보기"} size="md" onClick={() => this.props.onClick(idx)}/></td>
+                    <td><Button name={"보기"} size="sm" onClick={() => this.props.onClick(idx)}/></td>
                 </tr>
             </>
         );

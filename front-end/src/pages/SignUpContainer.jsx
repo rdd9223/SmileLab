@@ -127,7 +127,6 @@ class SignUpContainer extends React.Component {
         return;
       });
     }
-    //임시로 submit 되는 현상을 막음
     event.preventDefault();
   }
   render(){

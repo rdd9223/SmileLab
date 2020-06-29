@@ -6,7 +6,7 @@ const BoardBody = ({ rows, setModalShow, onClick }) => {
   return (
     <tbody>
       {rows.map((item, idx) => {
-        return <BoardRow idx={idx} body={item} setModalShow={setModalShow} onClick={onClick} />;
+        return <BoardRow idx={idx} key={idx} body={item} setModalShow={setModalShow} onClick={onClick} />;
         
       })}
     </tbody>

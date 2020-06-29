@@ -20,6 +20,7 @@ class SignUpContainer extends React.Component {
   
   constructor(props) {
     super(props);
+
     this.state = {
       id: null,
       password1: null,
@@ -35,8 +36,11 @@ class SignUpContainer extends React.Component {
       isSuccess : false,
     };
 
-    this.updateClass = this.updateClass.bind(this);
-    
+
+    this.updateClass   = this.updateClass.bind(this);
+    this.changeId      = this.changeId.bind(this);
+    this.isDouble      = this.isDouble.bind(this);
+    this.handleSubmit  = this.handleSubmit.bind(this);
   }
 
   isDouble(event) {
@@ -61,13 +65,6 @@ class SignUpContainer extends React.Component {
     });
   }
 
-  
-  searchClass(){
-    //TODO
-    //임시 데이터
-    this.state.modalShow = true;
-  }
-
   updateClass(data){
     this.setState({
       class_idx : data.class_idx,
@@ -75,14 +72,9 @@ class SignUpContainer extends React.Component {
     });
   }
 
-
-  handleClose() {
-    this.setState({modalShow: false});
-  }
-
+  //비밀번호와 비밀번호 확인이 일치하는지 확인
   checkPassword(event){
     const { name, value, id } = event.target
-
     this.setState({
       [id] : value 
     }, () => {
@@ -91,6 +83,7 @@ class SignUpContainer extends React.Component {
     });
   }
 
+  //checkPassword를 통한 검사 뒤 유효한지 한번 더 확인
   isValidPassword(){
     if(this.state.password1 != null && this.state.password1 == this.state.password2) {
       this.setState({isValidPassword: true});
@@ -100,11 +93,16 @@ class SignUpContainer extends React.Component {
     }
   }
 
+  //id가 변경 되었을 시 중복검사를 다시 시행하도록 함
+  changeId(event){
+    this.setState({
+      isDouble : true,
+      id: event.target.value
+    });
+  }
 
+  //회원가입 버튼 처리
   handleSubmit(event) {
-    console.log(this.state);
-    //id, pw, name, phone_number, type, class_idx
-    //id, pw, name, phone_number, type, class_idx 
     if(this.state.isDouble){
       alert("아이디 중복 검사를 해 주세요!");
     }else if(!this.state.isValidPassword){
@@ -145,13 +143,13 @@ class SignUpContainer extends React.Component {
     }else{
       return (
         <Wrapper>
-          <Form onSubmit={this.handleSubmit.bind(this)}>
+          <Form onSubmit={this.handleSubmit}>
             <Form.Group>
               <FormText name={"* 표시는 필수 입력 항목입니다."} />
               <br />
               <FormLabelButtonSet name={"아이디 *"} type={"id"} buttonName={"중복확인"} 
-              onChange={(event) => this.setState({id: event.target.value })}  
-              onClick={this.isDouble.bind(this)} />
+                onChange={(event) => this.changeId(event)}  
+                onClick={this.isDouble} />
               <FormText name="이메일 형식으로 된 아이디를 입력해주세요." />
             </Form.Group>
             <Form.Group>

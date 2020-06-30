@@ -17,6 +17,14 @@ const CompileContainer = () => {
     setCode(e);
   };
 
+  const onResultButtonClick = () => {
+    if(window.sessionStorage.getItem('validCompile')){
+      window.location.href="/result"; 
+    }else{
+      alert("컴파일을 먼저 해 주세요!");
+    }
+  };
+
   return (
     <div style={{ float: "center" }}>
       <div style={{ position: "relative", margin: "10px" }}>
@@ -30,9 +38,7 @@ const CompileContainer = () => {
       </div>
       <div style={{ height: "200px", margin: "10px" }}>
         <CodeSaveButton code={code} />
-        <Link to="/result">
-          <CheckResultButton code={code} />
-        </Link>
+        <CheckResultButton code={code} onClick={onResultButtonClick} />
       </div>
     </div>
   );

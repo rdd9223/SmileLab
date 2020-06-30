@@ -43,7 +43,6 @@ class LoginForm extends React.Component {
     })
     .then((res) => {
       //로그인 성공 시 반환되는 토큰을 session에 저장
-      //window.sessionStorage.clear();
       if(res.data.status === 200){
         window.sessionStorage.clear();
         window.sessionStorage.setItem('loginToken', res.data.data.token);

@@ -6,7 +6,7 @@ export const postSource = async (code) => {
     alert("로그인이 필요합니다.");
     return;
   }
-    
+  window.sessionStorage.setItem('validCompile', false);
   return await axios.post("http://localhost:4000/compile", {
     userId: userId,
     source: code,
@@ -14,6 +14,7 @@ export const postSource = async (code) => {
   .then((res) => {
     console.log(res);
     localStorage.setItem('currentCode', code);
+    window.sessionStorage.setItem('validCompile', true);
     return res;
   })
   .catch((e) => {

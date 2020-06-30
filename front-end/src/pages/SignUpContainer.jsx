@@ -20,6 +20,7 @@ class SignUpContainer extends React.Component {
   
   constructor(props) {
     super(props);
+
     this.state = {
       id: null,
       password1: null,
@@ -35,16 +36,19 @@ class SignUpContainer extends React.Component {
       isSuccess : false,
     };
 
-    this.updateClass = this.updateClass.bind(this);
-    
+
+    this.updateClass   = this.updateClass.bind(this);
+    this.changeId      = this.changeId.bind(this);
+    this.isDouble      = this.isDouble.bind(this);
+    this.handleSubmit  = this.handleSubmit.bind(this);
   }
 
-  isDouble(event) {
-    axios.post('http://localhost:4000/auth/signup/idcheck', {
+  //alert 가 안뜨는 현상 발생
+  async isDouble() {
+    await axios.post('http://localhost:4000/auth/signup/idcheck', {
       id: this.state.id
     })
     .then((res) => {
-      console.log(res);
       if (res.data.status === 200){
         alert(res.data.message);
         this.setState({isDouble : false});
@@ -52,20 +56,12 @@ class SignUpContainer extends React.Component {
         alert(res.data.message);
         this.setState({isDouble : true});
       }
-
       return res;
     })
     .catch((e) => {
       console.log(e);
       return;
     });
-  }
-
-  
-  searchClass(){
-    //TODO
-    //임시 데이터
-    this.state.modalShow = true;
   }
 
   updateClass(data){
@@ -75,14 +71,9 @@ class SignUpContainer extends React.Component {
     });
   }
 
-
-  handleClose() {
-    this.setState({modalShow: false});
-  }
-
+  //비밀번호와 비밀번호 확인이 일치하는지 확인
   checkPassword(event){
     const { name, value, id } = event.target
-
     this.setState({
       [id] : value 
     }, () => {
@@ -91,6 +82,7 @@ class SignUpContainer extends React.Component {
     });
   }
 
+  //checkPassword를 통한 검사 뒤 유효한지 한번 더 확인
   isValidPassword(){
     if(this.state.password1 != null && this.state.password1 == this.state.password2) {
       this.setState({isValidPassword: true});
@@ -100,11 +92,16 @@ class SignUpContainer extends React.Component {
     }
   }
 
+  //id가 변경 되었을 시 중복검사를 다시 시행하도록 함
+  changeId(event){
+    this.setState({
+      isDouble : true,
+      id: event.target.value
+    });
+  }
 
+  //회원가입 버튼 처리
   handleSubmit(event) {
-    console.log(this.state);
-    //id, pw, name, phone_number, type, class_idx
-    //id, pw, name, phone_number, type, class_idx 
     if(this.state.isDouble){
       alert("아이디 중복 검사를 해 주세요!");
     }else if(!this.state.isValidPassword){
@@ -130,11 +127,9 @@ class SignUpContainer extends React.Component {
         return;
       });
     }
-    //임시로 submit 되는 현상을 막음
     event.preventDefault();
   }
   render(){
-
     if(this.state.isSuccess){
       return(
         <Wrapper>
@@ -145,13 +140,13 @@ class SignUpContainer extends React.Component {
     }else{
       return (
         <Wrapper>
-          <Form onSubmit={this.handleSubmit.bind(this)}>
+          <Form onSubmit={this.handleSubmit}>
             <Form.Group>
               <FormText name={"* 표시는 필수 입력 항목입니다."} />
               <br />
               <FormLabelButtonSet name={"아이디 *"} type={"id"} buttonName={"중복확인"} 
-              onChange={(event) => this.setState({id: event.target.value })}  
-              onClick={this.isDouble.bind(this)} />
+                onChange={(event) => this.changeId(event)}  
+                onClick={this.isDouble} />
               <FormText name="이메일 형식으로 된 아이디를 입력해주세요." />
             </Form.Group>
             <Form.Group>

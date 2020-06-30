@@ -24,18 +24,19 @@ class CommunityContainer extends React.Component {
       data : [],
       modalShow: false,
       currentModal : {
-        title : '',
-        author : '',
-        contents : '',
+        title     : '',
+        writer    : '',
+        contents  : '',
+        date      : '',
       },
       currentPage : 1 ,
     }
-    this.loadBoard = this.loadBoard.bind(this);
-    this.setModalHide = this.setModalHide.bind(this);
-    this.setModalShow = this.setModalShow.bind(this);
-    this.onClickList = this.onClickList.bind(this);
-    this.getNextBoard = this.getNextBoard.bind(this);
-    this.getPrevBoard = this.getPrevBoard.bind(this);
+    this.loadBoard      = this.loadBoard.bind(this);
+    this.setModalHide   = this.setModalHide.bind(this);
+    this.setModalShow   = this.setModalShow.bind(this);
+    this.onClickList    = this.onClickList.bind(this);
+    this.getNextBoard   = this.getNextBoard.bind(this);
+    this.getPrevBoard   = this.getPrevBoard.bind(this);
 
     this.loadBoard(this.state.currentPage);
   }
@@ -47,15 +48,17 @@ class CommunityContainer extends React.Component {
     })
     .then((res) => {
       console.log(res)
-      if(res.data.status === 200 && res.data.success)
+      if(res.data.status === 200 && res.data.success){
         if( res.data.data.length > 0 ){
-          this.setState({data: res.data.data});
-          this.setState({currentModal : {
-          title : this.state.data[0].title, 
-          contents: this.state.data[0].contents
-        }});
+          this.setState({data: res.data.data})
+          this.setState({ currentModal : {
+            title     : this.state.data[0].title, 
+            contents  : this.state.data[0].contents,
+            writer    : this.state.data[0].writer,
+            date      : this.state.data[0].date,
+          }});
         }
-        
+      }
     });
   }
 
@@ -80,8 +83,11 @@ class CommunityContainer extends React.Component {
 
   onClickList(idx){
     this.setState({currentModal : {
-      title : this.state.data[idx].title, 
-      contents: this.state.data[idx].contents
+      title     : this.state.data[idx].title, 
+      contents  : this.state.data[idx].contents,
+      writer    : this.state.data[idx].writer,
+      date      : this.state.data[idx].date,
+
     }});
     this.setModalShow();
   }
@@ -101,7 +107,10 @@ class CommunityContainer extends React.Component {
           show={this.state.modalShow} 
           onHide={this.setModalHide} 
           title={this.state.currentModal.title} 
-          contents={this.state.currentModal.contents} />
+          contents={this.state.currentModal.contents}
+          writer={this.state.currentModal.writer}
+          date={this.state.currentModal.date}
+           />
         <Wrapper>
           <Button name={"이전"} size={"md"} onClick={this.getPrevBoard}/>
           <Button name={"다음"} size={"md"} onClick={this.getNextBoard}/>

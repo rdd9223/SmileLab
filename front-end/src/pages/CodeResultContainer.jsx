@@ -38,8 +38,8 @@ class CodeResultContainer extends React.Component {
         this.setState({data: eval("("+res.data.data+")")});
         var str = "";
         
-        if(this.state.data.Assign > 0){
-          str += "정의된 변수의 개수는"+this.state.data.Assign+"개 입니다. \n";
+        if(this.state.data.Name.length > 0){
+          str += "정의된 변수의 개수는"+this.state.data.Name.length+"개 입니다. \n";
           str += 
             "정의된 변수 중 숫자형은 "+this.state.data.num+
             "개, 문자형은 "+this.state.data.Str+

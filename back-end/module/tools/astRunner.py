@@ -31,7 +31,6 @@ class Analyzer(ast.NodeVisitor):
     def visit_Assign(self, node):
         "할당정의 카운터 ex) a=5"
         self.stats["Assign"] += 1
-            
         if isinstance(node.value, ast.Constant):
             if isinstance(node.value.value, str):
                 self.stats["Str"] += 1

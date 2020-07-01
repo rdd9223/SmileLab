@@ -6,7 +6,7 @@ import StudentNav from "../molecules/navigation/StudentNav";
 import ProfesserNav from "../molecules/navigation/ProfesserNav";
 
 const MainNavbar = ({ userType }) => {
-  const [type, setType] = useState(userType)
+  //const [type, setType] = useState(userType)
 
   const renderUserTypeNav = (idx) => {
     if (idx == 0) {
@@ -21,7 +21,7 @@ const MainNavbar = ({ userType }) => {
   return (
     <Navbar bg="primary" variant="dark">
       <LogoLink route="/" name="SMILE LAB" />
-      {renderUserTypeNav(type)}
+      {renderUserTypeNav(userType)}
     </Navbar>
   );
 };

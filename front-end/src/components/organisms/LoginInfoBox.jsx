@@ -22,7 +22,7 @@ class LoginInfoBox extends React.Component {
                     <h6>상단에서 원하는 메뉴를 선택하세요.</h6>
                     <Row style={{marginTop : "100px"}}>
                         <Col>
-                            <Link>
+                            <Link to="/">
                                 <h1 onClick={() => logout()}><FiLogOut /></h1>
                             </Link>
                         </Col>
@@ -47,7 +47,7 @@ class LoginInfoBox extends React.Component {
                     <h6>상단에서 원하는 메뉴를 선택하세요.</h6>
                     <Row style={{marginTop : "100px"}}>
                         <Col>
-                            <Link>
+                            <Link to="/">
                                 <h1 onClick={() => logout()}><FiLogOut /></h1>
                             </Link>
                         </Col>

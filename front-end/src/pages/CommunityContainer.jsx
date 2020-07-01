@@ -4,6 +4,7 @@ import CommunityTable from "../components/templates/CommunityTable";
 import Jumbotron from "components/atoms/Jumbotron";
 import Modal1 from "components/atoms/Modal";
 import Button from "components/atoms/Button";
+import { Container, Row, Col } from "react-bootstrap";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
@@ -106,11 +107,21 @@ class CommunityContainer extends React.Component {
           title={this.state.currentModal.title} contents={this.state.currentModal.contents}
           writer={this.state.currentModal.writer} date={this.state.currentModal.date} />
         <Wrapper>
-          <Button name={"이전"} size={"md"} onClick={this.getPrevBoard}/>
-          <Button name={"다음"} size={"md"} onClick={this.getNextBoard}/>
-          <Link to="/write">
-            <Button name={"글쓰기"} size={"md"} />
-          </Link>
+          <Row>
+            <Col lg={4}>
+              <Button name={"이전"} size={"md"} onClick={this.getPrevBoard} style={{margin : "10px"}} /> 
+              <Button name={"다음"} size={"md"} onClick={this.getNextBoard} />
+            </Col>
+            <Col lg={6}>
+              
+            </Col>
+            <Col lg={2}>
+              <Link to="/write">
+              <Button name={"글쓰기"} size={"md"} />
+            </Link>
+            </Col>
+          </Row>
+          
         </Wrapper>
       </Wrapper>
     );

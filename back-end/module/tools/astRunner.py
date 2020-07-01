@@ -66,34 +66,34 @@ class Analyzer(ast.NodeVisitor):
         "연산자 카운터 ex) a=3*6"
         self.stats["BinOp"] += 1
         self.generic_visit(node)
+    
+    def visit_Call(self, node):
+        "호출 카운터"
+        if isinstance(node.func, ast.Attribute):
+            length = len(node.args) + 1
+            name = str(length)+node.func.attr
+            if name in self.stats["FunctionUse"]:
+                pass
+            else:
+                if name in self.stats["FunctionDef"]:
+                    self.stats["FunctionUse"].append(name)
+
+            if node.func.attr in self.innerFuncs :
+                self.stats["UsedInnerFunc"] += 1
+        else:
+            length = len(node.args)
+            name = str(length)+node.func.id
+            if name in self.stats["FunctionUse"]:
+                pass
+            else:
+                if name in self.stats["FunctionDef"]:
+                    self.stats["FunctionUse"].append(name)
+            if node.func.id in self.innerFuncs and node.func.id not in self.stats["UsedInnerFunc"]:
+                self.stats["UsedInnerFunc"].append(node.func.id)
 
     def visit_Expr(self, node):
         "표현식에 대한 방문 정의 ex)3*7+5"
-        self.stats["Expr"] += 1
-
-        if isinstance(node.value, ast.Call):
-
-            if isinstance(node.value.func, ast.Attribute):
-                length = len(node.value.args) + 1
-                name = str(length)+node.value.func.attr
-                if name in self.stats["FunctionUse"]:
-                    pass
-                else:
-                    if name in self.stats["FunctionDef"]:
-                        self.stats["FunctionUse"].append(name)
-                if node.value.func.attr in self.innerFuncs :
-                    self.stats["UsedInnerFunc"] += 1
-            else:
-                length = len(node.value.args)
-                name = str(length)+node.value.func.id
-                if name in self.stats["FunctionUse"]:
-                    pass
-                else:
-                    if name in self.stats["FunctionDef"]:
-                        self.stats["FunctionUse"].append(name)
-                if node.value.func.id in self.innerFuncs and node.value.func.id not in self.stats["UsedInnerFunc"]:
-                    self.stats["UsedInnerFunc"].append(node.value.func.id)
-                  
+        self.stats["Expr"] += 1   
             #if isinstance(node.value.func, ast.Name):
             #    if node.value.func.id == 'print':
             #        if node.value.args:

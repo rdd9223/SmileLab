@@ -11,9 +11,19 @@ import LoginInfoBox from "../components/organisms/LoginInfoBox";
 class MainContainer extends React.Component {
   constructor(props) {
     super(props);
+    this.load = this.load.bind(this);
+    this.load()
+    
+    this.state = {
+      isLogin: false,
+      userType: 0,
+    };
+  }
+
+  async load(){
     var token = window.sessionStorage.getItem('loginToken')
     if(token!=null){
-      axios.get("http://localhost:4000/auth/user" , { headers: { token: token } })
+      await axios.get("http://localhost:4000/auth/user" , { headers: { token: token } })
       .then((res) => {
         if(res.data.status === 200){
           this.setState({
@@ -23,13 +33,8 @@ class MainContainer extends React.Component {
           window.sessionStorage.setItem('userId',res.data.data.id);
           window.sessionStorage.setItem('userType', res.data.data.type);
         }
-        //토큰 만료 시 예외처리는 나중에
       });
     }
-    this.state = {
-      isLogin: false,
-      userType: 0,
-    };
   }
 
   render(){

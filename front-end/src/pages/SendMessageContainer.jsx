@@ -13,57 +13,57 @@ class SendMessageContainer extends React.Component {
 
         this.state = {
             class : [],
-            currentStudent: [],
+            student: [],
             currentClass: null,
             currentReceiver: 0,
-            message1: null,
+            message: "",
         }
+        
+        this.loadClass      = this.loadClass.bind(this);
+        this.changeClass    = this.changeClass.bind(this);
+        this.changeStudent  = this.changeStudent.bind(this);
+        this.changeMessage  = this.changeMessage.bind(this);
+        this.sendMessage    = this.sendMessage.bind(this);
 
-        axios.get("http://localhost:4000/take",{ headers: {
+        this.loadClass();
+    }
+
+    async loadClass(){
+        await axios.get("http://localhost:4000/take",{ headers: {
             token: window.sessionStorage.getItem('loginToken')
         }}).then((res) => {
             this.setState({class : res.data.data});
         });
-
-        this.changeClass = this.changeClass.bind(this);
-        this.changeStudent = this.changeStudent.bind(this);
-        this.changeMessage = this.changeMessage.bind(this);
-        this.sendMessage = this.sendMessage.bind(this);
     }
 
     async changeClass(e){
-        axios.get("http://localhost:4000/take/"+e.target.value, { headers: {
-            token: window.sessionStorage.getItem('loginToken')
-        }}).then((res) => {
-            console.log(res);
-            if(res.data.data != null){
-                this.setState({
-                    currentStudent: res.data.data,
-                    currentClass : res.data.data[0].class_idx,
-                    currentData : []
-                });
-            }else{
-                this.setState({
-                    currentStudent: [],
-                    currentClass : null,
-                    currentData : []
-                });
-            }
-        });
+        const idx = e.target.value
+        if(idx != null){
+            await axios.get("http://localhost:4000/take/"+idx, { headers: {
+                token: window.sessionStorage.getItem('loginToken')
+            }}).then((res) => {
+                if(res.data.data != null){
+                    this.setState({
+                        student         : res.data.data,
+                        currentClass    : idx,
+                        currentData     : [],
+                    });
+                }
+            });
+        }
+        
     }
 
-    changeStudent(e){
-        this.setState({currentReceiver: e.target.value});
+    async changeStudent(e){
+        const idx = e.target.value
+        await this.setState({currentReceiver: idx});
     }
 
     async sendMessage(){
-        console.log(this.state.message1);
-        console.log(this.state.currentClass);
-        console.log(this.state.currentReceiver);
-        axios.post("http://localhost:4000/message",{
+        await axios.post("http://localhost:4000/message",{
             class_idx: this.state.currentClass,
             receiver: this.state.currentReceiver,
-            contents: this.state.message1,
+            contents: this.state.message,
         },{
             headers:{
                 token : window.sessionStorage.getItem('loginToken'),
@@ -77,10 +77,11 @@ class SendMessageContainer extends React.Component {
     }
 
     changeMessage(e){
+        const idx = e.target.value
         //console.log(e.target.value)
-        this.state.message1 = e.target.value
-        //console.log(this.state.message1);
-        //this.setState({message1: e.target.value});
+        this.state.message = e.target.value
+        //console.log(this.state.message);
+        //this.setState({message: idx});
     }
 
     render(){
@@ -99,18 +100,18 @@ class SendMessageContainer extends React.Component {
                 <br/>
                 <Row style={{height: '4em'}}>
                     <Col style={{height: '4em'}}>
-                        <Form.Control as="select" defaultValue="강의를 선택 하세요." onChange={this.changeClass}>
-                            <option>강의를 선택 하세요.</option>
+                        <Form.Control as="select" defaultValue={this.state.currentClass} onChange={this.changeClass}>
+                            <option key={0} value={null} >강의를 선택 하세요.</option>
                             {this.state.class.map((item, idx) => {
-                                return <option key={idx} value={item.class_idx}>{item.name}</option>;
+                                return <option key={idx+1} value={item.class_idx}>{item.name}</option>;
                             })}
                         </Form.Control>
                     </Col>
                     <Col style={{height: '4em'}}>
-                        <Form.Control as="select" defaultValue="0" onChange={this.changeStudent}>
-                            <option>전체</option>
-                            {this.state.currentStudent.map((item, idx) => {
-                                return <option key={idx} value={item.student_idx}>{item.name}</option>;
+                        <Form.Control as="select" defaultValue={this.state.currentReceiver} onChange={this.changeStudent}>
+                            <option key={0} value={0}>전체</option>
+                            {this.state.student.map((item, idx) => {
+                                return <option key={idx+1} value={item.student_idx}>{item.name}</option>;
                             })}
                         </Form.Control>
                     </Col>
@@ -119,7 +120,6 @@ class SendMessageContainer extends React.Component {
                 <Form.Control 
                     onChange={(event) => this.changeMessage(event)} 
                     placeholder={"메세지를 입력 해 주세요."} 
-                    value={ this.state.message1 } 
                     type="name"
                     as="textarea"
                     rows="10"/>

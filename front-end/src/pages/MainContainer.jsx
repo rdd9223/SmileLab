@@ -16,7 +16,10 @@ class MainContainer extends React.Component {
       axios.get("http://localhost:4000/auth/user" , { headers: { token: token } })
       .then((res) => {
         if(res.data.status === 200){
-          this.setState({isLogin: true});
+          this.setState({
+            isLogin : true,
+            userType: res.data.data.type,
+          });
           window.sessionStorage.setItem('userId',res.data.data.id);
           window.sessionStorage.setItem('userType', res.data.data.type);
         }
@@ -25,6 +28,7 @@ class MainContainer extends React.Component {
     }
     this.state = {
       isLogin: false,
+      userType: 0,
     };
   }
 
@@ -56,7 +60,7 @@ class MainContainer extends React.Component {
               <MainIntro />
             </Col>
             <Col lg={4}>
-              <LoginInfoBox userType={this.props.userType}/>
+              <LoginInfoBox userType={this.state.userType}/>
             </Col>
           </Row>
           

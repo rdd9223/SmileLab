@@ -99,18 +99,12 @@ class CommunityContainer extends React.Component {
           <Jumbotron header={"Class Community"} text={"자유롭게 생각을 나눠보는 공간입니다."} />
         </div>
         <CommunityTable 
-          headers={this.state.headers} 
-          rows={this.state.data} 
-          setModalShow={this.setModalShow} 
-          onClick={this.onClickList} />
+          headers={this.state.headers} rows={this.state.data} 
+          setModalShow={this.setModalShow} onClick={this.onClickList} />
         <Modal1 
-          show={this.state.modalShow} 
-          onHide={this.setModalHide} 
-          title={this.state.currentModal.title} 
-          contents={this.state.currentModal.contents}
-          writer={this.state.currentModal.writer}
-          date={this.state.currentModal.date}
-           />
+          show={this.state.modalShow} onHide={this.setModalHide} 
+          title={this.state.currentModal.title} contents={this.state.currentModal.contents}
+          writer={this.state.currentModal.writer} date={this.state.currentModal.date} />
         <Wrapper>
           <Button name={"이전"} size={"md"} onClick={this.getPrevBoard}/>
           <Button name={"다음"} size={"md"} onClick={this.getNextBoard}/>

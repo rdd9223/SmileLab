@@ -1,6 +1,7 @@
 import React from "react";
 import {Container, Row, Col} from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { FiLogOut, FiUser, FiMail } from "react-icons/fi";
 
 
 const logout = () =>{
@@ -9,33 +10,30 @@ const logout = () =>{
     window.location.reload(true);
 }
   
-
 class LoginInfoBox extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            userType: window.sessionStorage.getItem('userType'),
-        };
-        console.log(this.state.userType);
     }
     render(){
-        if(this.state.userType == 2){
+        if(this.props.userType == 2){
             return(
-                <Container>
+                <Container style={{textAlign: "center", paddingTop: "200px", paddingBottom: "200px"}} >
                     <h6>로그인 되었습니다</h6>
                     <h6>상단에서 원하는 메뉴를 선택하세요.</h6>
-                    <Row >
+                    <Row style={{marginTop : "100px"}}>
                         <Col>
-                            <h5 onClick={() => logout()}>로그아웃</h5>
+                            <Link to="/">
+                                <h1 onClick={() => logout()}><FiLogOut /></h1>
+                            </Link>
                         </Col>
                         <Col>
                             <Link to={"/mypage"}>
-                                <h5>내 정보</h5>
+                                <h1><FiUser /></h1>
                             </Link>
                         </Col>
                         <Col>
                             <Link to={"/message"}>
-                                <h5>메세지함</h5>
+                                <h1><FiMail /></h1>
                             </Link>
                             
                         </Col>
@@ -44,16 +42,18 @@ class LoginInfoBox extends React.Component {
             )
         }else{
             return(
-                <Container>
+                <Container style={{textAlign: "center", paddingTop: "200px", paddingBottom: "200px"}} >
                     <h6>로그인 되었습니다</h6>
                     <h6>상단에서 원하는 메뉴를 선택하세요.</h6>
-                    <Row >
+                    <Row style={{marginTop : "100px"}}>
                         <Col>
-                            <h5 onClick={() => logout()}>로그아웃</h5>
+                            <Link to="/">
+                                <h1 onClick={() => logout()}><FiLogOut /></h1>
+                            </Link>
                         </Col>
                         <Col>
                             <Link to={"/mypage"}>
-                                <h5>내 정보</h5>
+                                <h1><FiUser /></h1>
                             </Link>
                         </Col>
                     </Row>

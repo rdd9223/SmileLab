@@ -89,7 +89,7 @@ class MessageContainer extends React.Component {
                         <Col lg={7}>
                             <Container1>
                                 <MessageTable headers={this.state.headers} rows={this.state.data} onClick={this.onClickMessage}/>
-                                <Button name={"이전"} size="sm" onClick={this.getPrevMessage}/>
+                                <Button name={"이전"} size="sm" onClick={this.getPrevMessage} style={{margin : "10px"}}/>
                                 <Button name={"다음"} size="sm" onClick={this.getNextMessage}/>
                             </Container1>
                         </Col>

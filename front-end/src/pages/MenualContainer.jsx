@@ -56,7 +56,7 @@ class MenualContainer extends React.Component{
           </Row>
         </Wrapper>
         
-        <div style={{position: "absolute",marginTop: "-80px", marginLeft: "30px", zIndex: "-1"}}> 
+        <div style={{position: "absolute",marginTop: "-320px", marginLeft: "30px", zIndex: "-1", padding: "200px"}}> 
           <Img src={"images/arrow1.png"} />
         </div>
        

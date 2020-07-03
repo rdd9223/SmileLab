@@ -5,22 +5,24 @@ export const postSource = async (code) => {
   if(userId == null){
     alert("로그인이 필요합니다.");
     return;
+  }else{
+    window.sessionStorage.setItem('validCompile', false);
+    return await axios.post("http://localhost:4000/compile", {
+      userId: userId,
+      source: code,
+    })
+    .then((res) => {
+      console.log(res);
+      localStorage.setItem('currentCode', code);
+      window.sessionStorage.setItem('validCompile', true);
+      return res;
+    })
+    .catch((e) => {
+      console.log(e);
+      return;
+    });
   }
-  window.sessionStorage.setItem('validCompile', false);
-  return await axios.post("http://localhost:4000/compile", {
-    userId: userId,
-    source: code,
-  })
-  .then((res) => {
-    console.log(res);
-    localStorage.setItem('currentCode', code);
-    window.sessionStorage.setItem('validCompile', true);
-    return res;
-  })
-  .catch((e) => {
-    console.log(e);
-    return;
-  });
+  
 };
 
 export const compileResult = async (code) => {

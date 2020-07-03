@@ -4,9 +4,11 @@ import MyClassContainer from "./MyClassContainer";
 import MyClassTable from "../components/organisms/MyClassTable";
 import { Link } from "react-router-dom";
 import Button from "../components/molecules/buttons/SendMessageButton";
+import Button2 from "../components/molecules/buttons/ClassCreateButton";
 import axios from "axios";
 import styled from "styled-components"
 import Jumbotron from "./../components/atoms/Jumbotron";
+import StudentClassTable from "./../components/organisms/StudentClassTable";
 
 class ClassContainer extends React.Component {
     constructor(props){
@@ -19,7 +21,8 @@ class ClassContainer extends React.Component {
 
         this.state = {
             class : [],
-            currentStudent: [],
+            student: [],
+            currentStudent: null,
             currentData: [],
             currentClass: null,
             header : [
@@ -37,14 +40,15 @@ class ClassContainer extends React.Component {
     }
 
     changeClass(e){
-        axios.get("http://localhost:4000/take/"+e.target.value, { headers: {
+        const idx = e.target.value
+        axios.get("http://localhost:4000/take/"+idx, { headers: {
             token: window.sessionStorage.getItem('loginToken')
         }}).then((res) => {
             if(res.data.data != null){
                 this.setState({
-                    currentStudent: res.data.data,
-                    currentClass : res.data.data[0].class_idx,
-                    currentData : []
+                    student: res.data.data,
+                    currentClass : idx,
+                    currentData : [],
                 });
             }
             
@@ -52,10 +56,15 @@ class ClassContainer extends React.Component {
     }
 
     changeStudent(e){
-        axios.get("http://localhost:4000/take/"+this.state.currentClass+"/"+e.target.value,{ headers: {
+        const idx = e.target.value;
+        axios.get("http://localhost:4000/take/"+this.state.currentClass+"/"+idx,{ headers: {
             token: window.sessionStorage.getItem('loginToken')
         }}).then((res) => {
-            this.setState({currentData: res.data.data});
+            console.log(res);
+            this.setState({
+                currentData: res.data.data,
+                currentStudent: idx,
+            });
         });
     }
 
@@ -76,7 +85,7 @@ class ClassContainer extends React.Component {
                 <br/>
                 <Row>
                     <Col>
-                        <Form.Control as="select" defaultValue="null" onChange={this.changeClass}>
+                        <Form.Control as="select" defaultValue={this.state.currentClass} onChange={this.changeClass}>
                             <option>강의를 선택 하세요.</option>
                             {this.state.class.map((item, idx) => {
                                 return <option key={idx} value={item.class_idx}>{item.name}</option>;
@@ -84,24 +93,29 @@ class ClassContainer extends React.Component {
                         </Form.Control>
                     </Col>
                     <Col>
-                        <Form.Control as="select" defaultValue="null" onChange={this.changeStudent}>
+                        <Form.Control as="select" defaultValue={this.state.currentStudent} onChange={this.changeStudent}>
                             <option>학생을 선택 하세요.</option>
-                            {this.state.currentStudent.map((item, idx) => {
+                            {this.state.student.map((item, idx) => {
                                 return <option key={idx} value={item.student_idx}>{item.name}</option>;
                             })}
                         </Form.Control>
                     </Col>
                 </Row>
                 <br/>
-
                 {this.state.currentData != null &&
                     <Row>
-                        <MyClassTable headers={this.state.header} rows={this.state.currentData} />
+                        <StudentClassTable headers={this.state.header} rows={this.state.currentData} />
                     </Row>
                 }
-                <Link to="/sendMessage">
-                    <Button />
-                </Link>
+                <div style={{ position: "absolute", bottom: "15px", right: "13%" }} >
+                    <Link to="/createClass" >
+                        <Button />
+                    </Link>
+                    <Link to="/sendMessage">
+                        <Button2 />
+                    </Link>
+                </div>
+                
             </Wrapper>
         );
     }

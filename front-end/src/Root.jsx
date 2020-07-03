@@ -17,30 +17,43 @@ import MenualContainer from "./pages/MenualContainer";
 import BoardWriteContainer from "./pages/BoardWriteContainer";
 
 
-const Root = () => {
-  const [userType, setUserType] = useState(window.sessionStorage.getItem('userType'));
+class Root extends React.Component {
+  //const [userType, setUserType] = useState(window.sessionStorage.getItem('userType'));
+  constructor(props){
+    super(props);
+    this.state = {
+      userType : window.sessionStorage.getItem('userType')
+    }
+    this.changeUserType = this.changeUserType.bind(this);
+  }
+  changeUserType (idx){
+    //setUserType(idx);
+    this.setState({userType : idx});
+  }
 
-  return (
-    <Router>
-      <Navbar userType={userType}/>
-      <Switch>
-        <Route exact path="/"       component={MainContainer}         />
-        <Route path="/start"        component={CodeContainer}         />
-        <Route path="/about"        component={IntroContainer}        />
-        <Route path="/signup"       component={SignUpContainer}       />
-        <Route path="/myclass"      component={MyClassContainer}      />
-        <Route path="/ask"          component={AskContainer}          />
-        <Route path="/community"    component={CommunityContainer}    />
-        <Route path="/result"       component={CodeResultContainer}   />
-        <Route path="/message"      component={MessageContainer}      />
-        <Route path="/mypage"       component={MyPageContainer}       />
-        <Route path="/class"        component={ClassContainer}        />
-        <Route path="/sendMessage"  component={SendMessageContainer}  />
-        <Route path="/menual"       component={MenualContainer}       />
-        <Route path="/write"        component={BoardWriteContainer}   />
-      </Switch>
-    </Router>
-  );
+  render(){
+    return (
+      <Router>
+        <Navbar userType={this.state.userType}/>
+        <Switch>
+          <Route exact path="/"       component={MainContainer}/>}         />
+          <Route path="/start"        component={CodeContainer}         />
+          <Route path="/about"        component={IntroContainer}        />
+          <Route path="/signup"       component={SignUpContainer}       />
+          <Route path="/myclass"      component={MyClassContainer}      />
+          <Route path="/ask"          component={AskContainer}          />
+          <Route path="/community"    component={CommunityContainer}    />
+          <Route path="/result"       component={CodeResultContainer}   />
+          <Route path="/message"      component={MessageContainer}      />
+          <Route path="/mypage"       component={MyPageContainer}       />
+          <Route path="/class"        component={ClassContainer}        />
+          <Route path="/sendMessage"  component={SendMessageContainer}  />
+          <Route path="/menual"       component={MenualContainer}       />
+          <Route path="/write"        component={BoardWriteContainer}   />
+        </Switch>
+      </Router>
+    );
+  }
 };
 
 export default Root;

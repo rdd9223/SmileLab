@@ -25,7 +25,7 @@ class Analyzer(ast.NodeVisitor):
                         "If": 0, "ElseIf": 0, "Elif": 0, "tuple": 0, "UniqIf": 0, "SelfOp" : 0, "FuncNoArgs" : 0,
                         "list": 0, "num": 0, "AugAssign": 0, "Assign": 0, "BinOp": 0, "Expr": 0, "Name": [], "Str": 0, 
                         "Constant": 0, "FunctionUse": [], "FunctionDef": [], "UnusedFunc": 0, "ParamOverThree" : 0,
-                        "CountPrint": [], "PrintRepeat" : 0, "UsedInnerFunc" : []}
+                        "CountPrint": [], "PrintRepeat" : 0, "UsedInnerFunc" : [], "UsedName": []}
 
     
     def visit_Assign(self, node):
@@ -99,13 +99,16 @@ class Analyzer(ast.NodeVisitor):
         self.generic_visit(node)
 
     def visit_Name(self, node):
-        #print(node.ctx)
         "변수에 값을 할당하기 위한 정의. ex) a=5값 5를 보유하는 변수 a를 말함"
         if isinstance(node.ctx, ast.Store):
             if node.id in self.stats["Name"]:
                 pass
             else:
                 self.stats["Name"].append(node.id)
+        if isinstance(node.ctx, ast.Load):
+            if node.id in self.stats["Name"]:
+                if node.id not in self.stats["UsedName"]:
+                    self.stats["UsedName"].append(node.id)
  
     def visit_AugAssign(self, node):
         "단항연산자 카운터"

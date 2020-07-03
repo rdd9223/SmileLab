@@ -46,6 +46,8 @@ class CodeResultContainer extends React.Component {
             "개, 리스트 형은 "+this.state.data.list+
             "개, 튜플형은 "+this.state.data.tuple+"개가 입력되었습니다."+
             " 또한, input 함수를 활용한 변수는 "+this.state.data.input+"개 입니다. \n"
+          str += "위 변수 중 활용된 변수는 "+this.state.data.UsedName.length+
+            "개, 활용되지 않은 변수는 "+(this.state.data.Name.length-this.state.data.UsedName.length)+"개 입니다.\n"
         }
         if(this.state.data.BinOp + this.state.data.AugAssign +this.state.data.Compare +this.state.data.Logical > 0){
           str += "연산자 활용 횟수는 총 "+(this.state.data.BinOp + this.state.data.AugAssign +this.state.data.Compare +this.state.data.Logical)+"번 입니다.\n"+

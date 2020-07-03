@@ -4,6 +4,7 @@ import MyClassContainer from "./MyClassContainer";
 import MyClassTable from "../components/organisms/MyClassTable";
 import { Link } from "react-router-dom";
 import Button from "../components/molecules/buttons/SendMessageButton";
+import Button2 from "../components/molecules/buttons/ClassCreateButton";
 import axios from "axios";
 import styled from "styled-components"
 import Jumbotron from "./../components/atoms/Jumbotron";
@@ -101,15 +102,20 @@ class ClassContainer extends React.Component {
                     </Col>
                 </Row>
                 <br/>
-
                 {this.state.currentData != null &&
                     <Row>
                         <StudentClassTable headers={this.state.header} rows={this.state.currentData} />
                     </Row>
                 }
-                <Link to="/sendMessage">
-                    <Button />
-                </Link>
+                <div style={{ position: "absolute", bottom: "15px", right: "13%" }} >
+                    <Link to="/createClass" >
+                        <Button />
+                    </Link>
+                    <Link to="/sendMessage">
+                        <Button2 />
+                    </Link>
+                </div>
+                
             </Wrapper>
         );
     }

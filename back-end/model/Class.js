@@ -69,7 +69,7 @@ const classInfo = {
             statusCode.BAD_REQUEST,
             responseMessage.X_DELETE_FAIL("강의")
           ),
-        });
+        }); 
       } else {
         return resolve({
           json: authUtil.successTrue(statusCode.OK, responseMessage.X_DELETE_SUCCESS("강의")),

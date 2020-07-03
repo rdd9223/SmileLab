@@ -25,7 +25,7 @@ class Analyzer(ast.NodeVisitor):
                         "If": 0, "ElseIf": 0, "Elif": 0, "tuple": 0, "UniqIf": 0, "SelfOp" : 0, "FuncNoArgs" : 0,
                         "list": 0, "num": 0, "AugAssign": 0, "Assign": 0, "BinOp": 0, "Expr": 0, "Name": [], "Str": 0, 
                         "Constant": 0, "FunctionUse": [], "FunctionDef": [], "UnusedFunc": 0, "ParamOverThree" : 0,
-                        "CountPrint": [], "PrintRepeat" : 0, "UsedInnerFunc" : [], "UsedName": []}
+                        "CountPrint": [], "PrintRepeat" : 0, "UsedInnerFunc" : [], "UsedName": [], "NameUsedAssign": [], "NameUsedOp": []}
 
     
     def visit_Assign(self, node):
@@ -36,6 +36,18 @@ class Analyzer(ast.NodeVisitor):
                 self.stats["Str"] += 1
             if isinstance(node.value.value, int):
                 self.stats["num"] += 1
+        if isinstance(node.value, ast.Name):
+            if node.value.id in self.stats["Name"] :
+                if node.value.id not in self.stats["NameUsedAssign"]:
+                    self.stats["NameUsedAssign"].append(node.value.id)
+        if isinstance(node.value, ast.BinOp):
+            if hasattr(node.value, "left") and isinstance(node.value.left, ast.Name):
+                if node.value.left.id not in self.stats["NameUsedAssign"]:
+                    self.stats["NameUsedAssign"].append(node.value.left.id)
+            if hasattr(node.value,"right") and isinstance(node.value.right, ast.Name):
+                if node.value.right.id not in self.stats["NameUsedAssign"]:
+                    self.stats["NameUsedAssign"].append(node.value.right.id)
+
 
         #자기자신에 대한 사칙연산
         if len(node.targets) == 1 and isinstance(node.targets[0], ast.Name) :
@@ -64,6 +76,12 @@ class Analyzer(ast.NodeVisitor):
     def visit_BinOp(self, node):
         "연산자 카운터 ex) a=3*6"
         self.stats["BinOp"] += 1
+        if hasattr(node, "left") and isinstance(node.left, ast.Name):
+            if node.left.id not in self.stats["NameUsedOp"]:
+                self.stats["NameUsedOp"].append(node.left.id)
+        if hasattr(node,"right") and isinstance(node.right, ast.Name):
+            if node.right.id not in self.stats["NameUsedOp"]:
+                self.stats["NameUsedOp"].append(node.right.id)
         self.generic_visit(node)
 
     def visit_Attribute(self, node):
@@ -113,6 +131,9 @@ class Analyzer(ast.NodeVisitor):
     def visit_AugAssign(self, node):
         "단항연산자 카운터"
         self.stats["AugAssign"] += 1
+        if hasattr(node, "value") and isinstance(node.value, ast.Name):
+            if node.value.id not in self.stats["NameUsedOp"]:
+                self.stats["NameUsedOp"].append(node.value.id)
         self.generic_visit(node)
 
     def visit_If(self, node):
@@ -161,6 +182,12 @@ class Analyzer(ast.NodeVisitor):
     def visit_Compare(self, node):
         "비교연산자 카운터"
         self.stats["Compare"] += 1
+        if hasattr(node, "left") and isinstance(node.left, ast.Name):
+            if node.left.id not in self.stats["NameUsedOp"]:
+                self.stats["NameUsedOp"].append(node.left.id)
+        if hasattr(node,"right") and isinstance(node.right, ast.Name):
+            if node.right.id not in self.stats["NameUsedOp"]:
+                self.stats["NameUsedOp"].append(node.right.id)
         self.generic_visit(node)
 
     def visit_Return(self, node):

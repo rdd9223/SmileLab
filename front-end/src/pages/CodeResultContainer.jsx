@@ -46,8 +46,12 @@ class CodeResultContainer extends React.Component {
             "개, 리스트 형은 "+this.state.data.list+
             "개, 튜플형은 "+this.state.data.tuple+"개가 입력되었습니다."+
             " 또한, input 함수를 활용한 변수는 "+this.state.data.input+"개 입니다. \n"
+
           str += "위 변수 중 활용된 변수는 "+this.state.data.UsedName.length+
             "개, 활용되지 않은 변수는 "+(this.state.data.Name.length-this.state.data.UsedName.length)+"개 입니다.\n"
+
+          str += "활용된 변수 중 다른 변수에 활용된 변수는 "+this.state.data.NameUsedAssign.length+
+            "개, 연산에 활용된 변수는 "+this.state.data.NameUsedOp.length+"개 입니다.\n"
         }
         if(this.state.data.BinOp + this.state.data.AugAssign +this.state.data.Compare +this.state.data.Logical > 0){
           str += "연산자 활용 횟수는 총 "+(this.state.data.BinOp + this.state.data.AugAssign +this.state.data.Compare +this.state.data.Logical)+"번 입니다.\n"+
@@ -79,9 +83,9 @@ class CodeResultContainer extends React.Component {
         }
         
         if(( this.state.data.If + this.state.data.ElseIf + this.state.data.Elif ) > 0) {
-          str += "조건문 중 if문을 총 "+this.state.data.If+"회 사용하였습니다." +
-            "조건문 중 if else 문을 총 "+this.state.data.ElseIf+"회 사용하였습니다." +
-            "조건문 중 if elif else 문을 총 "+this.state.data.Elif+"회 사용하였습니다.\n"
+          str += "조건문 중 if문을 총 "+this.state.data.If+"회,  " +
+            "if else 문을 총 "+this.state.data.ElseIf+"회,   "+
+            "if elif else 문을 총 "+this.state.data.Elif+"회 사용하였습니다.\n"
           if(this.state.data.UniqIf > 0) {
             str += "다중 조건 판단을 가능하게 하는 if- elif-else 문을 쓰면 코드를 간결하게 나타낼 수 있습니다.\n"
           }

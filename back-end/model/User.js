@@ -18,11 +18,11 @@ const user = {
       const getUserInfoResult = await pool.queryParam_None(getUserInfoQuery);
 
       //ID가 존재하지 않을 때 getUserInfoResult[0]이 NULL이 됨.
-      if (getUserInfoResult[0] == null){
+      if (getUserInfoResult[0] == null) {
         return resolve({
-          json: authUtil.successFalse(statusCode.BAD_REQUEST, responseMessage.MISS_MATCH_USER_INFO)
-        })
-      } 
+          json: authUtil.successFalse(statusCode.BAD_REQUEST, responseMessage.MISS_MATCH_USER_INFO),
+        });
+      }
 
       const { hashed } = await encription.encryptWithSalt(pw, getUserInfoResult[0].salt);
 
@@ -62,7 +62,8 @@ const user = {
   },
   signUp: ({ id, pw, name, phone_number, type, class_idx }) => {
     return new Promise(async (resolve, reject) => {
-      if (!id || !pw || !name || !phone_number || !type || !class_idx) {
+      if (!id || !pw || !name || !phone_number || !type) {
+        //class_idx 나중에 추가할 것
         return resolve({
           json: authUtil.successFalse(statusCode.BAD_REQUEST, responseMessage.NULL_VALUE),
         });

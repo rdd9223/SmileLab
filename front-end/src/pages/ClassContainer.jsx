@@ -13,12 +13,7 @@ import StudentClassTable from "./../components/organisms/StudentClassTable";
 class ClassContainer extends React.Component {
     constructor(props){
         super(props);
-        axios.get("http://localhost:4000/take",{ headers: {
-            token: window.sessionStorage.getItem('loginToken')
-        }}).then((res) => {
-            this.setState({class : res.data.data});
-        });
-
+        
         this.state = {
             class : [],
             student: [],
@@ -37,11 +32,22 @@ class ClassContainer extends React.Component {
         }
         this.changeClass = this.changeClass.bind(this);
         this.changeStudent = this.changeStudent.bind(this);
+        this.loadClass = this.loadClass.bind(this);
+
+        this.loadClass();
     }
 
-    changeClass(e){
+    async loadClass(){
+        await axios.get("http://localhost:4000/take",{ headers: {
+            token: window.sessionStorage.getItem('loginToken')
+        }}).then((res) => {
+            this.setState({class : res.data.data});
+        });
+    }
+
+    async changeClass(e){
         const idx = e.target.value
-        axios.get("http://localhost:4000/take/"+idx, { headers: {
+        await axios.get("http://localhost:4000/take/"+idx, { headers: {
             token: window.sessionStorage.getItem('loginToken')
         }}).then((res) => {
             if(res.data.data != null){
@@ -55,9 +61,9 @@ class ClassContainer extends React.Component {
         });
     }
 
-    changeStudent(e){
+    async changeStudent(e){
         const idx = e.target.value;
-        axios.get("http://localhost:4000/take/"+this.state.currentClass+"/"+idx,{ headers: {
+        await axios.get("http://localhost:4000/take/"+this.state.currentClass+"/"+idx,{ headers: {
             token: window.sessionStorage.getItem('loginToken')
         }}).then((res) => {
             console.log(res);
@@ -108,11 +114,11 @@ class ClassContainer extends React.Component {
                     </Row>
                 }
                 <div style={{ position: "absolute", bottom: "15px", right: "13%" }} >
-                    <Link to="/createClass" >
-                        <Button />
+                    <Link to="/sendMessage" >
+                        <Button size={"sm"} />
                     </Link>
-                    <Link to="/sendMessage">
-                        <Button2 />
+                    <Link to="/createClass">
+                        <Button2 size={"sm"} />
                     </Link>
                 </div>
                 

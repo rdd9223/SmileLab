@@ -107,25 +107,29 @@ class SignUpContainer extends React.Component {
     }else if(!this.state.isValidPassword){
       alert("비밀번호가 일치하지 않습니다.")
     }else{
-      axios.post("http://localhost:4000/auth/signup", {
-        id: this.state.id,
-        pw: this.state.password1,
-        phone_number: this.state.phone_number,
-        name: this.state.name,
-        type: this.state.type,
-        class_idx: this.state.class_idx
-      })
-      .then((res) => {
-        if(res.data.status === 201){
-          this.setState({isSuccess: true});
-        }
-        console.log(res);
-        return res;
-      })
-      .catch((e) => {
-        console.log(e);
-        return;
-      });
+      if(this.state.type == 2 && this.state.class_idx == null){
+        alert("학습자는 반드시 클래스를 선택하세요!");
+      }else{
+        axios.post("http://localhost:4000/auth/signup", {
+          id: this.state.id,
+          pw: this.state.password1,
+          phone_number: this.state.phone_number,
+          name: this.state.name,
+          type: this.state.type,
+          class_idx: this.state.class_idx
+        })
+        .then((res) => {
+          if(res.data.status === 201){
+            this.setState({isSuccess: true});
+          }
+          console.log(res);
+          return res;
+        })
+        .catch((e) => {
+          console.log(e);
+          return;
+        });
+      }
     }
     event.preventDefault();
   }

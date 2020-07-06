@@ -40,7 +40,6 @@ class MessageContainer extends React.Component {
             }else{
                 this.setState({data: this.state.data.concat(res.data.data)});
             }
-            
         }).
         catch((res) => {
             //Catch Err
@@ -58,13 +57,13 @@ class MessageContainer extends React.Component {
 
     async getPrevMessage(){
         await this.setState({currentPage: this.state.currentPage - 1});
-        console.log("prev = "+this.state.currentPage);
+        //console.log("prev = "+this.state.currentPage);
         this.loadMessage(this.state.currentPage);
     }
 
     async getNextMessage(){
         await this.setState({currentPage: this.state.currentPage + 1});
-        console.log("next = "+this.state.currentPage);
+        //console.log("next = "+this.state.currentPage);
         this.loadMessage(this.state.currentPage);
     }
 

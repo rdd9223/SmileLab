@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import MyClassTable from "../components/organisms/MyClassTable";
 import styled from "styled-components";
 import { Form } from "react-bootstrap";
 import Button from "../components/atoms/Button";
-import axios from "axios";
+import { getResult, deleteResult } from "./../service/result.js"
 
 const Wrapper = styled.div`
   width: 50em;
@@ -38,13 +38,9 @@ class MyClassContainer extends React.Component {
     }
   }
 
-  loadResult(){
-    axios.get("http://localhost:4000/result", { headers : {
-      token : window.sessionStorage.getItem('loginToken'),
-    }})
-    .then((res)=>{
-      this.setState({data : res.data.data});
-    });
+  async loadResult(){
+    const res = await getResult();
+    this.setState({data : res.data.data});
   }
 
   async onClick(e){
@@ -63,29 +59,17 @@ class MyClassContainer extends React.Component {
     }
   }
 
-  deleteResult(){
-
+  async deleteResult(){
     var ids = ''
     for(var i = 0; i < this.state.checked.length; i += 1){
       ids += this.state.checked[i]
       if(i < this.state.checked.length -1 ) ids += ","
     }
-    console.log(ids);
-
-    axios.delete("http://localhost:4000/result",{
-      headers:{
-        token: window.sessionStorage.getItem('loginToken'),
-      }, data: {
-        data : ids
-      },
-    }).then((res) => {
-      console.log(res);
-      if(res.data.status === 200){
-        alert(res.data.message);
-        window.location.reload(true);
-
-      }
-    })
+    const res = await deleteResult(ids);
+    if(res.data.status === 200){
+      alert(res.data.message);
+      window.location.reload(true);
+    }
   }
 
   render(){

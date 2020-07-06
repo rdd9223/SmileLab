@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import CodeContainer from "./pages/CodeContainer";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Navbar from "./components/templates/MainNavbar";
@@ -15,6 +15,7 @@ import ClassContainer from "./pages/ClassContainer";
 import SendMessageContainer from "./pages/SendMessageContainer";
 import MenualContainer from "./pages/MenualContainer";
 import BoardWriteContainer from "./pages/BoardWriteContainer";
+import CreateClassContainer from "./pages/CreateClassContainer";
 
 
 class Root extends React.Component {
@@ -50,6 +51,7 @@ class Root extends React.Component {
           <Route path="/sendMessage"  component={SendMessageContainer}  />
           <Route path="/menual"       component={MenualContainer}       />
           <Route path="/write"        component={BoardWriteContainer}   />
+          <Route path="/createClass"  component={CreateClassContainer}  />
         </Switch>
       </Router>
     );

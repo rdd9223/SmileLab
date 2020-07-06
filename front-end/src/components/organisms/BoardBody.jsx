@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React from "react";
 import BoardRow from "../molecules/table/BoardRow";
 
 const BoardBody = ({ rows, setModalShow, onClick }) => {

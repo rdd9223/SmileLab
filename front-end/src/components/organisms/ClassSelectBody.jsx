@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React from "react";
 import ClassSelectRow from "../molecules/table/ClassSelectRow";
 
 const ClassSelect = ({ rows, setModalShow, onClick }) => {

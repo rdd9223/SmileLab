@@ -1,10 +1,11 @@
-import React, {useState} from "react";
+import React from "react";
 import MainIntro from "../components/molecules/jumbotron/MainIntro";
 import { Row, Col } from "react-bootstrap";
 import LoginForm from "../components/organisms/LoginForm";
 import styled from "styled-components";
-import axios from "axios";
 import LoginInfoBox from "../components/organisms/LoginInfoBox";
+import { getUser } from "./../service/user.js"
+
 
 
 
@@ -23,17 +24,15 @@ class MainContainer extends React.Component {
   async load(){
     var token = window.sessionStorage.getItem('loginToken')
     if(token!=null){
-      await axios.get("http://localhost:4000/auth/user" , { headers: { token: token } })
-      .then((res) => {
-        if(res.data.status === 200){
-          this.setState({
-            isLogin : true,
-            userType: res.data.data.type,
-          });
-          window.sessionStorage.setItem('userId',res.data.data.id);
-          window.sessionStorage.setItem('userType', res.data.data.type);
-        }
-      });
+      const res = await getUser();
+      if(res.data.status === 200){
+        this.setState({
+          isLogin : true,
+          userType: res.data.data.type,
+        });
+        window.sessionStorage.setItem('userId',res.data.data.id);
+        window.sessionStorage.setItem('userType', res.data.data.type);
+      }
     }
   }
 

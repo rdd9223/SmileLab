@@ -7,7 +7,7 @@ import FormLabelSet from "../molecules/form/FormLabelSet";
 import FormLabel from "../atoms/FormLabel";
 import FormControl from "../atoms/FormControl";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import { signIn } from "./../../service/user.js";
 
 const Wrapper = styled.div`
   margin-top: 10rem;
@@ -28,7 +28,7 @@ const StyledLink = styled(Link)`
 class LoginForm extends React.Component {
   constructor(props) {
     super(props);
-    
+
     this.state = {
       id: null,
       pw: null,
@@ -37,28 +37,15 @@ class LoginForm extends React.Component {
   }
   async handleSubmit(event) {
     event.preventDefault();
-    await axios.post("http://localhost:4000/auth/signin", {
-      id: this.state.id,
-      pw: this.state.pw
-    })
-    .then((res) => {
-      //로그인 성공 시 반환되는 토큰을 session에 저장
-      if(res.data.status === 200){
-        window.sessionStorage.clear();
-        window.sessionStorage.setItem('loginToken', res.data.data.token);
-        window.location.reload(true);
-      }else if(res.data.status === 400){
-        alert(res.data.message);
-      }
-      return res;
-    })
-    .catch((e) => {
-      console.log(e);
-      return;
-    });
-
-    //임시로 submit 되는 현상을 막음
-    
+    const res = await signIn(this.state.id, this.state.pw);
+    //로그인 성공 시 반환되는 토큰을 session에 저장
+    if (res.data.status === 200) {
+      window.sessionStorage.clear();
+      window.sessionStorage.setItem("loginToken", res.data.data.token);
+      window.location.reload(true);
+    } else if (res.data.status === 400) {
+      alert(res.data.message);
+    }
   }
 
   render() {
@@ -67,8 +54,16 @@ class LoginForm extends React.Component {
         <Form onSubmit={this.handleSubmit}>
           <Form.Group>
             <FormText name={"아이디와 비밀번호를 입력해주세요"} />
-            <FormLabelSet onChange={(event) => this.setState({id: event.target.value })} type={"id"} placeholder={"ID"} />
-            <FormLabelSet onChange={(event) => this.setState({pw: event.target.value })} type={"password"} placeholder={"Password"} />
+            <FormLabelSet
+              onChange={(event) => this.setState({ id: event.target.value })}
+              type={"id"}
+              placeholder={"ID"}
+            />
+            <FormLabelSet
+              onChange={(event) => this.setState({ pw: event.target.value })}
+              type={"password"}
+              placeholder={"Password"}
+            />
           </Form.Group>
           <Row>
             <Column>
@@ -83,8 +78,7 @@ class LoginForm extends React.Component {
         </Form>
       </Wrapper>
     );
-  
   }
-};
+}
 
 export default LoginForm;

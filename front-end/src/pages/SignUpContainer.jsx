@@ -9,7 +9,7 @@ import FormCheck from "../components/atoms/FormCheck";
 import Button from "../components/atoms/Button";
 import Modal from "../components/organisms/ClassModal"
 import SignUpSuccess from "../components/organisms/SignUpSuccess";
-import axios from "axios";
+import { checkDouble, postUser } from "./../service/user.js";
 
 const Wrapper = styled.div`
   width: 40em;
@@ -45,23 +45,13 @@ class SignUpContainer extends React.Component {
 
   //alert 가 안뜨는 현상 발생
   async isDouble() {
-    await axios.post('http://localhost:4000/auth/signup/idcheck', {
-      id: this.state.id
-    })
-    .then((res) => {
-      if (res.data.status === 200){
-        alert(res.data.message);
-        this.setState({isDouble : false});
-      }else{
-        alert(res.data.message);
-        this.setState({isDouble : true});
-      }
-      return res;
-    })
-    .catch((e) => {
-      console.log(e);
-      return;
-    });
+    const res = await checkDouble(this.state.id);
+    if (res.data.status === 200){
+      this.setState({isDouble : false});
+    }else{
+      this.setState({isDouble : true});
+    }
+    alert(res.data.message);
   }
 
   updateClass(data){
@@ -101,7 +91,8 @@ class SignUpContainer extends React.Component {
   }
 
   //회원가입 버튼 처리
-  handleSubmit(event) {
+  async handleSubmit(event) {
+    event.preventDefault();
     if(this.state.isDouble){
       alert("아이디 중복 검사를 해 주세요!");
     }else if(!this.state.isValidPassword){
@@ -110,28 +101,21 @@ class SignUpContainer extends React.Component {
       if(this.state.type == 2 && this.state.class_idx == null){
         alert("학습자는 반드시 클래스를 선택하세요!");
       }else{
-        axios.post("http://localhost:4000/auth/signup", {
-          id: this.state.id,
-          pw: this.state.password1,
-          phone_number: this.state.phone_number,
-          name: this.state.name,
-          type: this.state.type,
-          class_idx: this.state.class_idx
-        })
-        .then((res) => {
-          if(res.data.status === 201){
-            this.setState({isSuccess: true});
-          }
-          console.log(res);
-          return res;
-        })
-        .catch((e) => {
-          console.log(e);
-          return;
-        });
+        const res = await postUser(
+          this.state.id,
+          this.state.password1,
+          this.state.phone_number,
+          this.state.name,
+          this.state.type,
+          this.state.class_idx
+        )
+        console.log(res);
+        if(res.data.status === 201){
+          this.setState({isSuccess: true});
+          alert(res.data.message);
+        }
       }
     }
-    event.preventDefault();
   }
   render(){
     if(this.state.isSuccess){
@@ -140,7 +124,6 @@ class SignUpContainer extends React.Component {
           <SignUpSuccess />
         </Wrapper>
       );
-      
     }else{
       return (
         <Wrapper>

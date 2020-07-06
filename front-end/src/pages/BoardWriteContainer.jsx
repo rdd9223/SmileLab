@@ -1,10 +1,10 @@
 import React from "react";
 import { Form, Container } from "react-bootstrap";
-import axios from "axios"
 import Jumbotron from "./../components/atoms/Jumbotron";
 import Button from "./../components/atoms/Button";
 import styled from "styled-components";
 import FormLabelSet from "./../components/molecules/form/FormLabelSet"
+import { postBoard } from "./../service/board.js";
 
 class BoardWriteContainer extends React.Component {
   constructor(props){
@@ -27,30 +27,16 @@ class BoardWriteContainer extends React.Component {
     this.state.contents = event.target.value;
   }
 
-  handleSubmit(event) {
+  async handleSubmit(event) {
     event.preventDefault();
-    axios.post("http://localhost:4000/board", {
-      title: this.state.title,
-      contents: this.state.contents,
-    },{
-      headers: {
-        token : window.sessionStorage.getItem('loginToken'),
-      }
-    })
-    .then((res) => {
-      if(res.data.status === 201){
-        alert(res.data.message);
-        window.location.href = "/community";
-      }
-      console.log(res);
-      return res;
-    })
-    .catch((e) => {
-      console.log(e);
-      return;
-    });
-    
-    //임시로 submit 되는 현상을 막음
+    const res = await postBoard(
+      this.state.title,
+      this.state.contents
+    );
+    if(res.data.status === 201){
+      alert(res.data.message);
+      window.location.href = "/community";
+    }
     
   }
 

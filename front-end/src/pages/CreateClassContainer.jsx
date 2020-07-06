@@ -4,7 +4,7 @@ import { Form, Container, Row, Col } from "react-bootstrap";
 import styled from "styled-components";
 import FormLabelSet from "./../components/molecules/form/FormLabelSet";
 import Button from "./../components/atoms/Button";
-import axios from "axios"
+import { postClass } from "./../service/class.js";
 
 const Wrapper = styled.div`
   width: 60rem;
@@ -21,20 +21,8 @@ class CreateClassContainer extends React.Component{
     this.createClass = this.createClass.bind(this);
   }
 
-  createClass(){
-    axios.post("http://localhost:4000/class",{
-      className: this.state.className,
-    },{
-      headers: {
-        token: window.sessionStorage.getItem('loginToken'),
-      }
-    }).then((res) => {
-      console.log(res);
-      if(res.data.status === 201){
-        alert(res.data.message);
-        window.location.href = "/class"
-      }
-    }).catch();
+  async createClass(){
+    await postClass(this.state.className);
   }
 
   render(){

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import { Navbar } from "react-bootstrap";
 import LogoLink from "../atoms/LogoLink";
 import DefaulteNav from "../molecules/navigation/DefaultNav";

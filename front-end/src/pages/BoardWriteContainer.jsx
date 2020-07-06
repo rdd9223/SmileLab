@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Container } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import Jumbotron from "./../components/atoms/Jumbotron";
 import Button from "./../components/atoms/Button";
 import styled from "styled-components";
@@ -18,9 +18,7 @@ class BoardWriteContainer extends React.Component {
   }
 
   changeTitle(event){
-    //console.log(event.target.value);
     this.state.title = event.target.value;
-    //console.log(this.state.title);
   }
 
   changeContents(event){

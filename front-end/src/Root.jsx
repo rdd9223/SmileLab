@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import CodeContainer from "./pages/CodeContainer";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Navbar from "./components/templates/MainNavbar";

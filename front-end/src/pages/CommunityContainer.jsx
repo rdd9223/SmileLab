@@ -1,20 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import CommunityTable from "../components/templates/CommunityTable";
 import Jumbotron from "components/atoms/Jumbotron";
 import Modal1 from "components/atoms/Modal";
 import Button from "components/atoms/Button";
-import { Container, Row, Col } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { getBoardList } from "./../service/board.js";
 
-const Wrapper = styled.div`
-  width: 50em;
-  margin: 50px auto;
-  div {
-    height: 200px;
-  }
-`;
 
 class CommunityContainer extends React.Component {
   constructor(props) {
@@ -89,6 +82,13 @@ class CommunityContainer extends React.Component {
   }
 
   render() {
+    const Wrapper = styled.div`
+      width: 50em;
+      margin: 50px auto;
+      div {
+        height: 200px;
+      }
+    `;
     return (
       <Wrapper>
         <div>

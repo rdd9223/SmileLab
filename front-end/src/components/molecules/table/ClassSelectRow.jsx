@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React from "react";
 
 const BoardRow = ({ idx, body, setModalShow, onClick }) => {
   return (

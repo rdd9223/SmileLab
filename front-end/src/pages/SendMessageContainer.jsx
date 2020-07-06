@@ -1,10 +1,8 @@
 import React from "react";
-import { Container , Form, Row, Col } from "react-bootstrap";
+import { Form, Row, Col } from "react-bootstrap";
 import Jumbotron from "../components/atoms/Jumbotron";
 import styled from "styled-components";
 import Button from "../components/atoms/Button";
-import FormControl from "../components/atoms/FormControl";
-import FormLabelSet from "../components/molecules/form/FormLabelSet"
 import { postMessage } from "./../service/message.js";
 import { getProfClassAll, getProfClass } from "./../service/class.js"
 

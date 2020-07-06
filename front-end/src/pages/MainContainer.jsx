@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import MainIntro from "../components/molecules/jumbotron/MainIntro";
 import { Row, Col } from "react-bootstrap";
 import LoginForm from "../components/organisms/LoginForm";

@@ -10,11 +10,8 @@ const logout = () => {
 };
 
 class LoginInfoBox extends React.Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
-    if (this.props.userType == 2) {
+    if (this.props.userType === 2) {
       return (
         <Container
           style={{

@@ -11,7 +11,7 @@ router.get("/list/:page", jwt.checkLogin, async (req, res) => {
   const { user_idx, type } = req.decoded;
   const { page } = req.params;
 
-  BOARD.getBoardList({ user_idx, page })
+  BOARD.getBoardList({ user_idx, type, page })
     .then(({ json }) => {
       res.status(200).send(json);
     })

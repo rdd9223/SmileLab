@@ -1,4 +1,5 @@
 const statusCode = require("../module/utils/statusCode");
+const userType = require("../module/utils/userStatus");
 const responseMessage = require("../module/utils/responseMessage");
 const authUtil = require("../module/utils/authUtil");
 const pool = require("../module/db/pool");
@@ -6,9 +7,18 @@ const moment = require("moment");
 require("moment-timezone");
 
 const board = {
-  getBoardList: ({ user_idx, page }) => {
+  getBoardList: ({ user_idx, type, page }) => {
     return new Promise(async (resolve, reject) => {
-      const getUserTakeClassQuery = `SELECT class_idx FROM take WHERE student_idx = ${user_idx}`;
+      
+      var getUserTakeClassQuery = ''
+      //교수 일 경우 추가
+      if( type == userType.Professor) {
+        getUserTakeClassQuery = `SELECT class_idx FROM class WHERE professor_idx = ${user_idx}`;
+      }else{
+        getUserTakeClassQuery = `SELECT class_idx FROM take WHERE student_idx = ${user_idx}`;
+      }
+      console.log(await pool.queryParam_Parse(getUserTakeClassQuery));
+      
       const getBoardListQuery = `SELECT board_idx, title, date, writer_idx, class_idx, contents, user.name as writer FROM board LEFT JOIN user ON board.writer_idx = user_idx WHERE class_idx = (${getUserTakeClassQuery}) ORDER BY board_idx DESC LIMIT ${
         (page - 1) * 10
       }, 10`;

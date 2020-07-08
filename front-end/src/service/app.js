@@ -39,14 +39,7 @@ export const getCompileResult = async () => {
     });
 };
 
-export const postResult = async (
-  variable,
-  operator,
-  data,
-  conditional,
-  repeat,
-  func
-) => {
+export const postResult = async (variable, operator, data, conditional, repeat, func) => {
   return await axios
     .post(
       url + "/result/save",

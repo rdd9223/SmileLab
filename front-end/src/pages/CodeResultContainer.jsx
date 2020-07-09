@@ -104,6 +104,10 @@ class CodeResultContainer extends React.Component {
         str += "정의된 함수와 내장함수에서 활용된 함수는 "+(this.state.data.Function+this.state.data.UsedInnerFunc.length)+
           "개, 활용되지 않은 함수는 "+this.state.data.UnusedFunc+"개 입니다."
       }
+
+      if(str === ""){
+        str += "해당 되는 영역이 없습니다."
+      }
       
       this.setState({result : str});
     }

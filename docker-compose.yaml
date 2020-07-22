@@ -1,0 +1,56 @@
+version: "3"
+services:
+  client:
+    build:
+      dockerfile: Dockerfile
+      context: ./client
+    volumes:
+      - ./client/:/app
+      - /app/node_modules
+    networks:
+      - backend
+  server:
+    build:
+      dockerfile: Dockerfile
+      context: ./server
+    volumes:
+      - ./server/:/app
+      - /app/node_modules
+    environment:
+      - NODE_PATH=src
+      - PORT=4000
+      # - DB_HOST=mysql
+      # - DB=test
+    networks:
+      - backend
+    # depends_on:
+    #   - mysql
+    ports:
+      - "5000:4000"
+  # mysql:
+  #   container_name: mysql
+  #   image: mysql
+  #   volumes:
+  #     - data:/data/db
+  #   ports:
+  #     - "3306:3306"
+  #   networks:
+  #     - backend
+
+  nginx:
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: ./nginx
+    ports:
+      - "3000:80"
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
+
+volumes:
+  data:
+    driver: local

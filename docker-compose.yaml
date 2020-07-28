@@ -27,6 +27,23 @@ services:
     #   - mysql
     ports:
       - "4000:4000"
+  nginx:
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: ./nginx
+    ports:
+      - "80:80"
+    networks:
+      - backend
+  python:
+    build:
+      dockerfile: Dockerfile
+      context: ./python
+    volumes:
+      - ./python/:/app
+    networks:
+      - backend
   # mysql:
   #   container_name: mysql
   #   image: mysql
@@ -36,16 +53,9 @@ services:
   #     - "3306:3306"
   #   networks:
   #     - backend
-
-  nginx:
-    restart: always
-    build:
-      dockerfile: Dockerfile
-      context: ./nginx
-    ports:
-      - "3000:80"
-    networks:
-      - backend
+  #   restart: always
+  #   enviroment:
+  #
 
 networks:
   backend:

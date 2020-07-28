@@ -5,7 +5,7 @@ import sys
 
 
 def main():
-    with open("./src/Main.py", encoding='UTF8') as source:
+    with open(sys.argv[1], encoding='UTF8') as source:
         tree = ast.parse(source.read())
 
     #pprint(ast.dump(tree) + "\n")

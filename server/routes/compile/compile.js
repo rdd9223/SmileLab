@@ -18,17 +18,13 @@ router.post("/", async (req, res) => {
   fs.writeFileSync(path.join(sourcePath, "Main.py"), req.body.source);
   sourcePath = sourcePath.replace(/\\/gi, "/");
 
-  const runner = await exec(
-    // `docker run --rm -v ${sourcePath}:/usr/src -w /usr/src python:3 python Main.py`
-    `python3 ${sourcePath}/Main.py`,
-    (err, out, stderr) => {
-      if (out) {
-        res.status(200).send(authUtil.successTrue(statusCode.OK, "컴파일 성공", out));
-      } else {
-        res.status(200).send(authUtil.successTrue(statusCode.BAD_REQUEST, "컴파일 실패", stderr));
-      }
+  const runner = await exec(`python3 ${sourcePath}/Main.py`, (err, out, stderr) => {
+    if (out) {
+      res.status(200).send(authUtil.successTrue(statusCode.OK, "컴파일 성공", out));
+    } else {
+      res.status(200).send(authUtil.successTrue(statusCode.BAD_REQUEST, "컴파일 실패", stderr));
     }
-  );
+  });
 });
 
 // 컴파일 결과 확인하기
@@ -39,9 +35,9 @@ router.post("/result", async (req, res) => {
   testPath = testPath.replace(/\\/gi, "/");
 
   const docker = await exec(
-    `docker run --rm -v ${sourcePath}:/usr/src/src  \ -v ${testPath}:/usr/src/test -w /usr/src python:3 python test/astRunner.py ../src/Main.py`,
-    // `python3 ${testPath}/astRunner.py ${sourcePath}/Main.py`,
+    `python3 ${testPath}/astRunner.py ${sourcePath}/Main.py`,
     (err, out, stderr) => {
+      console.log(out);
       if (out) {
         res.status(200).send(authUtil.successTrue(statusCode.OK, "컴파일 성공", out));
       } else {

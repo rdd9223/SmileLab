@@ -1,5 +1,5 @@
-FROM node:14.4.0-alpine
-
+FROM nikolaik/python-nodejs:latest
+EXPOSE 4000
 WORKDIR /app
 
 ENV PATH /app/node_modules/.bin:$PATH

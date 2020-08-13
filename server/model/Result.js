@@ -6,11 +6,11 @@ const moment = require("moment");
 require("moment-timezone");
 
 const result = {
-  getMyCompileResult: ( { user_idx }) => {
+  getMyCompileResult: ({ user_idx }) => {
     return new Promise(async (resolve, reject) => {
-       const getMyCompileResultQuery = `SELECT * FROM result WHERE result.writer_idx = ${user_idx}`;
-       const getMyCompileResultResult = await pool.queryParam_Parse(getMyCompileResultQuery);
-       if(getMyCompileResultResult !== undefined ){
+      const getMyCompileResultQuery = `SELECT * FROM result WHERE result.writer_idx = ${user_idx}`;
+      const getMyCompileResultResult = await pool.queryParam_Parse(getMyCompileResultQuery);
+      if (getMyCompileResultResult !== undefined) {
         return resolve({
           json: authUtil.successTrue(
             statusCode.OK,
@@ -53,22 +53,25 @@ const result = {
   saveResult: ({ user_idx, variable, operator, data, conditional, repeat, func }) => {
     return new Promise(async (resolve, reject) => {
       const date = moment().format("YYYY-MM-DD HH:mm:ss");
-      const postSaveResultQuery = `INSERT INTO result (writer_idx, date, variable, operator, data, conditional, `+"`repeat`"+ `, function) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+      const postSaveResultQuery =
+        `INSERT INTO result (writer_idx, date, variable, operator, data, conditional, ` +
+        "`repeat`" +
+        `, function) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
       const postSaveResultResult = await pool.queryParam_Parse(postSaveResultQuery, [
-        user_idx, 
-        date, 
-        variable, 
-        operator, 
-        data, 
-        conditional, 
-        repeat, 
-        func
+        user_idx,
+        date,
+        variable,
+        operator,
+        data,
+        conditional,
+        repeat,
+        func,
       ]);
       if (postSaveResultResult.affectedRows !== 0) {
         return resolve({
-          json: authUtil.successTrue(statusCode.CREATED, responseMessage.X_CREATE_SUCCESS("결과")), 
+          json: authUtil.successTrue(statusCode.CREATED, responseMessage.X_CREATE_SUCCESS("결과")),
         });
-      }else{
+      } else {
         return resolve({
           json: authUtil.successFalse(
             statusCode.BAD_REQUEST,

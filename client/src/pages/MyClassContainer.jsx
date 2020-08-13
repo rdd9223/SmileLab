@@ -3,7 +3,7 @@ import MyClassTable from "../components/organisms/MyClassTable";
 import styled from "styled-components";
 import { Form } from "react-bootstrap";
 import Button from "../components/atoms/Button";
-import { getResult, deleteResult } from "./../service/result.js"
+import { getResult, deleteResult } from "./../service/result.js";
 
 const Wrapper = styled.div`
   width: 50em;
@@ -54,7 +54,7 @@ const MyClassContainer = () => {
       if(i < checked.length -1 ) ids += ","
     }
     const res = await deleteResult(ids);
-    if(res.data.status === 200){
+    if (res.data.status === 200) {
       alert(res.data.message);
       window.location.reload(true);
     }

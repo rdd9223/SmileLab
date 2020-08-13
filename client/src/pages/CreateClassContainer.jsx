@@ -1,6 +1,6 @@
 import React from "react";
-import Jumbotron from "./../components/atoms/Jumbotron"
-import { Form, Container, Row, Col } from "react-bootstrap";
+import Jumbotron from "./../components/atoms/Jumbotron";
+import { Form, Container, Row } from "react-bootstrap";
 import styled from "styled-components";
 import FormLabelSet from "./../components/molecules/form/FormLabelSet";
 import Button from "./../components/atoms/Button";

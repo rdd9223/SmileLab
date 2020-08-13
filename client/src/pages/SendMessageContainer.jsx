@@ -4,7 +4,7 @@ import Jumbotron from "../components/atoms/Jumbotron";
 import styled from "styled-components";
 import Button from "../components/atoms/Button";
 import { postMessage } from "./../service/message.js";
-import { getProfClassAll, getProfClass } from "./../service/class.js"
+import { getProfClassAll, getProfClass } from "./../service/class.js";
 
  const Wrapper = styled.div`
   width: 50em;

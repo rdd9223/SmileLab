@@ -1,6 +1,5 @@
 import React from "react";
 import { Form, Row, Col } from "react-bootstrap";
-import MyClassTable from "../components/organisms/MyClassTable";
 import { Link } from "react-router-dom";
 import Button from "../components/molecules/buttons/SendMessageButton";
 import Button2 from "../components/molecules/buttons/ClassCreateButton";

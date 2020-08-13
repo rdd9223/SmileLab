@@ -1,4 +1,3 @@
-const randToken = require("rand-token");
 const jwt = require("jsonwebtoken");
 const resMessage = require("../utils/responseMessage");
 const statusCode = require("../utils/statusCode");

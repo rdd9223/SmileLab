@@ -7,7 +7,7 @@ import { Form } from "react-bootstrap";
 import FormLabel from "../components/atoms/FormLabel";
 import FormCheck from "../components/atoms/FormCheck";
 import Button from "../components/atoms/Button";
-import Modal from "../components/organisms/ClassModal"
+import Modal from "../components/organisms/ClassModal";
 import SignUpSuccess from "../components/organisms/SignUpSuccess";
 import { checkDouble, postUser } from "./../service/user.js";
 
@@ -91,7 +91,7 @@ const SignUpContainer = () => {
     }else{
       if(userType === 2 && classIdx == null){
         alert("학습자는 반드시 클래스를 선택하세요!");
-      }else{
+      } else {
         const res = await postUser(
           id,
           password1,
@@ -156,6 +156,6 @@ const SignUpContainer = () => {
       </Wrapper>
     );
   }
-};
+}
 
 export default SignUpContainer;

@@ -3,7 +3,7 @@ import { Form } from "react-bootstrap";
 import Jumbotron from "./../components/atoms/Jumbotron";
 import Button from "./../components/atoms/Button";
 import styled from "styled-components";
-import FormLabelSet from "./../components/molecules/form/FormLabelSet"
+import FormLabelSet from "./../components/molecules/form/FormLabelSet";
 import { postBoard } from "./../service/board.js";
 
 const Wrapper = styled.div`

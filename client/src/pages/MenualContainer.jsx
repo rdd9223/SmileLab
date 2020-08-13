@@ -4,14 +4,14 @@ import styled from "styled-components";
 import Img from "./../components/atoms/Images";
 
 const Wrapper = styled.div`
-      width: 50em;
-      margin-top: 200px;
-      margin-left: auto;
-      margin-right: auto;
-      Button {
-        float: right;
-      }
-    `;
+  width: 50em;
+  margin-top: 200px;
+  margin-left: auto;
+  margin-right: auto;
+  Button {
+    float: right;
+  }
+`;
 
 const MenualContainer = () => {
   return (

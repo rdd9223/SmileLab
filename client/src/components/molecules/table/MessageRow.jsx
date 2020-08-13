@@ -1,29 +1,26 @@
 import React from "react";
 import Button from "../../atoms/Button";
-class MessageRow extends React.Component {
-  constructor(props) {
-    super(props);
-  }
 
-  render() {
-    const idx = this.props.body.message_idx;
-    return (
-      <>
-        <tr>
-          <td>{this.props.body.message_idx}</td>
-          <td>{this.props.body.class_name}</td>
-          <td>{this.props.body.date}</td>
-          <td>
-            <Button
-              name={"보기"}
-              size="sm"
-              onClick={() => this.props.onClick(idx)}
-            />
-          </td>
-        </tr>
-      </>
-    );
-  }
+
+const MessageRow = ({ body, onClick }) => {
+  const idx = body.message_idx;
+  return (
+    <>
+      <tr>
+        <td>{body.message_idx}</td>
+        <td>{body.class_name}</td>
+        <td>{body.date}</td>
+        <td>
+          <Button
+            name={"보기"}
+            size="sm"
+            onClick={() => onClick(idx)}
+          />
+        </td>
+      </tr>
+    </>
+  );
+  
 }
 
 export default MessageRow;

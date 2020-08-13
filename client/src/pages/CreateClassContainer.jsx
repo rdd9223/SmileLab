@@ -12,37 +12,35 @@ const Wrapper = styled.div`
 `;
 
 
-class CreateClassContainer extends React.Component{
-  constructor(props){
-    super(props)
-    this.state = {
-      className : null,
-    }
-    this.createClass = this.createClass.bind(this);
+const CreateClassContainer = () => {
+  const [className, setClassName] = React.useState(null);
+
+
+  const createClass = async() => {
+    await postClass(className);
   }
 
-  async createClass(){
-    await postClass(this.state.className);
+  const handleClassName = (event) => {
+    const value = event.target.value;
+    setClassName(value);
   }
 
-  render(){
-    return(
-      <Wrapper>
-        <Jumbotron header={"클래스 생성"} text={"이 페이지에서 클래스를 생성 할 수 있습니다."} />
-        <br />
-        <Container>
-          <Form>
-            <Row>
-              <FormLabelSet name={"생성 할 클래스 이름"} onChange={(e) => this.setState({ className: e.target.value })} />
-              <br />
-              <br />
-              <Button name={"생성하기"} onClick={this.createClass} />
-            </Row>
-          </Form>
-        </Container>
-      </Wrapper>
-    )
-  }
+  return(
+    <Wrapper>
+      <Jumbotron header={"클래스 생성"} text={"이 페이지에서 클래스를 생성 할 수 있습니다."} />
+      <br />
+      <Container>
+        <Form>
+          <Row>
+            <FormLabelSet name={"생성 할 클래스 이름"} onChange={(event) => handleClassName(event)} />
+            <br />
+            <br />
+            <Button name={"생성하기"} onClick={this.createClass} />
+          </Row>
+        </Form>
+      </Container>
+    </Wrapper>
+  )
 }
 
 export default CreateClassContainer;

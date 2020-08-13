@@ -1,6 +1,5 @@
 import React from "react";
 import { Form, Row, Col } from "react-bootstrap";
-import MyClassTable from "../components/organisms/MyClassTable";
 import { Link } from "react-router-dom";
 import Button from "../components/molecules/buttons/SendMessageButton";
 import Button2 from "../components/molecules/buttons/ClassCreateButton";
@@ -110,10 +109,7 @@ class ClassContainer extends React.Component {
         <br />
         {this.state.currentData != null && (
           <Row>
-            <StudentClassTable
-              headers={this.state.header}
-              rows={this.state.currentData}
-            />
+            <StudentClassTable headers={this.state.header} rows={this.state.currentData} />
           </Row>
         )}
         <div style={{ position: "absolute", bottom: "15px", right: "13%" }}>

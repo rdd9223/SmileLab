@@ -1,12 +1,12 @@
 import React, { useState, useRef, useEffect, Fragment } from "react";
 import { Transformer, Text } from "react-konva";
-import Portal from './Portal';
+import Portal from "./Portal";
 
 const EditableText = ({ shapeProps, isSelected, onSelect, onChange }) => {
   const shapeRef = useRef();
   const trRef = useRef();
   const [textEditVisible, setTextEditVisible] = useState(false);
-  const [textXY, setTextXY] = useState({x: 0, y: 0})
+  const [textXY, setTextXY] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     if (isSelected) {
@@ -23,19 +23,19 @@ const EditableText = ({ shapeProps, isSelected, onSelect, onChange }) => {
         onDblClick={(e) => {
           const absPos = e.target.getAbsolutePosition();
           setTextEditVisible(true);
-          setTextXY({x: absPos.x, y: absPos.y})
+          setTextXY({ x: absPos.x, y: absPos.y });
         }}
         ref={shapeRef}
         {...shapeProps}
         draggable
-        onDragEnd={e => {
+        onDragEnd={(e) => {
           onChange({
             ...shapeProps,
             x: e.target.x(),
-            y: e.target.y()
+            y: e.target.y(),
           });
         }}
-        onTransformEnd={e => {
+        onTransformEnd={(e) => {
           const node = shapeRef.current;
           const scaleX = node.scaleX();
           const scaleY = node.scaleY();
@@ -49,7 +49,7 @@ const EditableText = ({ shapeProps, isSelected, onSelect, onChange }) => {
             y: node.y(),
             // set minimal value
             width: Math.max(5, node.width() * scaleX),
-            height: Math.max(node.height() * scaleY)
+            height: Math.max(node.height() * scaleY),
           });
         }}
       />
@@ -69,18 +69,18 @@ const EditableText = ({ shapeProps, isSelected, onSelect, onChange }) => {
         <textarea
           value={shapeProps.text}
           style={{
-            display: textEditVisible ? 'block' : 'none',
-            position: 'absolute',
-            top: window.innerHeight/2 + 'px',
-            left: window.innerWidth/4 + 'px'
+            display: textEditVisible ? "block" : "none",
+            position: "absolute",
+            top: window.innerHeight / 2 + "px",
+            left: window.innerWidth / 4 + "px",
           }}
           onChange={(e) => {
             onChange({
               ...shapeProps,
-              text: e.target.value
-            })
+              text: e.target.value,
+            });
           }}
-          onKeyDown={e => {
+          onKeyDown={(e) => {
             if (e.keyCode === 13) {
               setTextEditVisible(false);
             }

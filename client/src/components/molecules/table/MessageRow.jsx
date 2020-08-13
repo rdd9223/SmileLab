@@ -1,10 +1,6 @@
 import React from "react";
 import Button from "../../atoms/Button";
 class MessageRow extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const idx = this.props.body.message_idx;
     return (
@@ -14,11 +10,7 @@ class MessageRow extends React.Component {
           <td>{this.props.body.class_name}</td>
           <td>{this.props.body.date}</td>
           <td>
-            <Button
-              name={"보기"}
-              size="sm"
-              onClick={() => this.props.onClick(idx)}
-            />
+            <Button name={"보기"} size="sm" onClick={() => this.props.onClick(idx)} />
           </td>
         </tr>
       </>

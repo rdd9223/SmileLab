@@ -4,10 +4,6 @@ import { Jumbotron as Jumbotron1, Container } from "react-bootstrap";
 import styled from "styled-components";
 
 class MessageBox extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const Wrapper = styled(Jumbotron1)`
       margin: 0 auto;

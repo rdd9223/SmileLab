@@ -2,7 +2,7 @@ import React from "react";
 import Text from "../components/atoms/Text";
 import { Row, Col, Container, Jumbotron } from "react-bootstrap";
 import Button from "../components/atoms/Button";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import FormCheck from "../components/atoms/FormCheck";
 import { getCompileResult, postResult } from "./../service/app.js";

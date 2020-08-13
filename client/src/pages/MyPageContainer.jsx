@@ -3,13 +3,9 @@ import { Container, Row, Col } from "react-bootstrap";
 import styled from "styled-components";
 import FormText from "../components/atoms/FormText";
 import FormLabelSet from "../components/molecules/form/FormLabelSet";
-import FormLabelButtonSet from "../components/molecules/form/FormLabelButtonSet";
 import { Form } from "react-bootstrap";
-import FormLabel from "../components/atoms/FormLabel";
-import FormCheck from "../components/atoms/FormCheck";
 import Button from "../components/atoms/Button";
 import Modal from "../components/organisms/ClassModal";
-import SignUpSuccess from "../components/organisms/SignUpSuccess";
 import Jumbotron from "../components/atoms/Jumbotron";
 import Text from "../components/atoms/Text";
 import { updateUser, getUser } from "./../service/user.js";
@@ -56,7 +52,7 @@ class MyPageContainer extends React.Component {
   }
 
   checkPassword(event) {
-    const { name, value, id } = event.target;
+    const { value, id } = event.target;
 
     this.setState({ [id]: value }, () => {
       if (id === "password1" || id === "password2") this.isValidPassword();
@@ -64,10 +60,7 @@ class MyPageContainer extends React.Component {
   }
 
   isValidPassword() {
-    if (
-      this.state.password1 != null &&
-      this.state.password1 == this.state.password2
-    ) {
+    if (this.state.password1 !== null && this.state.password1 === this.state.password2) {
       this.setState({ isValidPassword: true });
     } else {
       this.setState({ isValidPassword: false });
@@ -137,9 +130,7 @@ class MyPageContainer extends React.Component {
                     name={"이름 *"}
                     type={"name"}
                     value={this.state.name}
-                    onChange={(event) =>
-                      this.setState({ name: event.target.value })
-                    }
+                    onChange={(event) => this.setState({ name: event.target.value })}
                   />
                 </Form.Group>
               </Col>
@@ -149,9 +140,7 @@ class MyPageContainer extends React.Component {
                     name={"휴대전화 *"}
                     type={"phoneNumber"}
                     value={this.state.phone_number}
-                    onChange={(event) =>
-                      this.setState({ phone_number: event.target.value })
-                    }
+                    onChange={(event) => this.setState({ phone_number: event.target.value })}
                   />
                 </Form.Group>
               </Col>

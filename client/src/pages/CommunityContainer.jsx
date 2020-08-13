@@ -4,10 +4,9 @@ import CommunityTable from "../components/templates/CommunityTable";
 import Jumbotron from "components/atoms/Jumbotron";
 import Modal1 from "components/atoms/Modal";
 import Button from "components/atoms/Button";
-import { Form, Container, Row, Col } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { getBoardList } from "./../service/board.js";
-
 
 class CommunityContainer extends React.Component {
   constructor(props) {
@@ -26,11 +25,11 @@ class CommunityContainer extends React.Component {
       currentPage: 1,
     };
 
-    this.setModalHide   = this.setModalHide.bind(this);
-    this.setModalShow   = this.setModalShow.bind(this);
-    this.onClickList    = this.onClickList.bind(this);
-    this.getNextBoard   = this.getNextBoard.bind(this);
-    this.getPrevBoard   = this.getPrevBoard.bind(this);
+    this.setModalHide = this.setModalHide.bind(this);
+    this.setModalShow = this.setModalShow.bind(this);
+    this.onClickList = this.onClickList.bind(this);
+    this.getNextBoard = this.getNextBoard.bind(this);
+    this.getPrevBoard = this.getPrevBoard.bind(this);
 
     this.loadBoard(this.state.currentPage);
   }
@@ -92,10 +91,7 @@ class CommunityContainer extends React.Component {
     return (
       <Wrapper>
         <div>
-          <Jumbotron
-            header={"Class Community"}
-            text={"자유롭게 생각을 나눠보는 공간입니다."}
-          />
+          <Jumbotron header={"Class Community"} text={"자유롭게 생각을 나눠보는 공간입니다."} />
         </div>
         <CommunityTable
           headers={this.state.headers}

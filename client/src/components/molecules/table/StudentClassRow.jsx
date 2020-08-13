@@ -1,5 +1,4 @@
 import React from "react";
-import Check from "../../atoms/Check";
 
 const StudentClassRow = ({ body, onClick }) => {
   const renderOX = (value) => {

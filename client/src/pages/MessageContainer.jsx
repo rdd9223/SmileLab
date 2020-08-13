@@ -37,7 +37,7 @@ class MessageContainer extends React.Component {
   // 각 메세지 별 "보기" 버튼 클릭 시 이벤트
   onClickMessage(idx) {
     for (var i = 0; i < this.state.data.length; i++) {
-      if (this.state.data[i].message_idx == idx) {
+      if (this.state.data[i].message_idx === idx) {
         this.setState({ currentMessage: this.state.data[i] });
       }
     }

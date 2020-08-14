@@ -10,37 +10,37 @@ import { getTake } from "./../../service/take.js";
 
 const ClassModal = ({ updateClass }) => {
   const header = ["과목 명", "교수"];
-  const [data , setData] = React.useState(null);
-  const [currentClass, setCurrentClass] = React.useState('');
+  const [data, setData] = React.useState(null);
+  const [currentClass, setCurrentClass] = React.useState("");
   const [open, setOpen] = React.useState(false);
 
   React.useEffect(() => {
-    loadClass()
-    loadTake()
-  },[]);  
+    loadClass();
+    loadTake();
+  }, []);
 
-  const loadClass = async() => {
-      const res = await getClass();
-      if(res != null){
-        setData(res.data.data);
-      }
+  const loadClass = async () => {
+    const res = await getClass();
+    if (res != null) {
+      setData(res.data.data);
     }
+  };
 
-  const loadTake = async() => {
+  const loadTake = async () => {
     if (window.sessionStorage.getItem("loginToken") != null) {
       const res = await getTake();
-      if(res != null){
+      if (res != null) {
         setCurrentClass(res.data.data[0].name);
-        if(updateClass != null) updateClass(res.data.data[0]);
+        if (updateClass != null) updateClass(res.data.data[0]);
       }
     }
-  }
+  };
 
   const handleClick = (idx) => {
-    setCurrentClass(data[idx].class_name)
-    if(updateClass != null) updateClass(data[idx]);
+    setCurrentClass(data[idx].class_name);
+    if (updateClass != null) updateClass(data[idx]);
     setOpen(false);
-  }
+  };
 
   return (
     <div>
@@ -55,35 +55,24 @@ const ClassModal = ({ updateClass }) => {
           />
         </Col>
         <Col md={3}>
-          <Button
-            name="검색하기"
-            variant="primary"
-            onClick={() => setOpen(true)}
-          />
+          <Button name="검색하기" variant="primary" onClick={() => setOpen(true)} />
         </Col>
       </Row>
       <Modal show={open} onHide={() => setOpen(false)}>
-        <Modal.Header
-          closeButton
-          onClick={() => setOpen(false)}
-        >
+        <Modal.Header closeButton onClick={() => setOpen(false)}>
           <Modal.Title>클래스를 선택 해 주세요.</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {data != null && (
             <Table responsive>
               <ClassSelectHeader headers={header} />
-              <ClassSelectBody
-                rows={data}
-                onClick={handleClick}
-              />
+              <ClassSelectBody rows={data} onClick={handleClick} />
             </Table>
           )}
         </Modal.Body>
       </Modal>
     </div>
   );
-  
-}
+};
 
 export default ClassModal;

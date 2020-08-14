@@ -9,4 +9,5 @@ router.use('/message', require('./message'));
 router.use('/result', require('./result'));
 router.use('/take', require('./take'));
 
+
 module.exports = router;

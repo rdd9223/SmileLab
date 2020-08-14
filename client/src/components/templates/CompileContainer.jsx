@@ -6,21 +6,21 @@ import HintButton from "../molecules/buttons/HintButton";
 import CodeLoadButton from "../molecules/inputs/CodeLoadInput";
 import CodeSaveButton from "../molecules/buttons/CodeSaveButton";
 import CheckResultButton from "../molecules/buttons/CheckResultButton";
-import { Link } from "react-router-dom";
 
 const CompileContainer = () => {
-  const [code, setCode] = useState((localStorage.getItem('currentCode') != null) ? localStorage.getItem('currentCode') : "");
+  const [code, setCode] = useState(
+    localStorage.getItem("currentCode") != null ? localStorage.getItem("currentCode") : ""
+  );
   const [resultCode, setResultCode] = useState("");
-  const [isSuccess, setSuccess] = useState(false);
 
   const onChange = (e) => {
     setCode(e);
   };
 
   const onResultButtonClick = () => {
-    if(window.sessionStorage.getItem('validCompile')){
-      window.location.href="/result"; 
-    }else{
+    if (window.sessionStorage.getItem("validCompile")) {
+      window.location.href = "/result";
+    } else {
       alert("컴파일을 먼저 해 주세요!");
     }
   };

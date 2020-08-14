@@ -50,7 +50,7 @@ export const getProfClass = async (idx) => {
       return res;
     })
     .catch((e) => {
-      return;
+      return null;
     });
 };
 
@@ -65,6 +65,6 @@ export const getProfClassAll = async () => {
       return res;
     })
     .catch((e) => {
-      return;
+      return null;
     });
 };

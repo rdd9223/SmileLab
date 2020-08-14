@@ -23,7 +23,6 @@ const board = {
         (page - 1) * 10
       }, 10`;
       const getBoardListResult = await pool.queryParam_Parse(getBoardListQuery);
-
       if (getBoardListResult !== undefined) {
         return resolve({
           json: authUtil.successTrue(
@@ -78,7 +77,7 @@ const board = {
   },
   getBoard: ({ user_idx, boardIdx }) => {
     return new Promise(async (resolve, reject) => {
-      const getBoardInfoQuery = `SELECT * FROM board WHERE board_idx = ${boardIdx}`;
+      const getBoardInfoQuery = `SELECT board.*, user.name as writer FROM board LEFT JOIN user ON board.writer_idx = user_idx WHERE board_idx = ${boardIdx}`;
       const getBoardInfoResult = await pool.queryParam_Parse(getBoardInfoQuery);
 
       if (getBoardInfoResult[0] !== undefined) {

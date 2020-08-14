@@ -144,13 +144,13 @@ class Analyzer(ast.NodeVisitor):
                     self.stats["UniqIf"] += 1
         if len(node.orelse) == 0:
             self.stats["If"] += 1
-            self.generic_visit(node)
+            
         else:
             if isinstance(node.orelse[0],ast.If):
                 self.stats["Elif"] += 1
             else:
                 self.stats["ElseIf"] += 1
-                self.generic_visit(node)
+        self.generic_visit(node)
         
     def visit_For(self, node):
         "for 카운터"

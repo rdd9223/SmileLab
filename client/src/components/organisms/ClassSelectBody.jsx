@@ -6,8 +6,7 @@ const ClassSelect = ({ rows, setModalShow, onClick }) => {
   return (
     <tbody>
       {rows.map((item, idx) => {
-        return <ClassSelectRow idx={idx} body={item} setModalShow={setModalShow} onClick={onClick} />;
-        
+        return <ClassSelectRow key={idx} idx={idx} body={item} setModalShow={setModalShow} onClick={onClick} />;
       })}
     </tbody>
   );

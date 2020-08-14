@@ -9,9 +9,9 @@ const MainNavbar = ({ userType }) => {
   //const [type, setType] = useState(userType)
 
   const renderUserTypeNav = (idx) => {
-    if (idx == 0) {
+    if (idx === '0') {
       return <DefaulteNav />;
-    } else if (idx == 1) {
+    } else if (idx === '1') {
       return <ProfesserNav />;
     } else {
       return <StudentNav />;

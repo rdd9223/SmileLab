@@ -23,7 +23,6 @@ const board = {
         (page - 1) * 10
       }, 10`;
       const getBoardListResult = await pool.queryParam_Parse(getBoardListQuery);
-
       if (getBoardListResult !== undefined) {
         return resolve({
           json: authUtil.successTrue(

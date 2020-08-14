@@ -1,0 +1,55 @@
+Module(body=[
+  While(test=
+    Constant(value=1, kind=None) body=[
+      Assign(targets=[
+        Name(id='money', ctx=Store())],
+      value=
+        Call(func=
+          Name(id='input', ctx=Load()), args=[
+            Constant(value='돈을 넣어주세요', kind=None)], keywords=[]), type_comment=None),
+      Assign(targets=[
+        Name(id='number', ctx=Store())], 
+      value=
+        Call(func=
+          Name(id='input', ctx=Load()), args=[
+            Constant(value='음료를 골라주세요\\n', kind=None)], keywords=[]), type_comment=None),
+      Assign(targets=[
+        Name(id='temp', ctx=Store())], 
+      value=
+        Name(id='money', "
+ "ctx=Load()), type_comment=None), If(test=Compare(left=Name(id='number', "
+ 'ctx=Load()), ops=[Eq()], comparators=[Constant(value=1, kind=None)]), '
+ "body=[Expr(value=Call(func=Name(id='print', ctx=Load()), "
+ "args=[Constant(value='포도주스를 선택하셨습니다. 거스름돈은 ', kind=None), "
+ "BinOp(left=Name(id='money', ctx=Load()), op=Sub(), right=Constant(value=100, "
+ "kind=None)), Constant(value='원 입니다', kind=None)], keywords=[])), "
+ "Assign(targets=[Name(id='money', ctx=Store())], "
+ "value=BinOp(left=Name(id='temp', ctx=Load()), op=Sub(), "
+ 'right=Constant(value=100, kind=None)), type_comment=None), '
+ "If(test=Compare(left=Name(id='money', ctx=Load()), ops=[LtE()], "
+ 'comparators=[Constant(value=0, kind=None)]), body=[Break()], orelse=[])], '
+ "orelse=[If(test=Compare(left=Name(id='number', ctx=Load()), ops=[Eq()], "
+ 'comparators=[Constant(value=2, kind=None)]), '
+ "body=[Expr(value=Call(func=Name(id='print', ctx=Load()), "
+ "args=[Constant(value='포도주스를 선택하셨습니다. 거스름돈은 ', kind=None), "
+ "BinOp(left=Name(id='money', ctx=Load()), op=Sub(), right=Constant(value=200, "
+ "kind=None)), Constant(value='원 입니다', kind=None)], keywords=[])), "
+ "Assign(targets=[Name(id='money', ctx=Store())], "
+ "value=BinOp(left=Name(id='temp', ctx=Load()), op=Sub(), "
+ 'right=Constant(value=200, kind=None)), type_comment=None), '
+ "If(test=Compare(left=Name(id='money', ctx=Load()), ops=[LtE()], "
+ 'comparators=[Constant(value=0, kind=None)]), body=[Break()], orelse=[])], '
+ "orelse=[If(test=Compare(left=Name(id='number', ctx=Load()), ops=[Eq()], "
+ 'comparators=[Constant(value=3, kind=None)]), '
+ "body=[Expr(value=Call(func=Name(id='print', ctx=Load()), "
+ "args=[Constant(value='포도주스를 선택하셨습니다. 거스름돈은 ', kind=None), "
+ "BinOp(left=Name(id='money', ctx=Load()), op=Sub(), right=Constant(value=300, "
+ "kind=None)), Constant(value='원 입니다', kind=None)], keywords=[])), "
+ "Assign(targets=[Name(id='money', ctx=Store())], "
+ "value=BinOp(left=Name(id='temp', ctx=Load()), op=Sub(), "
+ 'right=Constant(value=300, kind=None)), type_comment=None), '
+ "If(test=Compare(left=Name(id='money', ctx=Load()), ops=[LtE()], "
+ 'comparators=[Constant(value=0, kind=None)]), body=[Break()], orelse=[])], '
+ "orelse=[Expr(value=Call(func=Name(id='print', ctx=Load()), "
+ "args=[Constant(value='없는 번호입니다. 다시 입력해주세요', kind=None)], "
+ 'keywords=[]))])])])], orelse=[])], type_ignores=[])\n')

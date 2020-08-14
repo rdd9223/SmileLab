@@ -11,12 +11,12 @@ const Wrapper = styled(Jumbotron1)`
 const MessageBox = ({ message}) => {
   if (message != null) {
     return (
-        <Wrapper fluid>
-          <Container>
-            <h4>{message.class_name}님이 보낸 메세지</h4>
-            {message.contents}
-          </Container>
-        </Wrapper>
+      <Wrapper fluid>
+        <Container>
+          <h4>{message.class_name}님이 보낸 메세지</h4>
+          {message.contents}
+        </Container>
+      </Wrapper>
     );
   } else {
     return (

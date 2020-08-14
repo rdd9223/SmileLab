@@ -63,7 +63,6 @@ const SendMessageContainer = () => {
   const changeMessage = (event) => {
     const value = event.target.value
     setMessage(value);
-    //this.state.message = event.target.value
   }
 
   return(
@@ -84,7 +83,7 @@ const SendMessageContainer = () => {
         <Col style={{height: '4em'}}>
           <Form.Control as="select" defaultValue={currentReceiver} onChange={changeStudent}>
             <option key={0} value={0}>전체</option>
-            {this.state.student.map((item, idx) => {
+            {student.map((item, idx) => {
                 return <option key={idx+1} value={item.student_idx}>{item.name}</option>;
             })}
           </Form.Control>

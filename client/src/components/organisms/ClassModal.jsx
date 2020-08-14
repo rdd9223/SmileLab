@@ -27,15 +27,14 @@ const ClassModal = ({ updateClass }) => {
     }
 
   const loadTake = async() => {
-      if (window.sessionStorage.getItem("loginToken") != null) {
-        const res = await getTake();
-        if(res != null){
-          setCurrentClass(res.data.data[0].name);
-          console.log(res)
-          if(updateClass != null) updateClass(res.data.data[0]);
-        }
+    if (window.sessionStorage.getItem("loginToken") != null) {
+      const res = await getTake();
+      if(res != null){
+        setCurrentClass(res.data.data[0].name);
+        if(updateClass != null) updateClass(res.data.data[0]);
       }
     }
+  }
 
   const handleClick = (idx) => {
     setCurrentClass(data[idx].class_name)

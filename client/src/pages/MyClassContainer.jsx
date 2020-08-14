@@ -63,10 +63,10 @@ const MyClassContainer = () => {
   return (
     <Form>
       <Wrapper>
-        {this.state.data != null && 
-          <MyClassTable headers={this.state.header} rows={this.state.data} onClick={this.onClick} />
+        {data != null && 
+          <MyClassTable headers={header} rows={data} onClick={onClick} />
         }
-        <Button name={"삭제"} size={"sm"} onClick={this.deleteResult} />
+        <Button name={"삭제"} size={"sm"} onClick={deleteResult} />
       </Wrapper>
     </Form>
   );

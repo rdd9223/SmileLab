@@ -56,10 +56,10 @@ const CommunityContainer = () => {
 
   const onClickList = (idx) => {
       setCurrentModal({
-        title: this.state.data[idx].title,
-        contents: this.state.data[idx].contents,
-        writer: this.state.data[idx].writer,
-        date: this.state.data[idx].date,
+        title: data[idx].title,
+        contents: data[idx].contents,
+        writer: data[idx].writer,
+        date: data[idx].date,
       },
     );
     setModalShow();

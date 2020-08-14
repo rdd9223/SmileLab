@@ -16,18 +16,10 @@ const Wrapper = styled.div`
   }
 `;
 
-
 const CommunityContainer = () => {
   const headers = ["#", "제목", "작성자", "작성일"];
   const [data, setData] = React.useState([]);
-  const [modalShow, setModalShow] = React.useState(false);
   const [currentPage, setCurrentPage] = React.useState(1);
-  const [currentModal, setCurrentModal] = React.useState({
-    title: "",
-    writer: "",
-    contents: "",
-    date: "",
-  });
   
   React.useEffect(() => {
     loadBoard(currentPage);
@@ -37,15 +29,7 @@ const CommunityContainer = () => {
     const res = await getBoardList(idx);
     console.log(res);
     if (res != null && res.data.status === 200) {
-      if (res.data.data.length > 0) {
-        setData(res.data.data);
-        setCurrentModal({
-          title: data[0].title,
-          contents: data[0].contents,
-          writer: data[0].writer,
-          date: data[0].date,
-        });
-      }
+      setData(res.data.data);
     }
   }
 
@@ -60,14 +44,8 @@ const CommunityContainer = () => {
   }
 
   const onClickList = (idx) => {
-      setCurrentModal({
-        title: data[idx].title,
-        contents: data[idx].contents,
-        writer: data[idx].writer,
-        date: data[idx].date,
-      },
-    );
-    setModalShow();
+    console.log(idx);
+    window.location.href="/community/"+idx;
   }
 
   return (
@@ -81,16 +59,7 @@ const CommunityContainer = () => {
       <CommunityTable
         headers={headers}
         rows={data}
-        setModalShow={() => setModalShow(true)}
         onClick={onClickList}
-      />
-      <Modal1
-        show={modalShow}
-        onHide={() => setModalShow(false)}
-        title={currentModal.title}
-        contents={currentModal.contents}
-        writer={currentModal.writer}
-        date={currentModal.date}
       />
       <Wrapper>
         <Row>

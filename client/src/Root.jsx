@@ -16,6 +16,7 @@ import SendMessageContainer from "./pages/SendMessageContainer";
 import MenualContainer from "./pages/MenualContainer";
 import BoardWriteContainer from "./pages/BoardWriteContainer";
 import CreateClassContainer from "./pages/CreateClassContainer";
+import CommunityPostContainer from "./pages/CommunityPostContainer";
 
 
 const Root = () => {
@@ -32,12 +33,13 @@ const Root = () => {
     <Router>
       <Navbar userType={userType}/>
       <Switch>
-        <Route exact path="/"       component={MainContainer}/>}         />
+        <Route exact path="/"       component={MainContainer}/>}      />
         <Route path="/start"        component={CodeContainer}         />
         <Route path="/about"        component={IntroContainer}        />
         <Route path="/signup"       component={SignUpContainer}       />
         <Route path="/myclass"      component={MyClassContainer}      />
         <Route path="/ask"          component={AskContainer}          />
+        <Route path="/community/:idx" component={CommunityPostContainer} />
         <Route path="/community"    component={CommunityContainer}    />
         <Route path="/result"       component={CodeResultContainer}   />
         <Route path="/message"      component={MessageContainer}      />

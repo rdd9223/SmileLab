@@ -35,7 +35,7 @@ const CreateClassContainer = () => {
             <FormLabelSet name={"생성 할 클래스 이름"} onChange={(event) => handleClassName(event)} />
             <br />
             <br />
-            <Button name={"생성하기"} onClick={this.createClass} />
+            <Button name={"생성하기"} onClick={createClass} />
           </Row>
         </Form>
       </Container>

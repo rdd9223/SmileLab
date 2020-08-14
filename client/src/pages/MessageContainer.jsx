@@ -51,12 +51,12 @@ const MessageContainer = () => {
 
   const getPrevMessage = async() => {
     await setCurrentPage(currentPage - 1)
-    this.loadMessage(currentPage);
+    loadMessage(currentPage);
   }
 
   const getNextMessage = async() => {
     await setCurrentPage(currentPage + 1)
-    this.loadMessage(currentPage);
+    loadMessage(currentPage);
   }
 
   return (

@@ -21,17 +21,22 @@ const CommunityContainer = () => {
   const headers = ["#", "제목", "작성자", "작성일"];
   const [data, setData] = React.useState([]);
   const [modalShow, setModalShow] = React.useState(false);
+  const [currentPage, setCurrentPage] = React.useState(1);
   const [currentModal, setCurrentModal] = React.useState({
     title: "",
     writer: "",
     contents: "",
     date: "",
-  })
-  const [currentPage, setCurrentPage] = React.useState(1);
+  });
+  
+  React.useEffect(() => {
+    loadBoard(currentPage);
+  }, []);
 
   const loadBoard = async(idx) => {
     const res = await getBoardList(idx);
-    if (res != null && res.data.status === 200 && res.data.success) {
+    console.log(res);
+    if (res != null && res.data.status === 200) {
       if (res.data.data.length > 0) {
         setData(res.data.data);
         setCurrentModal({

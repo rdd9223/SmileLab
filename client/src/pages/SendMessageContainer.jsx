@@ -14,7 +14,6 @@ import { getProfClassAll, getProfClass } from "./../service/class.js";
   }
 `;
 
-
 const SendMessageContainer = () => {
   const [clazz, setClass] = React.useState([]);
   const [student, setStudent] = React.useState([]);

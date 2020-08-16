@@ -18,12 +18,11 @@ const resetCode = () => {
 
 const CodeResultContainer = () => {
   const [data, setData] = React.useState(null)
-  const [result, setResult] = React.useState("잠시만 기다려주세요...");
-  const [valueData, setValueData] = React.useState(null);
-  const [loopData, setLoopData] = React.useState(null);
-  const [conditionData, setConditionData] = React.useState(null);
-  const [opData, setOpData] = React.useState(null);
-  const [funcData, setFuncData] = React.useState(null);
+  const [valueData, setValueData] = React.useState("");
+  const [loopData, setLoopData] = React.useState("");
+  const [conditionData, setConditionData] = React.useState("");
+  const [opData, setOpData] = React.useState("");
+  const [funcData, setFuncData] = React.useState("");
   
 
   React.useEffect(() => {
@@ -119,9 +118,9 @@ const CodeResultContainer = () => {
       }
     }
     setLoopData(loop);
-
+   
     if (_data.If + _data.ElseIf + _data.Elif > 0) {
-      var condition = ""
+      var condition = "" 
       condition += 
         "조건문 중 if문을 총 " +
         _data.If +
@@ -170,12 +169,11 @@ const CodeResultContainer = () => {
     if (res != null && res.data.success) {
       try{
         const _data = eval("(" + res.data.data + ")");
-        var str = "";
         setData(_data);
         Feedback(_data);
-        setResult(str);
       }catch(e){
-
+        alert("오류가 발생하였습니다. 다시 접근하여 주세요!");
+        window.location.href="/";
       }
     }
   }
@@ -306,33 +304,42 @@ const CodeResultContainer = () => {
             </Col>
             <Col lg={8}>
               <Container>
-                <Jumbotron>
-                  {valueData !=null && valueData !== "" && valueData.split("\n").map((item, idx) => {
+                {valueData !=null && valueData !== "" && 
+                  <Jumbotron>
+                    {valueData.split("\n").map((item, idx) => {
+                      return (
+                        <Container key={idx}>
+                          <Text text={item} />
+                        </Container>
+                      );
+                    })}
+                  </Jumbotron>
+                }
+                
+                {opData !=null && opData !== "" && 
+                  <Jumbotron>
+                  {opData.split("\n").map((item, idx) => {
                     return (
                       <Container key={idx}>
                         <Text text={item} />
                       </Container>
                     );
                   })}
-                </Jumbotron>
-                <Jumbotron>
-                  {opData !=null && opData !== "" && opData.split("\n").map((item, idx) => {
+                  </Jumbotron>
+                }
+                
+                {funcData !=null && funcData !== "" &&
+                  <Jumbotron>
+                  {funcData.split("\n").map((item, idx) => {
                     return (
                       <Container key={idx}>
                         <Text text={item} />
                       </Container>
                     );
                   })}
-                </Jumbotron>
-                <Jumbotron>
-                  {funcData !=null && funcData !== ""  && funcData.split("\n").map((item, idx) => {
-                    return (
-                      <Container key={idx}>
-                        <Text text={item} />
-                      </Container>
-                    );
-                  })}
-                </Jumbotron>
+                  </Jumbotron>
+                }
+                
                 {loopData != null && loopData !== "" &&
                   <Jumbotron>
                     {loopData.split("\n").map((item, idx) => {
@@ -344,16 +351,30 @@ const CodeResultContainer = () => {
                     })}
                   </Jumbotron>
                 }
-                
-                <Jumbotron>
-                  {conditionData !=null && conditionData != ""  && conditionData.split("\n").map((item, idx) => {
-                    return (
-                      <Container key={idx}>
-                        <Text text={item} />
-                      </Container>
-                    );
-                  })}
-                </Jumbotron>
+
+                {conditionData !=null && conditionData != ""  && 
+                  <Jumbotron>
+                    {conditionData.split("\n").map((item, idx) => {
+                      return (
+                        <Container key={idx}>
+                          <Text text={item} />
+                        </Container>
+                      );
+                    })}
+                  </Jumbotron>
+                }
+
+                {conditionData === "" 
+                && funcData === "" 
+                &&loopData === "" 
+                &&valueData === "" 
+                && opData === "" &&
+                  <Jumbotron>
+                    <Container>
+                      <Text text={"피드백이 없습니다."} />
+                    </Container>
+                  </Jumbotron>
+                }
               </Container>
               <Row>
                 <Col lg={2} />

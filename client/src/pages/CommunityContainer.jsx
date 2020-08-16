@@ -27,24 +27,23 @@ const CommunityContainer = () => {
 
   const loadBoard = async(idx) => {
     const res = await getBoardList(idx);
-    console.log(res);
     if (res != null && res.data.status === 200) {
       setData(res.data.data);
     }
   }
 
   const getPrevBoard = async() => {
+    await loadBoard(currentPage - 1);
     setCurrentPage(currentPage - 1);
-    await loadBoard(currentPage);
   }
 
   const getNextBoard = async() => {
-     setCurrentPage(currentPage + 1);
-     await loadBoard(currentPage);
+    
+    await loadBoard(currentPage + 1);
+    setCurrentPage(currentPage + 1);
   }
 
   const onClickList = (idx) => {
-    console.log(idx);
     window.location.href="/community/"+idx;
   }
 

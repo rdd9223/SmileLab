@@ -94,9 +94,9 @@ const CodeResultContainer = () => {
       }
       setOpData(op);
     }
-    
+    var loop = ""
     if (_data.For + _data.While > 0) {
-      var loop = ""
+      
       loop +=
         "반복문을 활용한 횟수는 총 " +
         (_data.For + _data.While) +
@@ -109,17 +109,16 @@ const CodeResultContainer = () => {
         loop +=
           "while문을 활용하여 새로운 반복문을 만들어 볼 수 있습니다. while문은 조건식과 함께 사용됩니다.\n ";
       }
-      setLoopData(loop);
+      
       //if(/*while문을 빠져나가지 못하는 경우*/){
       //  str += "break문 또는 continue문을 활용하여 반복문을 종료시키거나 초기조건으로 돌아갈 수 있습니다.\n"
       //}
     } else {
-      var loop = ""
       if (_data.PrintRepeat > 0) {
         loop += "반복문(while, for)을 활용하여 코드를 효율적으로 나타낼 수 있습니다.\n";
       }
-      setLoopData(loop);
     }
+    setLoopData(loop);
 
     if (_data.If + _data.ElseIf + _data.Elif > 0) {
       var condition = ""
@@ -308,7 +307,7 @@ const CodeResultContainer = () => {
             <Col lg={8}>
               <Container>
                 <Jumbotron>
-                  {valueData !=null && valueData != "" && valueData.split("\n").map((item, idx) => {
+                  {valueData !=null && valueData !== "" && valueData.split("\n").map((item, idx) => {
                     return (
                       <Container key={idx}>
                         <Text text={item} />
@@ -317,7 +316,7 @@ const CodeResultContainer = () => {
                   })}
                 </Jumbotron>
                 <Jumbotron>
-                  {opData !=null && opData != "" && opData.split("\n").map((item, idx) => {
+                  {opData !=null && opData !== "" && opData.split("\n").map((item, idx) => {
                     return (
                       <Container key={idx}>
                         <Text text={item} />
@@ -326,7 +325,7 @@ const CodeResultContainer = () => {
                   })}
                 </Jumbotron>
                 <Jumbotron>
-                  {funcData !=null && funcData != ""  && funcData.split("\n").map((item, idx) => {
+                  {funcData !=null && funcData !== ""  && funcData.split("\n").map((item, idx) => {
                     return (
                       <Container key={idx}>
                         <Text text={item} />

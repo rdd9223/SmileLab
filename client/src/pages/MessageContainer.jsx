@@ -27,7 +27,7 @@ const MessageContainer = () => {
   const [currentPage, setCurrentPage] = React.useState(1);
 
   React.useEffect(() => {
-    loadMessage();
+    loadMessage(currentPage);
   }, []);
 
   const loadMessage = async(idx) => {
@@ -36,7 +36,8 @@ const MessageContainer = () => {
     if (currentPage !== 1 && res.data.data.length === 0) {
       alert("마지막페이지입니다!");
     } else {
-      setData(data.concat(res.data.data));
+      //setData(data.concat(res.data.data));
+      setData(res.data.data);
     }
   }
 
@@ -50,13 +51,18 @@ const MessageContainer = () => {
   }
 
   const getPrevMessage = async() => {
-    await setCurrentPage(currentPage - 1)
-    loadMessage(currentPage);
+    loadMessage(currentPage - 1);
+    setCurrentPage(currentPage - 1)
   }
 
   const getNextMessage = async() => {
-    await setCurrentPage(currentPage + 1)
-    loadMessage(currentPage);
+    
+    loadMessage(currentPage + 1);
+    setCurrentPage(currentPage + 1)
+  }
+
+  const sendMessage = () => {
+    window.location.href = '/sendMessage';
   }
 
   return (
@@ -85,8 +91,16 @@ const MessageContainer = () => {
             </Container1>
           </Col>
           <Col lg={5}>
+            
             <Container1>
               <MessageBox message={currentMessage} />
+            </Container1>
+            <Container1>
+              <Button 
+                name={"메세지 보내기"} 
+                size="sm" 
+                onClick={sendMessage} 
+              />
             </Container1>
           </Col>
         </Row>

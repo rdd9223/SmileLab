@@ -29,7 +29,8 @@ const ClassModal = ({ updateClass }) => {
   const loadTake = async () => {
     if (window.sessionStorage.getItem("loginToken") != null) {
       const res = await getTake();
-      if (res != null) {
+      console.log(res);
+      if (res != null && res.data.data.length !== 0) {
         setCurrentClass(res.data.data[0].name);
         if (updateClass != null) updateClass(res.data.data[0]);
       }

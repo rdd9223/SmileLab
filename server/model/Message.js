@@ -10,10 +10,14 @@ const message = {
       const date = moment().format("YYYY-MM-DD HH:mm:ss");
       const ALL = 0;
 
+
+
       if (!class_idx || !contents || !receiver) {
-        return resolve({
-          json: authUtil.successFalse(statusCode.BAD_REQUEST, responseMessage.NULL_VALUE),
-        });
+        if(receiver !== 0){
+          return resolve({
+            json: authUtil.successFalse(statusCode.BAD_REQUEST, responseMessage.NULL_VALUE),
+          });
+        }
       }
 
       if (receiver == ALL) {

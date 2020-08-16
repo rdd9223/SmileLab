@@ -9,12 +9,9 @@ export const getTake = async () => {
       },
     })
     .then((res) => {
-      if (res.status === 200) {
-        console.log(res);
-        return res;
-      }
+      return res;
     })
     .catch((e) => {
-      return;
+      return null;
     });
 };

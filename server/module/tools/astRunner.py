@@ -21,7 +21,7 @@ class Analyzer(ast.NodeVisitor):
                             "range","pow","ord","open","oct","min","mas","map","list","len","isinstance","int","input",
                             "id","hex","filter","eval","enumerate"]
 
-        self.stats = {"input": 0, "Return": 0, "Logical": 0, "Compare": 0, "Function": 0, "While": 0, "For": 0,
+        self.stats = {"input": 0, "Return": 0, "Logical": 0, "Compare": 0, "Function": 0, "While": 0, "For": 0, "FunctionUseCount": 0, 
                         "If": 0, "ElseIf": 0, "Elif": 0, "tuple": 0, "UniqIf": 0, "SelfOp" : 0, "FuncNoArgs" : 0,
                         "list": 0, "num": 0, "AugAssign": 0, "Assign": 0, "BinOp": 0, "Expr": 0, "Name": [], "Str": 0, 
                         "Constant": 0, "FunctionUse": [], "FunctionDef": [], "UnusedFunc": 0, "ParamOverThree" : 0,
@@ -91,6 +91,8 @@ class Analyzer(ast.NodeVisitor):
         "호출 카운터"
         length = 0
         name = ''
+        self.stats["FunctionUseCount"] += 1
+        
         if isinstance(node.func, ast.Name):
             length = len(node.args)
             name = str(length)+node.func.id
@@ -106,8 +108,6 @@ class Analyzer(ast.NodeVisitor):
         else:
             if name in self.stats["FunctionDef"]:
                 self.stats["FunctionUse"].append(name)
-       
-        
         self.generic_visit(node)
         
 
@@ -144,7 +144,6 @@ class Analyzer(ast.NodeVisitor):
                     self.stats["UniqIf"] += 1
         if len(node.orelse) == 0:
             self.stats["If"] += 1
-            
         else:
             if isinstance(node.orelse[0],ast.If):
                 self.stats["Elif"] += 1

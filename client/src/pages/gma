@@ -16,11 +16,15 @@ Module(body=[
       Assign(targets=[
         Name(id='temp', ctx=Store())], 
       value=
-        Name(id='money', "
- "ctx=Load()), type_comment=None), If(test=Compare(left=Name(id='number', "
- 'ctx=Load()), ops=[Eq()], comparators=[Constant(value=1, kind=None)]), '
- "body=[Expr(value=Call(func=Name(id='print', ctx=Load()), "
- "args=[Constant(value='포도주스를 선택하셨습니다. 거스름돈은 ', kind=None), "
+        Name(id='money', ctx=Load()), type_comment=None), 
+      If(test=Compare(left=
+        Name(id='number', ctx=Load()), ops=[Eq()], comparators=[
+          Constant(value=1, kind=None)]), 
+        body=[
+          Expr(value=
+            Call(func=
+              Name(id='print', ctx=Load()), args=[
+                Constant(value='포도주스를 선택하셨습니다. 거스름돈은 ', kind=None),
  "BinOp(left=Name(id='money', ctx=Load()), op=Sub(), right=Constant(value=100, "
  "kind=None)), Constant(value='원 입니다', kind=None)], keywords=[])), "
  "Assign(targets=[Name(id='money', ctx=Store())], "

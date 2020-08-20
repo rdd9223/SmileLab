@@ -2,6 +2,7 @@ import ast
 from pprint import pprint
 import os
 import sys
+import json
 
 
 def main():
@@ -138,6 +139,7 @@ class Analyzer(ast.NodeVisitor):
 
     def visit_If(self, node):
         "조건문 카운터"
+
         for element in node.body:
             if isinstance(element, ast.If):
                 if len(element.orelse) != 0 :
@@ -145,7 +147,11 @@ class Analyzer(ast.NodeVisitor):
         if len(node.orelse) == 0:
             self.stats["If"] += 1
         else:
-            if isinstance(node.orelse[0],ast.If):
+            elifFlag = 0
+            for item in node.orelse:
+                if isinstance(item,ast.If):
+                    elifFlag = 1
+            if elifFlag == 1:
                 self.stats["Elif"] += 1
             else:
                 self.stats["ElseIf"] += 1
@@ -201,8 +207,8 @@ class Analyzer(ast.NodeVisitor):
 
     def report(self):
         self.stats["UnusedFunc"] = (len(self.stats["FunctionDef"])-len(self.stats["FunctionUse"]))
-        pprint(self.stats)
-
+        json_val = json.dumps(self.stats)
+        print(json_val)
 
 if __name__ == "__main__":
     main()

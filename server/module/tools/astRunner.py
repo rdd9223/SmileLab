@@ -3,7 +3,6 @@ from pprint import pprint
 import os
 import sys
 import json
-import astdump
 
 
 def main():
@@ -11,7 +10,6 @@ def main():
         tree = ast.parse(source.read())
 
     #pprint(ast.dump(tree) + "\n")
-    #astdump.indented(tree)
     analyzer = Analyzer()
     analyzer.visit(tree)
     analyzer.report()
@@ -241,9 +239,6 @@ class Analyzer(ast.NodeVisitor):
             elif len(e) > 2:
                 self.stats["Elif"] += 1
         json_val = json.dumps(self.stats)
-
-        #print(self.IFStacks)
-        #print(len(self.IFStacks))
         print(json_val)
 if __name__ == "__main__":
     main()

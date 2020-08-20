@@ -166,14 +166,15 @@ const CodeResultContainer = () => {
 
   const loadResult = async() => {
     const res = await getCompileResult();
+    console.log(res);
     if (res != null && res.data.success) {
       try{
-        const _data = eval("(" + res.data.data + ")");
+        const _data = JSON.parse(res.data.data)
         setData(_data);
         Feedback(_data);
       }catch(e){
         alert("오류가 발생하였습니다. 다시 접근하여 주세요!");
-        window.location.href="/";
+        //window.location.href="/";
       }
     }
   }
@@ -289,12 +290,12 @@ const CodeResultContainer = () => {
                   <Col>
                     <Text text={"함수"} />
                   </Col>
-                  {data != null && data.Function !== 0 && (
+                  {data != null && data.FunctionUseCount !== 0 && (
                     <Col>
                       <FormCheck checked={true} />
                     </Col>
                   )}
-                  {data != null && data.Function === 0 && (
+                  {data != null && data.FunctionUseCount === 0 && (
                     <Col>
                       <FormCheck checked={false} />
                     </Col>

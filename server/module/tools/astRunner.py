@@ -2,6 +2,7 @@ import ast
 from pprint import pprint
 import os
 import sys
+import json
 
 
 def main():
@@ -17,15 +18,34 @@ def main():
 class Analyzer(ast.NodeVisitor):
     def __init__(self):
         #내장함수
-        self.innerFuncs = ["abs","all","any","chr","dir","divmod","zip","type","tuple","sum","str","sorted","round",
-                            "range","pow","ord","open","oct","min","mas","map","list","len","isinstance","int","input",
-                            "id","hex","filter","eval","enumerate"]
+        self.innerFuncs = [
+            "abs","all","any","chr","dir",
+            "divmod","zip","type","tuple","sum",
+            "str","sorted","round","range","pow",
+            "ord","open","oct","min","mas",
+            "map","list","len","isinstance","int",
+            "input","id","hex","filter","eval",
+            "enumerate","input","tuple","print"
+        ]
 
-        self.stats = {"input": 0, "Return": 0, "Logical": 0, "Compare": 0, "Function": 0, "While": 0, "For": 0,
-                        "If": 0, "ElseIf": 0, "Elif": 0, "tuple": 0, "UniqIf": 0, "SelfOp" : 0, "FuncNoArgs" : 0,
-                        "list": 0, "num": 0, "AugAssign": 0, "Assign": 0, "BinOp": 0, "Expr": 0, "Name": [], "Str": 0, 
-                        "Constant": 0, "FunctionUse": [], "FunctionDef": [], "UnusedFunc": 0, "ParamOverThree" : 0,
-                        "CountPrint": [], "PrintRepeat" : 0, "UsedInnerFunc" : [], "UsedName": [], "NameUsedAssign": [], "NameUsedOp": []}
+        self.stats = {
+            "input": 0, "Return": 0, "Logical": 0, 
+            "Compare": 0, "Function": 0, "While": 0, 
+            "For": 0, "FunctionUseCount": 0, "If": 0, 
+            "ElseIf": 0, "Elif": 0, "tuple": 0, 
+            "UniqIf": 0, "SelfOp" : 0, "FuncNoArgs" : 0,
+            "list": 0, "num": 0, "AugAssign": 0, 
+            "Assign": 0, "BinOp": 0, "Expr": 0, 
+            "Name": [], "Str": 0, "Constant": 0, 
+            "FunctionUse": [], "FunctionDef": [], "UnusedFunc": 0, 
+            "ParamOverThree" : 0, "CountPrint": [], "PrintRepeat" : 0, 
+            "UsedInnerFunc" : [], "UsedName": [], "NameUsedAssign": [], 
+            "NameUsedOp": []
+        }
+
+        self.elifFlag = 0
+        self.elseFlag = 0
+        self.IFStacks = []
 
     
     def visit_Assign(self, node):
@@ -48,7 +68,6 @@ class Analyzer(ast.NodeVisitor):
                 if node.value.right.id not in self.stats["NameUsedAssign"]:
                     self.stats["NameUsedAssign"].append(node.value.right.id)
 
-
         #자기자신에 대한 사칙연산
         if len(node.targets) == 1 and isinstance(node.targets[0], ast.Name) :
             if isinstance(node.value, ast.BinOp):
@@ -64,7 +83,7 @@ class Analyzer(ast.NodeVisitor):
         self.generic_visit(node)
 
     def visit_Tuple(self, node):
-        "튜플 카운터"
+        #튜플카운터
         self.stats["tuple"] += 1
         self.generic_visit(node)
     
@@ -91,6 +110,8 @@ class Analyzer(ast.NodeVisitor):
         "호출 카운터"
         length = 0
         name = ''
+        self.stats["FunctionUseCount"] += 1
+        
         if isinstance(node.func, ast.Name):
             length = len(node.args)
             name = str(length)+node.func.id
@@ -106,8 +127,6 @@ class Analyzer(ast.NodeVisitor):
         else:
             if name in self.stats["FunctionDef"]:
                 self.stats["FunctionUse"].append(name)
-       
-        
         self.generic_visit(node)
         
 
@@ -138,18 +157,25 @@ class Analyzer(ast.NodeVisitor):
 
     def visit_If(self, node):
         "조건문 카운터"
+        currentE = None
+        pn = {"id" : id(node), "type" : type(node)}
+        for e in self.IFStacks:
+            if pn in e :
+                currentE = e
+        if currentE is None:
+            new = [{"id" : id(node), "type" : type(node)}]
+            self.IFStacks.append(new)
+        if len(node.orelse) != 0:
+            nn = {'id' : id(node.orelse[0]), 'type' : type(node.orelse[0])}
+            if currentE is None:
+                self.IFStacks[len(self.IFStacks)-1].append(nn)
+            else:
+                self.IFStacks[self.IFStacks.index(currentE)].append(nn)
+
         for element in node.body:
             if isinstance(element, ast.If):
-                if len(element.orelse) != 0 :
+                if len(element.orelse) != 0:
                     self.stats["UniqIf"] += 1
-        if len(node.orelse) == 0:
-            self.stats["If"] += 1
-            
-        else:
-            if isinstance(node.orelse[0],ast.If):
-                self.stats["Elif"] += 1
-            else:
-                self.stats["ElseIf"] += 1
         self.generic_visit(node)
         
     def visit_For(self, node):
@@ -202,8 +228,17 @@ class Analyzer(ast.NodeVisitor):
 
     def report(self):
         self.stats["UnusedFunc"] = (len(self.stats["FunctionDef"])-len(self.stats["FunctionUse"]))
-        pprint(self.stats)
-
-
+        for e in self.IFStacks:
+            if len(e) is 1:
+                self.stats["If"] += 1
+            elif len(e) is 2:
+                if "Expr" in e[len(e)-1]:
+                    self.stats["ElseIf"] += 1
+                else:
+                    self.stats["Elif"] += 1
+            elif len(e) > 2:
+                self.stats["Elif"] += 1
+        json_val = json.dumps(self.stats)
+        print(json_val)
 if __name__ == "__main__":
     main()

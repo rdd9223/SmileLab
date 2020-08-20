@@ -109,7 +109,6 @@ const CommunityPostContainer = () => {
           })}
           </>
         )}
-        
       </Container>
       <hr/>
       <h6>댓글 달기</h6>

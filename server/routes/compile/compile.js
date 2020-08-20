@@ -38,6 +38,7 @@ router.post("/result", async (req, res) => {
     `python3 ${testPath}/astRunner.py ${sourcePath}/Main.py`,
     (err, out, stderr) => {
       console.log(out);
+      console.log(err);
       if (out) {
         res.status(200).send(authUtil.successTrue(statusCode.OK, "컴파일 성공", out));
       } else {

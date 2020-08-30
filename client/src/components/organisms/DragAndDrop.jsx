@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Stage, Layer } from "react-konva";
 import { Button, Row, Col, Container } from "react-bootstrap";
 import Oval from "../molecules/figure/Oval";
@@ -6,11 +6,19 @@ import Square from "../molecules/figure/Square";
 import EditableText from "../molecules/figure/EditableText";
 import ArrowLine from "../molecules/figure/ArrowLine";
 import Parallelogram from "../molecules/figure/Parallelogram";
+import Transformer from "../molecules/figure/Transformer";
+
+/*
+  TODO
+  1. 화살표 크기가 안변함
+  2. 평행사변형, 마름모, 육각형 선택자 문제
+  3. 도형 삭제
+*/
 
 const DragAndDrop = (props) => {
   const stageRef = useRef();
   const [images, setImages] = useState([]);
-  const [selectedId, selectShape] = useState(null);
+  const [selectedShapeName, setSelectedShapeName] = useState("");
 
   const style = {
     oval: {
@@ -20,7 +28,7 @@ const DragAndDrop = (props) => {
       radiusY: 25,
       stroke: "black",
       strokeWidth: 1,
-      id: "ellipse" + images.length + 1,
+      name: "ellipse" + (images.length + 1),
     },
     circle: {
       x: 50,
@@ -29,7 +37,7 @@ const DragAndDrop = (props) => {
       radiusY: 10,
       stroke: "black",
       strokeWidth: 1,
-      id: "circle" + images.length + 1,
+      name: "circle" + (images.length + 1),
     },
     square: {
       x: 50,
@@ -38,7 +46,7 @@ const DragAndDrop = (props) => {
       height: 50,
       stroke: "black",
       strokeWidth: 1,
-      id: "rect" + images.length + 1,
+      name: "rect" + (images.length + 1),
     },
     textArea: {
       text: "여기에 입력해주세요!",
@@ -47,7 +55,7 @@ const DragAndDrop = (props) => {
       fontSize: 15,
       draggable: true,
       width: 200,
-      id: "textArea" + images.length + 1,
+      name: "textArea" + (images.length + 1),
     },
     arrowLine: {
       x: 50,
@@ -58,14 +66,14 @@ const DragAndDrop = (props) => {
       fill: "black",
       stroke: "black",
       strokeWidth: 1,
-      id: "arrowLine" + images.length + 1,
+      name: "arrowLine" + (images.length + 1),
     },
     rhombus: {
-      x: 50,
-      y: 50,
+      width: 200,
+      height: 50,
       stroke: "black",
       strokeWidth: 1,
-      id: "rhombus" + images.length + 1,
+      name: "rhombus" + (images.length + 1),
       sceneFunc: (context, shape) => {
         context.beginPath();
         context.moveTo(100, 0);
@@ -77,11 +85,11 @@ const DragAndDrop = (props) => {
       },
     },
     parallelogram: {
-      x: 50,
-      y: 50,
+      width: 200,
+      height: 50,
       stroke: "black",
       strokeWidth: 1,
-      id: "parallelogram" + images.length + 1,
+      name: "parallelogram" + (images.length + 1),
       sceneFunc: (context, shape) => {
         context.beginPath();
         context.moveTo(20, 0);
@@ -93,11 +101,11 @@ const DragAndDrop = (props) => {
       },
     },
     hexagon: {
-      x: 50,
-      y: 50,
+      width: 200,
+      height: 50,
       stroke: "black",
       strokeWidth: 1,
-      id: "hexagon" + images.length + 1,
+      name: "hexagon" + (images.length + 1),
       sceneFunc: (context, shape) => {
         context.beginPath();
         context.moveTo(20, 0);
@@ -110,6 +118,25 @@ const DragAndDrop = (props) => {
         context.fillStrokeShape(shape);
       },
     },
+  };
+
+  const handleStageMouseDown = (e) => {
+    if (e.target === e.target.getStage()) {
+      setSelectedShapeName("");
+      return;
+    }
+    const clickedOnTransformer = e.target.getParent().className === "Transformer";
+    if (clickedOnTransformer) {
+      return;
+    }
+
+    const name = e.target.name();
+    const rect = images.find((r) => r.name === name);
+    if (rect) {
+      setSelectedShapeName(name);
+    } else {
+      setSelectedShapeName("");
+    }
   };
 
   return (
@@ -169,112 +196,48 @@ const DragAndDrop = (props) => {
       <div
         style={{
           overflow: "hidden",
-          // overflow: "auto",
           height: 670,
           border: "1px solid grey",
         }}
       >
-        <Stage
-          width={450}
-          height={1500}
-          ref={stageRef}
-          onMouseDown={(e) => {
-            // deselect when clicked on empty area
-            const clickedOnEmpty = e.target === e.target.getStage();
-            if (clickedOnEmpty) {
-              selectShape(null);
-            }
-          }}
-        >
+        <Stage width={510} height={1500} onMouseDown={handleStageMouseDown}>
           <Layer>
             {images.map((image, i) => {
-              if (image.id.indexOf("rect") !== -1) {
-                return (
-                  <Square
-                    key={i}
-                    shapeProps={image}
-                    isSelected={image.id === selectedId}
-                    onSelect={() => {
-                      selectShape(image.id);
-                    }}
-                    onChange={(newAttrs) => {
-                      const image = images.slice();
-                      image[i] = newAttrs;
-                      setImages(image);
-                    }}
-                  />
-                );
+              if (image.name.indexOf("rect") !== -1) {
+                return <Square key={i} shapeProps={image} />;
               } else if (
-                image.id.indexOf("parallelogram") !== -1 ||
-                image.id.indexOf("rhombus") !== -1 ||
-                image.id.indexOf("hexagon") !== -1
+                image.name.indexOf("parallelogram") !== -1 ||
+                image.name.indexOf("rhombus") !== -1 ||
+                image.name.indexOf("hexagon") !== -1
               ) {
-                return (
-                  <Parallelogram
-                    key={i}
-                    shapeProps={image}
-                    isSelected={image.id === selectedId}
-                    onSelect={() => {
-                      selectShape(image.id);
-                    }}
-                    onChange={(newAttrs) => {
-                      const image = images.slice();
-                      image[i] = newAttrs;
-                      setImages(image);
-                    }}
-                  />
-                );
-              } else if (image.id.indexOf("textArea") !== -1) {
-                return (
-                  <EditableText
-                    key={i}
-                    shapeProps={image}
-                    isSelected={image.id === selectedId}
-                    onSelect={() => {
-                      selectShape(image.id);
-                    }}
-                    onChange={(newAttrs) => {
-                      const image = images.slice();
-                      image[i] = newAttrs;
-                      setImages(image);
-                    }}
-                  />
-                );
-              } else if (image.id.indexOf("arrowLine") !== -1) {
-                return (
-                  <ArrowLine
-                    key={i}
-                    shapeProps={image}
-                    isSelected={image.id === selectedId}
-                    onSelect={() => {
-                      selectShape(image.id);
-                    }}
-                    onChange={(newAttrs) => {
-                      const image = images.slice();
-                      image[i] = newAttrs;
-                      setImages(image);
-                    }}
-                  />
-                );
-              } else if (image.id.indexOf("circle") !== -1 || image.id.indexOf("ellipse") !== -1) {
-                return (
-                  <Oval
-                    key={i}
-                    shapeProps={image}
-                    isSelected={image.id === selectedId}
-                    onSelect={() => {
-                      selectShape(image.id);
-                    }}
-                    onChange={(newAttrs) => {
-                      const image = images.slice();
-                      image[i] = newAttrs;
-                      setImages(image);
-                    }}
-                  />
-                );
+                return <Parallelogram key={i} shapeProps={image} />;
+                // } else if (image.id.indexOf("textArea") !== -1) {
+                //     return (
+                //       <EditableText
+                //         key={i}
+                //         shapeProps={image}
+                //         isSelected={image.id === selectedId}
+                //         onSelect={() => {
+                //           selectShape(image.id);
+                //         }}
+                //         onChange={(newAttrs) => {
+                //           const image = images.slice();
+                //           image[i] = newAttrs;
+                //           setImages(image);
+                //         }}
+                //       />
+                //     );
+              } else if (image.name.indexOf("arrowLine") !== -1) {
+                return <ArrowLine key={i} shapeProps={image} />;
+              } else if (
+                image.name.indexOf("circle") !== -1 ||
+                image.name.indexOf("ellipse") !== -1
+              ) {
+                return <Oval key={i} shapeProps={image} />;
               }
               return null;
             })}
+            <Transformer selectedShapeName={selectedShapeName} />
           </Layer>
         </Stage>
       </div>

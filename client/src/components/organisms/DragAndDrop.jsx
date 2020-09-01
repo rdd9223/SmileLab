@@ -10,8 +10,6 @@ import Transformer from "../molecules/figure/Transformer";
 
 /*
   TODO
-  1. 화살표 크기가 안변함
-  2. 평행사변형, 마름모, 육각형 선택자 문제
   3. 도형 삭제
 */
 
@@ -22,6 +20,7 @@ const DragAndDrop = (props) => {
 
   const style = {
     oval: {
+      type: "종료",
       x: 150,
       y: 75,
       radiusX: 100,
@@ -31,6 +30,7 @@ const DragAndDrop = (props) => {
       name: "ellipse" + (images.length + 1),
     },
     circle: {
+      type: "연결자",
       x: 50,
       y: 50,
       radiusX: 10,
@@ -40,6 +40,7 @@ const DragAndDrop = (props) => {
       name: "circle" + (images.length + 1),
     },
     square: {
+      type: "처리",
       x: 50,
       y: 50,
       width: 200,
@@ -49,7 +50,7 @@ const DragAndDrop = (props) => {
       name: "rect" + (images.length + 1),
     },
     textArea: {
-      text: "여기에 입력해주세요!",
+      type: "글상자",
       x: 50,
       y: 50,
       fontSize: 15,
@@ -58,6 +59,7 @@ const DragAndDrop = (props) => {
       name: "textArea" + (images.length + 1),
     },
     arrowLine: {
+      type: "화살표",
       x: 50,
       y: 50,
       points: [0, 0, 0, 50],
@@ -69,6 +71,7 @@ const DragAndDrop = (props) => {
       name: "arrowLine" + (images.length + 1),
     },
     rhombus: {
+      type: "조건",
       width: 200,
       height: 50,
       stroke: "black",
@@ -85,6 +88,7 @@ const DragAndDrop = (props) => {
       },
     },
     parallelogram: {
+      type: "입/출력",
       width: 200,
       height: 50,
       stroke: "black",
@@ -101,6 +105,7 @@ const DragAndDrop = (props) => {
       },
     },
     hexagon: {
+      type: "준비",
       width: 200,
       height: 50,
       stroke: "black",
@@ -200,7 +205,7 @@ const DragAndDrop = (props) => {
           border: "1px solid grey",
         }}
       >
-        <Stage width={510} height={1500} onMouseDown={handleStageMouseDown}>
+        <Stage ref={stageRef} width={510} height={1500} onMouseDown={handleStageMouseDown}>
           <Layer>
             {images.map((image, i) => {
               if (image.name.indexOf("rect") !== -1) {
@@ -211,22 +216,8 @@ const DragAndDrop = (props) => {
                 image.name.indexOf("hexagon") !== -1
               ) {
                 return <Parallelogram key={i} shapeProps={image} />;
-                // } else if (image.id.indexOf("textArea") !== -1) {
-                //     return (
-                //       <EditableText
-                //         key={i}
-                //         shapeProps={image}
-                //         isSelected={image.id === selectedId}
-                //         onSelect={() => {
-                //           selectShape(image.id);
-                //         }}
-                //         onChange={(newAttrs) => {
-                //           const image = images.slice();
-                //           image[i] = newAttrs;
-                //           setImages(image);
-                //         }}
-                //       />
-                //     );
+              } else if (image.name.indexOf("textArea") !== -1) {
+                return <EditableText key={i} shapeProps={image} stageRef={stageRef} />;
               } else if (image.name.indexOf("arrowLine") !== -1) {
                 return <ArrowLine key={i} shapeProps={image} />;
               } else if (

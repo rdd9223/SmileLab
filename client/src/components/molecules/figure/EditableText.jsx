@@ -1,94 +1,77 @@
-import React, { useState, useRef, useEffect, Fragment } from "react";
-import { Transformer, Text } from "react-konva";
+import React, { useState, Fragment, useRef } from "react";
+import { Text } from "react-konva";
 import Portal from "./Portal";
+import styled from "styled-components";
 
-const EditableText = ({ shapeProps, isSelected, onSelect, onChange }) => {
-  const shapeRef = useRef();
-  const trRef = useRef();
+const EditableText = ({ shapeProps, stageRef }) => {
   const [textEditVisible, setTextEditVisible] = useState(false);
   const [textXY, setTextXY] = useState({ x: 0, y: 0 });
+  const [textValue, setTextValue] = useState("여기에 입력해주세요");
+  const textRef = useRef();
+  const stageBox = stageRef.current.container().getBoundingClientRect();
 
-  useEffect(() => {
-    if (isSelected) {
-      // we need to attach transformer manually
-      trRef.current.setNode(shapeRef.current);
-      trRef.current.getLayer().batchDraw();
+  const handleDoubleClick = (e) => {
+    const absPos = e.target.getAbsolutePosition();
+    setTextEditVisible(true);
+    setTextXY({ x: stageBox.left + absPos.x, y: stageBox.top + absPos.y });
+  };
+
+  const handleTextEdit = (e) => {
+    setTextValue(e.target.value);
+  };
+
+  const handleTextareaKeyDown = (e) => {
+    if (e.keyCode === 13) {
+      setTextEditVisible(false);
     }
-  }, [isSelected]);
+  };
 
   return (
     <Fragment>
       <Text
-        onClick={onSelect}
-        onDblClick={(e) => {
-          const absPos = e.target.getAbsolutePosition();
-          setTextEditVisible(true);
-          setTextXY({ x: absPos.x, y: absPos.y });
-        }}
-        ref={shapeRef}
+        ref={textRef}
+        onDblClick={handleDoubleClick}
         {...shapeProps}
+        text={textValue}
         draggable
-        onDragEnd={(e) => {
-          onChange({
-            ...shapeProps,
-            x: e.target.x(),
-            y: e.target.y(),
-          });
-        }}
-        onTransformEnd={(e) => {
-          const node = shapeRef.current;
-          const scaleX = node.scaleX();
-          const scaleY = node.scaleY();
-
-          // we will reset it back
-          node.scaleX(1);
-          node.scaleY(1);
-          onChange({
-            ...shapeProps,
-            x: node.x(),
-            y: node.y(),
-            // set minimal value
-            width: Math.max(5, node.width() * scaleX),
-            height: Math.max(node.height() * scaleY),
-          });
-        }}
       />
-      {isSelected && (
-        <Transformer
-          ref={trRef}
-          boundBoxFunc={(oldBox, newBox) => {
-            // limit resize
-            if (newBox.width < 5 || newBox.height < 5) {
-              return oldBox;
-            }
-            return newBox;
-          }}
-        />
-      )}
       <Portal>
-        <textarea
-          value={shapeProps.text}
-          style={{
-            display: textEditVisible ? "block" : "none",
-            position: "absolute",
-            top: window.innerHeight / 2 + "px",
-            left: window.innerWidth / 4 + "px",
-          }}
-          onChange={(e) => {
-            onChange({
-              ...shapeProps,
-              text: e.target.value,
-            });
-          }}
-          onKeyDown={(e) => {
-            if (e.keyCode === 13) {
-              setTextEditVisible(false);
-            }
-          }}
+        <CoverTextArea
+          value={textValue}
+          textEditVisible={textEditVisible}
+          textXY={textXY}
+          onChange={handleTextEdit}
+          onKeyDown={handleTextareaKeyDown}
+          textRef={textRef}
         />
       </Portal>
     </Fragment>
   );
 };
+
+const CoverTextArea = styled.textarea`
+  display: ${(props) => (props.textEditVisible ? "block" : "none")};
+  position: absolute;
+  top: ${(props) => props.textXY.y - 3}px;
+  left: ${(props) => props.textXY.x}px;
+  width: ${(props) => props.textRef.current.getWidth() - props.textRef.current.getPadding() * 2}px;
+  height: ${(props) =>
+    props.textRef.current.getHeight() - props.textRef.current.getPadding() * 2}px;
+  font-size: ${(props) => props.textRef.current.getFontSize()}px;
+  border: none;
+  padding: 0px;
+  margin: 0px;
+  overflow: hidden;
+  background: none;
+  outline: none;
+  resize: none;
+  transform-origin: left top;
+  line-height: ${(props) => {
+    props.textRef.current.getLineHeight();
+  }};
+  font-family: ${(props) => props.textRef.current.getFontFamily()};
+  text-align: ${(props) => props.textRef.current.getAlign()};
+  color: ${(props) => props.textRef.current.getFill()};
+`;
 
 export default EditableText;

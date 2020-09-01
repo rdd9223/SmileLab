@@ -6,12 +6,12 @@ const TransformerComponent = ({ selectedShapeName }) => {
 
   useEffect(() => {
     checkNode();
-  }, [selectedShapeName]);
+  });
 
   const checkNode = () => {
     const stage = TransformerRef.current.getStage();
     const selectedNode = stage.findOne("." + selectedShapeName);
-    console.log(stage, selectedShapeName);
+
     if (selectedNode === TransformerRef.current.node()) {
       return;
     }

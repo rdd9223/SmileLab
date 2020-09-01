@@ -125,6 +125,11 @@ const DragAndDrop = (props) => {
     },
   };
 
+  const buttonArray = [
+    [style.oval, style.square, style.parallelogram, style.rhombus],
+    [style.circle, style.hexagon, style.textArea, style.arrowLine],
+  ];
+
   const handleStageMouseDown = (e) => {
     if (e.target === e.target.getStage()) {
       setSelectedShapeName("");
@@ -149,52 +154,26 @@ const DragAndDrop = (props) => {
       <div style={{ width: 468.8, height: 80, margin: "auto" }}>
         <Container>
           <Row style={{ paddingBottom: 5 }}>
-            <Col>
-              <Button size="sm" onClick={(e) => setImages(images.concat(style.oval))} block>
-                시작/종료
-              </Button>
-            </Col>
-            <Col>
-              <Button size="sm" onClick={(e) => setImages(images.concat(style.square))} block>
-                처리
-              </Button>
-            </Col>
-            <Col>
-              <Button
-                size="sm"
-                onClick={(e) => setImages(images.concat(style.parallelogram))}
-                block
-              >
-                입/출력
-              </Button>
-            </Col>
-            <Col>
-              <Button size="sm" onClick={(e) => setImages(images.concat(style.rhombus))} block>
-                조건
-              </Button>
-            </Col>
+            {buttonArray[0].map((img, i) => {
+              return (
+                <Col>
+                  <Button size="sm" onClick={() => setImages(images.concat(img))} block>
+                    {img.type}
+                  </Button>
+                </Col>
+              );
+            })}
           </Row>
           <Row>
-            <Col>
-              <Button size="sm" onClick={(e) => setImages(images.concat(style.circle))} block>
-                연결자
-              </Button>
-            </Col>
-            <Col>
-              <Button size="sm" onClick={(e) => setImages(images.concat(style.hexagon))} block>
-                준비
-              </Button>
-            </Col>
-            <Col>
-              <Button size="sm" onClick={(e) => setImages(images.concat(style.textArea))} block>
-                글상자
-              </Button>
-            </Col>
-            <Col>
-              <Button size="sm" onClick={(e) => setImages(images.concat(style.arrowLine))} block>
-                화살표
-              </Button>
-            </Col>
+            {buttonArray[1].map((img, i) => {
+              return (
+                <Col>
+                  <Button size="sm" onClick={() => setImages(images.concat(img))} block>
+                    {img.type}
+                  </Button>
+                </Col>
+              );
+            })}
           </Row>
         </Container>
       </div>

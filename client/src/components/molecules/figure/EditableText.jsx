@@ -2,6 +2,8 @@ import React, { useState, Fragment, useRef } from "react";
 import { Text } from "react-konva";
 import Portal from "./Portal";
 import styled from "styled-components";
+import ContextMenu from "./ContextMenu";
+import useMousePosition from "hooks/useMousePosition";
 
 const EditableText = ({ shapeProps, stageRef }) => {
   const [textEditVisible, setTextEditVisible] = useState(false);
@@ -9,6 +11,9 @@ const EditableText = ({ shapeProps, stageRef }) => {
   const [textValue, setTextValue] = useState("여기에 입력해주세요");
   const textRef = useRef();
   const stageBox = stageRef.current.container().getBoundingClientRect();
+  const [selectedContextMenu, setSelectedContextMenu] = useState(null);
+  const { x, y } = useMousePosition();
+  const shapeRef = useRef();
 
   const handleDoubleClick = (e) => {
     const absPos = e.target.getAbsolutePosition();
@@ -26,6 +31,17 @@ const EditableText = ({ shapeProps, stageRef }) => {
     }
   };
 
+  const handleOptionSelected = () => {
+    shapeRef.current.remove();
+    stageRef.current.draw();
+    setSelectedContextMenu(null);
+  };
+
+  const handleContextMenu = (e) => {
+    e.evt.preventDefault(true);
+    setSelectedContextMenu({ x, y });
+  };
+
   return (
     <Fragment>
       <Text
@@ -34,6 +50,7 @@ const EditableText = ({ shapeProps, stageRef }) => {
         {...shapeProps}
         text={textValue}
         draggable
+        onContextMenu={handleContextMenu}
       />
       <Portal>
         <CoverTextArea
@@ -45,6 +62,11 @@ const EditableText = ({ shapeProps, stageRef }) => {
           textRef={textRef}
         />
       </Portal>
+      {selectedContextMenu && (
+        <Portal>
+          <ContextMenu position={selectedContextMenu} onOptionSelected={handleOptionSelected} />
+        </Portal>
+      )}
     </Fragment>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import { Stage, Layer } from "react-konva";
 import { Button, Row, Col, Container } from "react-bootstrap";
 import Oval from "../molecules/figure/Oval";
@@ -7,10 +7,9 @@ import EditableText from "../molecules/figure/EditableText";
 import ArrowLine from "../molecules/figure/ArrowLine";
 import Parallelogram from "../molecules/figure/Parallelogram";
 import Transformer from "../molecules/figure/Transformer";
-
 /*
-  TODO
-  3. 도형 삭제
+  TODO:
+  3. 도형 삭제 -> Transform처럼 코드 리펙토링 필요
 */
 
 const DragAndDrop = (props) => {
@@ -131,6 +130,7 @@ const DragAndDrop = (props) => {
   ];
 
   const handleStageMouseDown = (e) => {
+    e.evt.preventDefault(true);
     if (e.target === e.target.getStage()) {
       setSelectedShapeName("");
       return;
@@ -156,7 +156,7 @@ const DragAndDrop = (props) => {
           <Row style={{ paddingBottom: 5 }}>
             {buttonArray[0].map((img, i) => {
               return (
-                <Col>
+                <Col key={i}>
                   <Button size="sm" onClick={() => setImages(images.concat(img))} block>
                     {img.type}
                   </Button>
@@ -167,7 +167,7 @@ const DragAndDrop = (props) => {
           <Row>
             {buttonArray[1].map((img, i) => {
               return (
-                <Col>
+                <Col key={i}>
                   <Button size="sm" onClick={() => setImages(images.concat(img))} block>
                     {img.type}
                   </Button>
@@ -188,22 +188,22 @@ const DragAndDrop = (props) => {
           <Layer>
             {images.map((image, i) => {
               if (image.name.indexOf("rect") !== -1) {
-                return <Square key={i} shapeProps={image} />;
+                return <Square key={i} shapeProps={image} stageRef={stageRef} />;
               } else if (
                 image.name.indexOf("parallelogram") !== -1 ||
                 image.name.indexOf("rhombus") !== -1 ||
                 image.name.indexOf("hexagon") !== -1
               ) {
-                return <Parallelogram key={i} shapeProps={image} />;
+                return <Parallelogram key={i} shapeProps={image} stageRef={stageRef} />;
               } else if (image.name.indexOf("textArea") !== -1) {
                 return <EditableText key={i} shapeProps={image} stageRef={stageRef} />;
               } else if (image.name.indexOf("arrowLine") !== -1) {
-                return <ArrowLine key={i} shapeProps={image} />;
+                return <ArrowLine key={i} shapeProps={image} stageRef={stageRef} />;
               } else if (
                 image.name.indexOf("circle") !== -1 ||
                 image.name.indexOf("ellipse") !== -1
               ) {
-                return <Oval key={i} shapeProps={image} />;
+                return <Oval key={i} shapeProps={image} stageRef={stageRef} />;
               }
               return null;
             })}

@@ -13,7 +13,6 @@ const EditableText = ({ shapeProps, stageRef }) => {
   const stageBox = stageRef.current.container().getBoundingClientRect();
   const [selectedContextMenu, setSelectedContextMenu] = useState(null);
   const { x, y } = useMousePosition();
-  const shapeRef = useRef();
 
   const handleDoubleClick = (e) => {
     const absPos = e.target.getAbsolutePosition();
@@ -32,7 +31,7 @@ const EditableText = ({ shapeProps, stageRef }) => {
   };
 
   const handleOptionSelected = () => {
-    shapeRef.current.remove();
+    textRef.current.remove();
     stageRef.current.draw();
     setSelectedContextMenu(null);
   };

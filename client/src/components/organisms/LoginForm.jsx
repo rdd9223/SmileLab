@@ -35,8 +35,10 @@ const LoginForm = () => {
       window.sessionStorage.clear();
       window.sessionStorage.setItem("loginToken", res.data.data.token);
       window.location.reload(true);
-    } else if (res.data.status === 400) {
+    } else if (res != null && res.data.status === 400) {
       alert(res.data.message);
+    }else{
+      
     }
   }
 

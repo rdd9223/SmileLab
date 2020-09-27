@@ -17,13 +17,12 @@ const resetCode = () => {
 };
 
 const CodeResultContainer = () => {
-  const [data, setData] = React.useState(null)
+  const [data, setData] = React.useState(null);
   const [valueData, setValueData] = React.useState("");
   const [loopData, setLoopData] = React.useState("");
   const [conditionData, setConditionData] = React.useState("");
   const [opData, setOpData] = React.useState("");
   const [funcData, setFuncData] = React.useState("");
-  
 
   React.useEffect(() => {
     loadResult();
@@ -62,20 +61,11 @@ const CodeResultContainer = () => {
         "개 입니다.\n";
       setValueData(value);
     }
-    if (
-      _data.BinOp +
-        _data.AugAssign +
-        _data.Compare +
-        _data.Logical >
-      0
-    ) {
-      var op=""
+    if (_data.BinOp + _data.AugAssign + _data.Compare + _data.Logical > 0) {
+      var op = "";
       op +=
         "연산자 활용 횟수는 총 " +
-        (_data.BinOp +
-          _data.AugAssign +
-          _data.Compare +
-          _data.Logical) +
+        (_data.BinOp + _data.AugAssign + _data.Compare + _data.Logical) +
         "번 입니다.\n" +
         "이 중 사칙연산은 " +
         _data.BinOp +
@@ -93,13 +83,9 @@ const CodeResultContainer = () => {
       }
       setOpData(op);
     }
-    var loop = ""
+    var loop = "";
     if (_data.For + _data.While > 0) {
-      
-      loop +=
-        "반복문을 활용한 횟수는 총 " +
-        (_data.For + _data.While) +
-        "회 입니다.\n";
+      loop += "반복문을 활용한 횟수는 총 " + (_data.For + _data.While) + "회 입니다.\n";
       if (_data.For === 0 && _data.While > 0) {
         loop +=
           "for문을 활용하여 새로운 반복문을 만들어 볼 수 있습니다. for문에 range 함수를 결합하면 일정횟수 반복문을 만들 수 있습니다.\n ";
@@ -108,7 +94,7 @@ const CodeResultContainer = () => {
         loop +=
           "while문을 활용하여 새로운 반복문을 만들어 볼 수 있습니다. while문은 조건식과 함께 사용됩니다.\n ";
       }
-      
+
       //if(/*while문을 빠져나가지 못하는 경우*/){
       //  str += "break문 또는 continue문을 활용하여 반복문을 종료시키거나 초기조건으로 돌아갈 수 있습니다.\n"
       //}
@@ -118,10 +104,10 @@ const CodeResultContainer = () => {
       }
     }
     setLoopData(loop);
-   
+
     if (_data.If + _data.ElseIf + _data.Elif > 0) {
-      var condition = "" 
-      condition += 
+      var condition = "";
+      condition +=
         "조건문 중 if문을 총 " +
         _data.If +
         "회,  " +
@@ -137,15 +123,14 @@ const CodeResultContainer = () => {
       }
       setConditionData(condition);
     }
-    var func = ""
+    var func = "";
     if (_data.Function > 0) {
-      
       func += "정의된 함수는 " + _data.Function + "개 입니다. \n";
-      if (_data.Return === 0) {
-        func +=
-          "return 함수가 없는 코드는 결과값이 없습니다. " +
-          "Return함수를 활용하여 결과값을 어떻게 돌려줄 것인지 코딩하세요. \n";
-      }
+      // if (_data.Return === 0) {
+      //   func +=
+      //     "return 함수가 없는 코드는 결과값이 없습니다. " +
+      //     "Return함수를 활용하여 결과값을 어떻게 돌려줄 것인지 코딩하세요. \n";
+      // }
       if (_data.FuncNoArgs > 0) {
         func += "함수이름() 형태는 입력값이 없고 결과값만 있는 코드 형태입니다. \n";
       }
@@ -162,30 +147,27 @@ const CodeResultContainer = () => {
         "개 입니다.";
     }
     setFuncData(func);
-  }
+  };
 
-  const loadResult = async() => {
+  const loadResult = async () => {
     const res = await getCompileResult();
     console.log(res);
     if (res != null && res.data.success) {
-      try{
-        const _data = JSON.parse(res.data.data)
+      try {
+        const _data = JSON.parse(res.data.data);
         setData(_data);
         Feedback(_data);
-      }catch(e){
+      } catch (e) {
         alert("오류가 발생하였습니다. 다시 접근하여 주세요!");
         //window.location.href="/";
       }
     }
-  }
+  };
 
-  const saveResult = async() => {
+  const saveResult = async () => {
     const res = await postResult(
       data.Name.length,
-      data.BinOp +
-        data.AugAssign +
-        data.Compare +
-        data.Logical,
+      data.BinOp + data.AugAssign + data.Compare + data.Logical,
       0,
       data.If + data.ElseIf + data.Elif,
       data.For + data.While,
@@ -195,7 +177,7 @@ const CodeResultContainer = () => {
       alert("저장 성공!");
       window.location.href = "/myclass";
     }
-  }
+  };
 
   return (
     <Container>
@@ -224,26 +206,16 @@ const CodeResultContainer = () => {
                   <Col>
                     <Text text={"연산자"} />
                   </Col>
-                  {data != null &&
-                    data.BinOp +
-                      data.AugAssign +
-                      data.Compare +
-                      data.Logical !==
-                      0 && (
-                      <Col>
-                        <FormCheck checked={true} />
-                      </Col>
-                    )}
-                  {data != null &&
-                    data.BinOp +
-                      data.AugAssign +
-                      data.Compare +
-                      data.Logical ===
-                      0 && (
-                      <Col>
-                        <FormCheck checked={false} />
-                      </Col>
-                    )}
+                  {data != null && data.BinOp + data.AugAssign + data.Compare + data.Logical !== 0 && (
+                    <Col>
+                      <FormCheck checked={true} />
+                    </Col>
+                  )}
+                  {data != null && data.BinOp + data.AugAssign + data.Compare + data.Logical === 0 && (
+                    <Col>
+                      <FormCheck checked={false} />
+                    </Col>
+                  )}
                 </Row>
                 {/* 
                 <Row>
@@ -255,36 +227,31 @@ const CodeResultContainer = () => {
                   <Col>
                     <Text text={"조건문"} />
                   </Col>
-                  {data != null &&
-                    data.If + data.ElseIf + data.Elif !== 0 && (
-                      <Col>
-                        <FormCheck checked={true} />
-                      </Col>
-                    )}
-                  {data != null &&
-                    data.If + data.ElseIf + data.Elif === 0 && (
-                      <Col>
-                        <FormCheck checked={false} />
-                      </Col>
-                    )}
+                  {data != null && data.If + data.ElseIf + data.Elif !== 0 && (
+                    <Col>
+                      <FormCheck checked={true} />
+                    </Col>
+                  )}
+                  {data != null && data.If + data.ElseIf + data.Elif === 0 && (
+                    <Col>
+                      <FormCheck checked={false} />
+                    </Col>
+                  )}
                 </Row>
                 <Row>
                   <Col>
                     <Text text={"반복"} />
                   </Col>
-                  {data != null &&
-                    (data.For !== 0 || data.While !== 0) && (
-                      <Col>
-                        <FormCheck checked={true} />
-                      </Col>
-                    )}
-                  {data != null &&
-                    data.For === 0 &&
-                    data.While === 0 && (
-                      <Col>
-                        <FormCheck checked={false} />
-                      </Col>
-                    )}
+                  {data != null && (data.For !== 0 || data.While !== 0) && (
+                    <Col>
+                      <FormCheck checked={true} />
+                    </Col>
+                  )}
+                  {data != null && data.For === 0 && data.While === 0 && (
+                    <Col>
+                      <FormCheck checked={false} />
+                    </Col>
+                  )}
                 </Row>
                 <Row>
                   <Col>
@@ -305,7 +272,7 @@ const CodeResultContainer = () => {
             </Col>
             <Col lg={8}>
               <Container>
-                {valueData !=null && valueData !== "" && 
+                {valueData != null && valueData !== "" && (
                   <Jumbotron>
                     {valueData.split("\n").map((item, idx) => {
                       return (
@@ -315,33 +282,33 @@ const CodeResultContainer = () => {
                       );
                     })}
                   </Jumbotron>
-                }
-                
-                {opData !=null && opData !== "" && 
+                )}
+
+                {opData != null && opData !== "" && (
                   <Jumbotron>
-                  {opData.split("\n").map((item, idx) => {
-                    return (
-                      <Container key={idx}>
-                        <Text text={item} />
-                      </Container>
-                    );
-                  })}
+                    {opData.split("\n").map((item, idx) => {
+                      return (
+                        <Container key={idx}>
+                          <Text text={item} />
+                        </Container>
+                      );
+                    })}
                   </Jumbotron>
-                }
-                
-                {funcData !=null && funcData !== "" &&
+                )}
+
+                {funcData != null && funcData !== "" && (
                   <Jumbotron>
-                  {funcData.split("\n").map((item, idx) => {
-                    return (
-                      <Container key={idx}>
-                        <Text text={item} />
-                      </Container>
-                    );
-                  })}
+                    {funcData.split("\n").map((item, idx) => {
+                      return (
+                        <Container key={idx}>
+                          <Text text={item} />
+                        </Container>
+                      );
+                    })}
                   </Jumbotron>
-                }
-                
-                {loopData != null && loopData !== "" &&
+                )}
+
+                {loopData != null && loopData !== "" && (
                   <Jumbotron>
                     {loopData.split("\n").map((item, idx) => {
                       return (
@@ -351,9 +318,9 @@ const CodeResultContainer = () => {
                       );
                     })}
                   </Jumbotron>
-                }
+                )}
 
-                {conditionData !=null && conditionData != ""  && 
+                {conditionData != null && conditionData != "" && (
                   <Jumbotron>
                     {conditionData.split("\n").map((item, idx) => {
                       return (
@@ -363,19 +330,19 @@ const CodeResultContainer = () => {
                       );
                     })}
                   </Jumbotron>
-                }
+                )}
 
-                {conditionData === "" 
-                && funcData === "" 
-                &&loopData === "" 
-                &&valueData === "" 
-                && opData === "" &&
-                  <Jumbotron>
-                    <Container>
-                      <Text text={"피드백이 없습니다."} />
-                    </Container>
-                  </Jumbotron>
-                }
+                {conditionData === "" &&
+                  funcData === "" &&
+                  loopData === "" &&
+                  valueData === "" &&
+                  opData === "" && (
+                    <Jumbotron>
+                      <Container>
+                        <Text text={"피드백이 없습니다."} />
+                      </Container>
+                    </Jumbotron>
+                  )}
               </Container>
               <Row>
                 <Col lg={2} />
@@ -399,7 +366,6 @@ const CodeResultContainer = () => {
       </Wrapper>
     </Container>
   );
-
-}
+};
 
 export default CodeResultContainer;

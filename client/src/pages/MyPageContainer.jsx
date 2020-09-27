@@ -23,7 +23,6 @@ const MyPageContainer = () => {
   const [phoneNumber, setPhoneNumber] = React.useState("");
   const [name, setName] = React.useState("");
   const [classIdx, setClassIdx] = React.useState(null);
-  const [isValidPwd, setIsValidPwd] = React.useState(false);
 
   React.useEffect(() => {
     loadUserInfo();
@@ -62,19 +61,13 @@ const MyPageContainer = () => {
 
   //checkPassword를 통한 검사 뒤 유효한지 한번 더 확인
   const isValidPassword = () => {
-    console.log(password1, ":", password2);
-    if (password1 != null && password1 === password2) {
-      setIsValidPwd(true);
-    } else {
-      setIsValidPwd(false);
-    }
+    return password1 != null && password1 === password2 ? true : false;
   };
 
   const handleSubmit = async (event) => {
     console.log(password1, password2);
     event.preventDefault();
-    isValidPassword();
-    if (!isValidPwd) {
+    if (!isValidPassword) {
       alert("비밀번호를 확인 해 주세요.");
     } else {
       const res = await updateUser(password1, name, phoneNumber, classIdx);

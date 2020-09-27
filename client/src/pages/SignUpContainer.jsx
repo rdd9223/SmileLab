@@ -25,7 +25,6 @@ const SignUpContainer = () => {
   const [userType, setUserType] = React.useState(null);
   const [classIdx, setClassIdx] = React.useState(null);
   const [isDoubleId, setIsDoubleId] = React.useState(true);
-  const [isValidPwd, setIsValidPwd] = React.useState(false);
   const [isSuccess, setIsSuccess] = React.useState(false);
 
   //alert 가 안뜨는 현상 발생
@@ -56,11 +55,7 @@ const SignUpContainer = () => {
 
   //checkPassword를 통한 검사 뒤 유효한지 한번 더 확인
   const isValidPassword = () => {
-    if (password1 != null && password1 === password2) {
-      setIsValidPwd(true);
-    } else {
-      setIsValidPwd(false);
-    }
+    return (password1 != null && password1 === password2) ? true : false
   };
 
   const handleName = (event) => {
@@ -86,7 +81,7 @@ const SignUpContainer = () => {
     console.log(classIdx);
     if (isDoubleId) {
       alert("아이디 중복 검사를 해 주세요!");
-    } else if (!isValidPwd) {
+    } else if (!isValidPassword) {
       alert("비밀번호가 일치하지 않습니다.");
     } else {
       if (userType === 2 && classIdx === null) {

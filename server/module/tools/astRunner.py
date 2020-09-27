@@ -111,6 +111,10 @@ class Analyzer(ast.NodeVisitor):
         length = 0
         name = ''
         self.stats["FunctionUseCount"] += 1
+
+        if isinstance(node.func, ast.Name):
+            if node.func.id is "input":
+                self.stats["input"] += 1
         
         if isinstance(node.func, ast.Name):
             length = len(node.args)

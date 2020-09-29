@@ -9,22 +9,29 @@ const resMessage = require("../../module/utils/responseMessage");
 
 // 컴파일 하기
 router.post("/", async (req, res) => {
-  let sourcePath = path.join(__dirname, `../../source/${req.body.userId}`);
+  try {
+    let sourcePath = path.join(__dirname, `../../source/${req.body.userId}`);
 
-  if (!fs.existsSync(sourcePath, { recursive: true })) {
-    fs.mkdirSync(sourcePath, { recursive: true });
-  }
-
-  fs.writeFileSync(path.join(sourcePath, "Main.py"), req.body.source);
-  sourcePath = sourcePath.replace(/\\/gi, "/");
-
-  const runner = await exec(`python3 ${sourcePath}/Main.py`, (err, out, stderr) => {
-    if (out) {
-      res.status(200).send(authUtil.successTrue(statusCode.OK, "컴파일 성공", out));
-    } else {
-      res.status(200).send(authUtil.successTrue(statusCode.BAD_REQUEST, "컴파일 실패", stderr));
+    if (!fs.existsSync(sourcePath, { recursive: true })) {
+      fs.mkdirSync(sourcePath, { recursive: true });
     }
-  });
+
+    await fs.writeFileSync(path.join(sourcePath, "Main.py"), req.body.source);
+    sourcePath = sourcePath.replace(/\\/gi, "/");
+
+    const runner = await exec(`python3 ${sourcePath}/Main.py`, (err, out, stderr) => {
+      if (out) {
+        res.status(200).send(authUtil.successTrue(statusCode.OK, "컴파일 성공", out));
+      } else {
+        res.status(200).send(authUtil.successTrue(statusCode.BAD_REQUEST, "컴파일 실패", stderr));
+      }
+    });
+  } catch (err) {
+    console.log(err);
+    return res
+      .status(200)
+      .send(authUtil.successTrue(statusCode.INTERNAL_SERVER_ERROR, "컴파일 실패", err));
+  }
 });
 
 // 컴파일 결과 확인하기
@@ -38,7 +45,6 @@ router.post("/result", async (req, res) => {
     `python3 ${testPath}/astRunner.py ${sourcePath}/Main.py`,
     (err, out, stderr) => {
       console.log(out);
-      console.log(err);
       if (out) {
         res.status(200).send(authUtil.successTrue(statusCode.OK, "컴파일 성공", out));
       } else {

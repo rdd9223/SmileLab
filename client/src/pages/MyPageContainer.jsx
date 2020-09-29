@@ -20,67 +20,63 @@ const MyPageContainer = () => {
   const [id, setId] = React.useState(null);
   const [password1, setPassword1] = React.useState(null);
   const [password2, setPassword2] = React.useState(null);
-  const [phoneNumber, setPhoneNumber] = React.useState('');
-  const [name, setName] = React.useState('');
+  const [phoneNumber, setPhoneNumber] = React.useState("");
+  const [name, setName] = React.useState("");
   const [classIdx, setClassIdx] = React.useState(null);
 
   React.useEffect(() => {
     loadUserInfo();
-  }, [])
+  }, []);
 
-  const loadUserInfo = async() => {
+  const loadUserInfo = async () => {
     const res = await getUser();
     setId(res.data.data.id);
     setName(res.data.data.name);
-    setPhoneNumber(res.data.data.phone_number)
-  }
+    setPhoneNumber(res.data.data.phone_number);
+  };
 
   const updateClass = (data) => {
     setClassIdx(data.class_idx);
-  }
+  };
 
   const handlePassword1 = (event) => {
     const value = event.target.value;
     setPassword1(value);
-  }
+  };
 
   const handlePassword2 = (event) => {
     const value = event.target.value;
     setPassword2(value);
-  }
-  
+  };
+
   const handleName = (event) => {
     const value = event.target.value;
     setName(value);
-  }
+  };
 
   const handlePhoneNumber = (event) => {
     const value = event.target.value;
     setPhoneNumber(value);
-  }
+  };
 
   //checkPassword를 통한 검사 뒤 유효한지 한번 더 확인
   const isValidPassword = () => {
-    return (password1 != null && password1 === password2) ? true : false 
-  }
+    return password1 != null && password1 === password2 ? true : false;
+  };
 
-  const handleSubmit = async(event) => {
+  const handleSubmit = async (event) => {
+    console.log(password1, password2);
     event.preventDefault();
     if (!isValidPassword) {
       alert("비밀번호를 확인 해 주세요.");
     } else {
-      const res = await updateUser(
-        password1,
-        name,
-        phoneNumber,
-        classIdx
-      );
+      const res = await updateUser(password1, name, phoneNumber, classIdx);
       if (res != null && res.data.status === 200) {
         alert(res.data.message);
         window.location.href = "/";
       }
     }
-  }
+  };
 
   return (
     <Wrapper>
@@ -136,7 +132,7 @@ const MyPageContainer = () => {
                   name={"휴대전화 *"}
                   type={"phoneNumber"}
                   value={phoneNumber}
-                  onChange={(event) =>handlePhoneNumber(event)}
+                  onChange={(event) => handlePhoneNumber(event)}
                 />
               </Form.Group>
             </Col>
@@ -151,6 +147,6 @@ const MyPageContainer = () => {
       </Container>
     </Wrapper>
   );
-}
+};
 
 export default MyPageContainer;

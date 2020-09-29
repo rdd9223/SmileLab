@@ -19,7 +19,7 @@ const DragAndDrop = (props) => {
 
   const style = {
     oval: {
-      type: "종료",
+      type: "시작/종료",
       x: 150,
       y: 75,
       radiusX: 100,

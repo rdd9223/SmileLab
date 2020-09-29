@@ -20,13 +20,19 @@ const CommunityContainer = () => {
   const headers = ["#", "제목", "작성자", "작성일"];
   const [data, setData] = React.useState([]);
   const [currentPage, setCurrentPage] = React.useState(1);
+  const [type, setType] = React.useState(0);
+
+  const typeHeader = ["동료찾기", "조언받기", "공유하기", "동료평가"];
   
   React.useEffect(() => {
-    loadBoard(currentPage);
+    let search = window.location.search;
+    let params = new URLSearchParams(search);
+    setType(Number(params.get('type')));
+    loadBoard(currentPage, Number(params.get('type')));
   }, []);
 
-  const loadBoard = async(idx) => {
-    const res = await getBoardList(idx);
+  const loadBoard = async(idx, type) => {
+    const res = await getBoardList(idx, type);
     if (res != null && res.data.status === 200) {
       setData(res.data.data);
     }
@@ -38,13 +44,16 @@ const CommunityContainer = () => {
   }
 
   const getNextBoard = async() => {
-    
     await loadBoard(currentPage + 1);
     setCurrentPage(currentPage + 1);
   }
 
   const onClickList = (idx) => {
     window.location.href="/community/"+idx;
+  }
+
+  const handleType = ( _type ) => {
+    window.location.href="/community?type="+_type;
   }
 
   return (
@@ -54,6 +63,28 @@ const CommunityContainer = () => {
           header={"Class Community"}
           text={"자유롭게 생각을 나눠보는 공간입니다."}
         />
+      </div>
+      <div style={{display:'flex', height: 50}}>
+        {typeHeader.map((item, idx) => {
+          if(idx === type){
+            return(
+              <Button
+                name={item}
+                size={"sm"}
+                style={{margin: 6}}
+              />
+            )
+          }else{
+            return(
+              <Button
+                name={item}
+                size={"sm"}
+                style={{margin: 6, backgroundColor: '#fff', color:'#000'}}
+                onClick={() => handleType( idx )}
+              />
+            )
+          }
+        })}
       </div>
       <CommunityTable
         headers={headers}

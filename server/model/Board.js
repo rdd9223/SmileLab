@@ -7,7 +7,7 @@ const moment = require("moment");
 require("moment-timezone");
 
 const board = {
-  getBoardList: ({ user_idx, type, page }) => {
+  getBoardList: ({ user_idx, type, page, board_type }) => {
     return new Promise(async (resolve, reject) => {
       
       var getUserTakeClassQuery = ''
@@ -19,7 +19,7 @@ const board = {
       }
       console.log(await pool.queryParam_Parse(getUserTakeClassQuery));
       
-      const getBoardListQuery = `SELECT board_idx, title, date, writer_idx, class_idx, contents, user.name as writer FROM board LEFT JOIN user ON board.writer_idx = user_idx WHERE class_idx = (${getUserTakeClassQuery}) ORDER BY board_idx DESC LIMIT ${
+      const getBoardListQuery = `SELECT board_idx, board_type, title, date, writer_idx, class_idx, contents, user.name as writer FROM board LEFT JOIN user ON board.writer_idx = user_idx WHERE class_idx = (${getUserTakeClassQuery}) AND board_type = ${board_type} ORDER BY board_idx DESC LIMIT ${
         (page - 1) * 10
       }, 10`;
       const getBoardListResult = await pool.queryParam_Parse(getBoardListQuery);
@@ -41,7 +41,7 @@ const board = {
       }
     });
   },
-  postBoard: ({ user_idx, title, contents }) => {
+  postBoard: ({ user_idx, title, contents, board_type }) => {
     return new Promise(async (resolve, reject) => {
       const date = moment().format("YYYY-MM-DD HH:mm:ss");
       if (!title || !contents) {
@@ -50,12 +50,13 @@ const board = {
         });
       }
       const getUserTakeClassQuery = `SELECT class_idx FROM take WHERE student_idx = ${user_idx}`;
-      const postBoardQuery = `INSERT INTO board (title, contents, writer_idx, date, class_idx) VALUES (?, ?, ?, ?, (${getUserTakeClassQuery}))`;
+      const postBoardQuery = `INSERT INTO board (title, contents, writer_idx, date, board_type ,class_idx) VALUES (?, ?, ?, ?, ?, (${getUserTakeClassQuery}))`;
       const postBoardResult = await pool.queryParam_Parse(postBoardQuery, [
         title,
         contents,
         user_idx,
         date,
+        board_type
       ]);
 
       if (postBoardResult.affectedRows !== 0) {

@@ -10,8 +10,9 @@ const BOARD = require("../../model/Board");
 router.get("/list/:page", jwt.checkLogin, async (req, res) => {
   const { user_idx, type } = req.decoded;
   const { page } = req.params;
+  const { board_type } = req.query;
 
-  BOARD.getBoardList({ user_idx, type, page })
+  BOARD.getBoardList({ user_idx, type, page, board_type })
     .then(({ json }) => {
       res.status(200).send(json);
     })
@@ -53,9 +54,9 @@ router.get("/:boardIdx", jwt.checkLogin, async (req, res) => {
 // 게시글 작성
 router.post("/", jwt.checkLogin, async (req, res) => {
   const { user_idx, type } = req.decoded;
-  const { title, contents } = req.body;
+  const { title, contents, board_type } = req.body;
 
-  BOARD.postBoard({ user_idx, title, contents })
+  BOARD.postBoard({ user_idx, title, contents, board_type })
     .then(({ json }) => {
       res.status(200).send(json);
     })

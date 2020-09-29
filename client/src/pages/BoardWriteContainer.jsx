@@ -15,7 +15,9 @@ const Wrapper = styled.div`
 const BoardWriteContainer = () => {
   const [title, setTitle] = React.useState(null);
   const [contents, setContents] = React.useState(null);
+  const [type, setType] = React.useState(0);
 
+  const typeHeader = ["동료찾기", "조언받기", "공유하기", "동료평가"];
   const changeTitle = (event) => {
     setTitle(event.target.value);
   }
@@ -28,12 +30,16 @@ const BoardWriteContainer = () => {
     event.preventDefault();
     const res = await postBoard(
       title,
-      contents
+      contents,
+      type
     );
     if(res != null && res.data.status === 201){
       alert(res.data.message);
       window.location.href = "/community";
     }
+  }
+  const handleType = ( _type ) => {
+    setType(_type);
   }
 
   return(
@@ -41,7 +47,30 @@ const BoardWriteContainer = () => {
       <div> 
         <Jumbotron header={"글 쓰기"} text={"자유롭게 글을 써 주세요."} />
       </div>
+      
       <Wrapper>
+        <div style={{display:'flex', height: 50}}>
+          {typeHeader.map((item, idx) => {
+            if(idx === type){
+              return(
+                <Button
+                  name={item}
+                  size={"sm"}
+                  style={{margin: 6}}
+                />
+              )
+            }else{
+              return(
+                <Button
+                  name={item}
+                  size={"sm"}
+                  style={{margin: 6, backgroundColor: '#fff', color:'#000'}}
+                  onClick={() => handleType( idx )}
+                />
+              )
+            }
+          })}
+        </div>
         <Form onSubmit={handleSubmit}>
           <Form.Group>
             <FormLabelSet name={"제목"} type={"title"} onChange={(e) => changeTitle(e)} placeholder={"제목을 입력 해 주세요."}/>

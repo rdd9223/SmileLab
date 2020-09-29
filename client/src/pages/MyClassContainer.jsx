@@ -15,7 +15,7 @@ const Wrapper = styled.div`
 `;
 
 const MyClassContainer = () => {
-  const header = ["날짜", "변수", "연산자", "데이터", "조건문", "반복문", "함수", ""]
+  const header = ["날짜", "데이터표현", "연산", "논리적 사고", "플로우제어", "추상화", ""]
   const [checked, setChecked] = React.useState([]);
   const [data, setData] = React.useState(null);
 

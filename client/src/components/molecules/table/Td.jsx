@@ -17,7 +17,6 @@ const Td = ({ body, onClick }) => {
       <td>{body.date}</td>
       <td>{renderOX(body.variable)}</td>
       <td>{renderOX(body.operator)}</td>
-      <td>{renderOX(body.data)}</td>
       <td>{renderOX(body.conditional)}</td>
       <td>{renderOX(body.repeat)}</td>
       <td>{renderOX(body.function)}</td>

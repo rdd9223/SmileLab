@@ -198,12 +198,11 @@ const CodeResultContainer = () => {
                   <Col>
                     <Text text={"데이터 표현"} />
                   </Col>
-                  {data != null && data.Name.length !== 0 && (
+                  {valueData !== "" ? (
                     <Col>
                       <FormCheck checked={true} />
                     </Col>
-                  )}
-                  {data != null && data.Name.length === 0 && (
+                  ) : (
                     <Col>
                       <FormCheck checked={false} />
                     </Col>
@@ -213,33 +212,25 @@ const CodeResultContainer = () => {
                   <Col>
                     <Text text={"연산"} />
                   </Col>
-                  {data != null && data.BinOp + data.AugAssign + data.Compare + data.Logical !== 0 && (
+                  {opData !== "" ? (
                     <Col>
                       <FormCheck checked={true} />
                     </Col>
-                  )}
-                  {data != null && data.BinOp + data.AugAssign + data.Compare + data.Logical === 0 && (
+                  ) : (
                     <Col>
                       <FormCheck checked={false} />
                     </Col>
                   )}
                 </Row>
-                {/* 
-                <Row>
-                  <Col><Text text={"데이터"}/></Col>
-                  <Col><FormCheck checked={false} /></Col>
-                </Row>
-                */}
                 <Row>
                   <Col>
                     <Text text={"논리적 사고"} />
                   </Col>
-                  {data != null && data.If + data.ElseIf + data.Elif !== 0 && (
+                  {conditionData !== "" ? (
                     <Col>
                       <FormCheck checked={true} />
                     </Col>
-                  )}
-                  {data != null && data.If + data.ElseIf + data.Elif === 0 && (
+                  ) : (
                     <Col>
                       <FormCheck checked={false} />
                     </Col>
@@ -249,12 +240,11 @@ const CodeResultContainer = () => {
                   <Col>
                     <Text text={"플로우제어"} />
                   </Col>
-                  {data != null && (data.For !== 0 || data.While !== 0) && (
+                  {loopData !== "" ? (
                     <Col>
                       <FormCheck checked={true} />
                     </Col>
-                  )}
-                  {data != null && data.For === 0 && data.While === 0 && (
+                  ) : (
                     <Col>
                       <FormCheck checked={false} />
                     </Col>
@@ -264,12 +254,11 @@ const CodeResultContainer = () => {
                   <Col>
                     <Text text={"추상화"} />
                   </Col>
-                  {data != null && data.FunctionUseCount !== 0 && (
+                  {funcData !== "" ? (
                     <Col>
                       <FormCheck checked={true} />
                     </Col>
-                  )}
-                  {data != null && data.FunctionUseCount === 0 && (
+                  ) : (
                     <Col>
                       <FormCheck checked={false} />
                     </Col>

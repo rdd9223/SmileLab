@@ -72,4 +72,47 @@ router.post("/", jwt.checkLogin, async (req, res) => {
     });
 });
 
+router.put("/:boardIdx", jwt.checkLogin, async (req, res) => {
+  const { user_idx, type } = req.decoded;
+  const { boardIdx } = req.params;
+  const { title, contents } = req.body;
+
+  BOARD.putBoard({ user_idx, boardIdx, title, contents })
+    .then(({ json }) => {
+      res.status(200).send(json);
+    })
+    .catch((err) => {
+      console.log(err);
+      res
+        .status(200)
+        .send(
+          authUtil.successFalse(
+            statusCode.INTERNAL_SERVER_ERROR,
+            responseMessage.INTERNAL_SERVER_ERROR
+          )
+        );
+    });
+})
+
+router.delete("/:boardIdx", jwt.checkLogin, async (req, res) => {
+  const { user_idx, type } = req.decoded;
+  const { boardIdx } = req.params;
+
+  BOARD.deleteBoard({ user_idx, boardIdx })
+    .then(({ json }) => {
+      res.status(200).send(json);
+    })
+    .catch((err) => {
+      console.log(err);
+      res
+        .status(200)
+        .send(
+          authUtil.successFalse(
+            statusCode.INTERNAL_SERVER_ERROR,
+            responseMessage.INTERNAL_SERVER_ERROR
+          )
+        );
+    });
+});
+
 module.exports = router;

@@ -98,6 +98,58 @@ const board = {
       }
     });
   },
+  putBoard: ({ user_idx, boardIdx, title, contents }) => {
+    return new Promise(async (resolve, reject) => {
+      const putBoardInfoQuery = `UPDATE board SET title = ?, contents = ? WHERE board_idx = ? AND writer_idx = ?`;
+      const putBoardInfoResult = await pool.queryParam_Parse(putBoardInfoQuery, [
+        title,
+        contents,
+        boardIdx,
+        user_idx,
+      ]);
+
+      if (putBoardInfoResult.affectedRows !== 0) {
+        return resolve({
+          json: authUtil.successTrue(
+            statusCode.OK,
+            responseMessage.X_UPDATE_SUCCESS("게시글"),
+          ),
+        });
+      } else {
+        return resolve({
+          json: authUtil.successFalse(
+            statusCode.BAD_REQUEST,
+            responseMessage.X_UPDATE_FAIL("게시글")
+          ),
+        });
+      }
+    });
+  },
+  deleteBoard: ({ user_idx, boardIdx }) => {
+    return new Promise(async (resolve, reject) => {
+      const deleteBoardInfoQuery = `DELETE FROM board WHERE board_idx = ? AND writer_idx = ?`;
+      const deleteBoardInfoResult = await pool.queryParam_Parse(deleteBoardInfoQuery, [
+        boardIdx,
+        user_idx,
+      ]);
+
+      if (deleteBoardInfoResult.affectedRows !== 0) {
+        return resolve({
+          json: authUtil.successTrue(
+            statusCode.OK,
+            responseMessage.X_DELETE_SUCCESS("게시글"),
+          ),
+        });
+      } else {
+        return resolve({
+          json: authUtil.successFalse(
+            statusCode.BAD_REQUEST,
+            responseMessage.X_DELETE_FAIL("게시글"),
+          ),
+        });
+      }
+    });
+  },
 };
 
 module.exports = board;

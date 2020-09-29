@@ -63,6 +63,58 @@ const comment = {
       }
     });
   },
+  putComment: ({ user_idx, commentIdx, title, contents }) => {
+    return new Promise(async (resolve, reject) => {
+      const putCommentQuery = `UPDATE comment SET title = ?, contents = ? WHERE comment_idx = ? AND writer_idx = ?`;
+      const putCommentResult = await pool.queryParam_Parse(putCommentQuery, [
+        title,
+        contents,
+        commentIdx,
+        user_idx,
+      ]);
+
+      if (putCommentResult.affectedRows !== 0) {
+        return resolve({
+          json: authUtil.successTrue(
+            statusCode.OK,
+            responseMessage.X_UPDATE_SUCCESS("댓글"),
+          ),
+        });
+      } else {
+        return resolve({
+          json: authUtil.successFalse(
+            statusCode.BAD_REQUEST,
+            responseMessage.X_UPDATE_FAIL("댓글")
+          ),
+        });
+      }
+    });
+  },
+  deleteComment: ({ user_idx, commentIdx }) => {
+    return new Promise(async (resolve, reject) => {
+      const deleteCommentQuery = `DELETE FROM comment WHERE comment_idx = ? AND writer_idx = ?`;
+      const deleteCommentResult = await pool.queryParam_Parse(deleteCommentQuery, [
+        commentIdx,
+        user_idx,
+      ]);
+
+      if (deleteCommentResult.affectedRows !== 0) {
+        return resolve({
+          json: authUtil.successTrue(
+            statusCode.OK,
+            responseMessage.X_DELETE_SUCCESS("댓글"),
+          ),
+        });
+      } else {
+        return resolve({
+          json: authUtil.successFalse(
+            statusCode.BAD_REQUEST,
+            responseMessage.X_DELETE_FAIL("댓글"),
+          ),
+        });
+      }
+    });
+  },
 }
 
 module.exports = comment;

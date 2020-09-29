@@ -74,7 +74,7 @@ const HintButton = ({ resultCode }) => {
       }
     } else if (resultCode === "") {
       return "코드를 실행해주세요."; 
-    } else if (resultCode.indexOf("Error:")){
+    } else if (resultCode.indexOf("Error:") !== -1 ){
       return "잘못된 코드가 있습니다."
     } else {
       return "올바른 코드입니다.";

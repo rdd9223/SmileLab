@@ -105,6 +105,12 @@ class Analyzer(ast.NodeVisitor):
 
     def visit_Attribute(self, node):
         "Attribute 카운터"
+        if isinstance(node.value, ast.Name):
+            if node.value.id is "self" and isinstance(node.value.ctx, ast.Load) and isinstance(node.ctx, ast.Store):
+                self.stats["Name"].append(node.attr)
+            if isinstance(node.value.ctx, ast.Load) and isinstance(node.ctx, ast.Load):
+                if node.attr not in self.stats["UsedName"]:
+                    self.stats["UsedName"].append(node.attr)
 
     def visit_Call(self, node):
         "호출 카운터"

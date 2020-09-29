@@ -32,6 +32,9 @@ const CodeResultContainer = () => {
   const Feedback = (_data) => {
     if (_data.Name.length > 0) {
       var value = "";
+      _data.Name.map((item) => {
+        console.log(item);
+      })
       value += "정의된 변수의 개수는" + _data.Name.length + "개 입니다. \n";
       value +=
         "정의된 변수 중 숫자형은 " +
@@ -46,6 +49,10 @@ const CodeResultContainer = () => {
         " 또한, input 함수를 활용한 변수는 " +
         _data.input +
         "개 입니다. \n";
+      value += 
+        "동적 타입을 지닌 변수는 " +
+        (_data.Name.length - (_data.num + _data.Str + _data.tuple + _data.list + _data.input)) +
+        "개 입니다.\n"
 
       value +=
         "위 변수 중 활용된 변수는 " +
@@ -141,11 +148,6 @@ const CodeResultContainer = () => {
     if (_data.Function > 0) {
       
       func += "정의된 함수는 " + _data.Function + "개 입니다. \n";
-      if (_data.Return === 0) {
-        func +=
-          "return 함수가 없는 코드는 결과값이 없습니다. " +
-          "Return함수를 활용하여 결과값을 어떻게 돌려줄 것인지 코딩하세요. \n";
-      }
       if (_data.FuncNoArgs > 0) {
         func += "함수이름() 형태는 입력값이 없고 결과값만 있는 코드 형태입니다. \n";
       }
@@ -207,7 +209,7 @@ const CodeResultContainer = () => {
               <Jumbotron>
                 <Row>
                   <Col>
-                    <Text text={"변수"} />
+                    <Text text={"데이터 표현"} />
                   </Col>
                   {data != null && data.Name.length !== 0 && (
                     <Col>
@@ -222,7 +224,7 @@ const CodeResultContainer = () => {
                 </Row>
                 <Row>
                   <Col>
-                    <Text text={"연산자"} />
+                    <Text text={"연산"} />
                   </Col>
                   {data != null &&
                     data.BinOp +
@@ -253,7 +255,7 @@ const CodeResultContainer = () => {
                 */}
                 <Row>
                   <Col>
-                    <Text text={"조건문"} />
+                    <Text text={"논리적 사고"} />
                   </Col>
                   {data != null &&
                     data.If + data.ElseIf + data.Elif !== 0 && (
@@ -270,7 +272,7 @@ const CodeResultContainer = () => {
                 </Row>
                 <Row>
                   <Col>
-                    <Text text={"반복"} />
+                    <Text text={"플로우제어"} />
                   </Col>
                   {data != null &&
                     (data.For !== 0 || data.While !== 0) && (
@@ -288,7 +290,7 @@ const CodeResultContainer = () => {
                 </Row>
                 <Row>
                   <Col>
-                    <Text text={"함수"} />
+                    <Text text={"추상화"} />
                   </Col>
                   {data != null && data.FunctionUseCount !== 0 && (
                     <Col>
@@ -307,6 +309,11 @@ const CodeResultContainer = () => {
               <Container>
                 {valueData !=null && valueData !== "" && 
                   <Jumbotron>
+                    <h6 
+                      style={{fontWeight:600, textAlign:'center', paddingBottom:24}} 
+                    >
+                      데이터 표현
+                    </h6>
                     {valueData.split("\n").map((item, idx) => {
                       return (
                         <Container key={idx}>
@@ -319,30 +326,45 @@ const CodeResultContainer = () => {
                 
                 {opData !=null && opData !== "" && 
                   <Jumbotron>
-                  {opData.split("\n").map((item, idx) => {
-                    return (
-                      <Container key={idx}>
-                        <Text text={item} />
-                      </Container>
-                    );
-                  })}
+                    <h6 
+                      style={{fontWeight:600, textAlign:'center', paddingBottom:24}} 
+                    >
+                      연산
+                    </h6>
+                    {opData.split("\n").map((item, idx) => {
+                      return (
+                        <Container key={idx}>
+                          <Text text={item} />
+                        </Container>
+                      );
+                    })}
                   </Jumbotron>
                 }
                 
                 {funcData !=null && funcData !== "" &&
                   <Jumbotron>
-                  {funcData.split("\n").map((item, idx) => {
-                    return (
-                      <Container key={idx}>
-                        <Text text={item} />
-                      </Container>
-                    );
-                  })}
+                    <h6 
+                      style={{fontWeight:600, textAlign:'center', paddingBottom:24}} 
+                    >
+                      추상화
+                    </h6>
+                    {funcData.split("\n").map((item, idx) => {
+                      return (
+                        <Container key={idx}>
+                          <Text text={item} />
+                        </Container>
+                      );
+                    })}
                   </Jumbotron>
                 }
                 
                 {loopData != null && loopData !== "" &&
                   <Jumbotron>
+                    <h6 
+                      style={{fontWeight:600, textAlign:'center', paddingBottom:24}} 
+                    >
+                      플로우제어
+                    </h6>
                     {loopData.split("\n").map((item, idx) => {
                       return (
                         <Container key={idx}>
@@ -355,6 +377,11 @@ const CodeResultContainer = () => {
 
                 {conditionData !=null && conditionData != ""  && 
                   <Jumbotron>
+                    <h6 
+                      style={{fontWeight:600, textAlign:'center', paddingBottom:24}} 
+                    >
+                      논리적 사고
+                    </h6>
                     {conditionData.split("\n").map((item, idx) => {
                       return (
                         <Container key={idx}>

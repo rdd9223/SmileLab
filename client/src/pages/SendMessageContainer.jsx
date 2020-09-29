@@ -6,6 +6,7 @@ import Button from "../components/atoms/Button";
 import { postMessage } from "./../service/message.js";
 import { getProfClassAll, getProfClass } from "./../service/class.js";
 import { getTake } from './../service/take.js';
+import { getUser } from './../service/user.js';
 
  const Wrapper = styled.div`
   width: 50em;
@@ -24,14 +25,13 @@ const SendMessageContainer = () => {
   const [userType, setUserType] = React.useState(null);
 
   React.useEffect(() => {
-    setUserType(window.sessionStorage.getItem('userType'));
-    loadClass();
+    loadUser();
   }, [])
 
-  const loadClass = async() => {
-    if(userType===2){
+  const loadClass = async(userType) => {
+    if(userType === 2){
       const res = await getTake();
-      if(res.data.status === 200){
+      if(res != null && res.data.status === 200){
         await loadStudentList(res.data.data[0].class_idx);
       }
     }else{
@@ -39,6 +39,14 @@ const SendMessageContainer = () => {
       if(res != null){
         setClass(res.data.data);
       }
+    }
+  }
+
+  const loadUser = async() => {
+    const res = await getUser();
+    if(res != null && res.data.status === 200){
+      setUserType(res.data.data.type);
+      loadClass(res.data.data.type);
     }
     
   }
@@ -75,15 +83,26 @@ const SendMessageContainer = () => {
 
   const sendMessage = async() => {
     console.log(currentClass, currentReceiver, message);
-    const res = await postMessage(
-      currentClass,
-      currentReceiver,
-      message,
-    );
-
-    if(res!=null && res.data.status === 201){
-      alert(res.data.message);
-      window.location.href = "/message";
+    if(currentClass == null){
+      alert("강의를 선택 해 주세요.")
+    }else if(message.length === 0){
+      alert("메세지를 입력 해 주세요.")
+    }else{
+      const res = await postMessage(
+        currentClass,
+        currentReceiver,
+        message,
+      );
+      if(res!=null && res.data.status === 201){
+        alert(res.data.message);
+        window.location.href = "/message";
+      }else{
+        if(student.length === 0){
+          alert(`${res.data.message}. 수강학생이 존재하는지 확인 해 주세요.`);
+        }else{
+          alert(`${res.data.message}`);
+        }
+      }
     }
   }
 

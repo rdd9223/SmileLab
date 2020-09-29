@@ -53,17 +53,17 @@ const take = {
           ),
         });
       }
-      
+      console.log(user_idx);
       const getClassInfoQuery = `SELECT class.name, class_idx FROM class  WHERE professor_idx = ${user_idx}`;
       const getClassInfoResult = await pool.queryParam_Parse(getClassInfoQuery);
 
       return resolve({
-          json: authUtil.successTrue(
-            statusCode.OK,
-            responseMessage.X_READ_SUCCESS("클래스"),
-            getClassInfoResult
-          ),
-        })
+        json: authUtil.successTrue(
+          statusCode.OK,
+          responseMessage.X_READ_SUCCESS("클래스"),
+          getClassInfoResult
+        ),
+      })
 
     });
   },

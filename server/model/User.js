@@ -103,7 +103,7 @@ const user = {
   getInfo: ({ user_idx, type }) => {
     return new Promise(async (resolve, reject) => {
       const getClassInfoQuery = `SELECT DISTINCT class.name FROM take, class WHERE student_idx = ${user_idx} AND take.class_idx = class.class_idx`;
-      const getUserInfoQuery = `SELECT id, name, phone_number, type, (${getClassInfoQuery}) as class_name FROM user WHERE user_idx = ${user_idx}`;
+      const getUserInfoQuery = `SELECT user_idx, id, name, phone_number, type, (${getClassInfoQuery}) as class_name FROM user WHERE user_idx = ${user_idx}`;
       const getUserInfoResult = await pool.queryParam_None(getUserInfoQuery);
 
       if (getUserInfoQuery[0] !== undefined) {

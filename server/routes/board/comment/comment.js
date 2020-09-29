@@ -50,12 +50,12 @@ router.post("/", jwt.checkLogin, async (req, res) => {
     });
 });
 
-router.put("/:idx", jwt.checkLogin, async (req, res) => {
+router.put("/:commentIdx", jwt.checkLogin, async (req, res) => {
   const { user_idx, type } = req.decoded;
-  const { idx } = req.params;
+  const { commentIdx } = req.params;
   const { title, contents } = req.body;
 
-  COMMENT.putComment({ user_idx, idx, title, contents })
+  COMMENT.putComment({ user_idx, commentIdx, title, contents })
     .then(({ json }) => {
       res.status(200).send(json);
     })
@@ -72,11 +72,12 @@ router.put("/:idx", jwt.checkLogin, async (req, res) => {
     });
 })
 
-router.delete("/:idx", jwt.checkLogin, async (req, res) => {
+router.delete("/:commentIdx", jwt.checkLogin, async (req, res) => {
   const { user_idx, type } = req.decoded;
-  const { idx } = req.params;
+  const { commentIdx } = req.params;
+  console.log(commentIdx);
 
-  COMMENT.deleteComment({ user_idx, idx })
+  COMMENT.deleteComment({ user_idx, commentIdx })
     .then(({ json }) => {
       res.status(200).send(json);
     })

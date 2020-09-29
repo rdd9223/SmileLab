@@ -127,6 +127,12 @@ const board = {
   },
   deleteBoard: ({ user_idx, boardIdx }) => {
     return new Promise(async (resolve, reject) => {
+
+      const deleteBoardCommentQuery = `DELETE FROM comment WHERE board_idx = ?`;
+      const deleteBoardCommentResult = await pool.queryParam_Parse(deleteBoardCommentQuery, [
+        boardIdx,
+      ]);
+
       const deleteBoardInfoQuery = `DELETE FROM board WHERE board_idx = ? AND writer_idx = ?`;
       const deleteBoardInfoResult = await pool.queryParam_Parse(deleteBoardInfoQuery, [
         boardIdx,

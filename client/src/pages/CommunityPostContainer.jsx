@@ -4,8 +4,10 @@ import Jumbotron from "components/atoms/Jumbotron";
 import Button from "components/atoms/Button";
 import { Row, Col, Container, Card, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { getBoard, getComment, postComment } from "./../service/board.js";
 import styled from 'styled-components';
+
+import { getUser } from '../service/user';
+import { getBoard, getComment, postComment, putBoard, putComment, deleteBoard, deleteComment } from "../service/board";
 
 const Wrapper = styled.div`
   width: 50em;
@@ -19,11 +21,13 @@ const CommunityPostContainer = () => {
   const [title, setTitle] = React.useState(null);
   const [contents, setContents] = React.useState(null);
   const [writer, setWriter] = React.useState(null);
+  const [writerIdx, setWriterIdx] = React.useState(null);
   const [date, setDate] = React.useState(null);
   const [commentTitle, setCommentTitle] = React.useState(null);
   const [commentContents, setCommentContents] = React.useState(null);
   const [commentList, setCommentList] = React.useState([]);
   const [boardIdx, setBoardIdx] = React.useState(null);
+  const [currentUser, setCurrentUser] = React.useState(null);
 
   React.useEffect(() => {
     const href = window.location.href;
@@ -31,7 +35,15 @@ const CommunityPostContainer = () => {
     setBoardIdx(idx);
     loadBoard(idx);
     loadComment(idx);
+    loadUser();
   }, []);
+
+  const loadUser = async() => {
+    const res = await getUser();
+    if(res != null && res.data.status === 200){
+      setCurrentUser(res.data.data.user_idx);
+    }
+  }
 
   const loadBoard = async(idx) => {
     const res = await getBoard(idx);
@@ -40,6 +52,7 @@ const CommunityPostContainer = () => {
       setContents(res.data.data[0].contents);
       setWriter(res.data.data[0].writer);
       setDate(res.data.data[0].date);
+      setWriterIdx(res.data.data[0].writer_idx);
     }
   }
 
@@ -70,6 +83,22 @@ const CommunityPostContainer = () => {
     setCommentContents(value);
   }
 
+  const handleDeleteComment = async(idx) => {
+    const res = await deleteComment(idx);
+    if(res != null && res.data.status === 200){
+      alert(res.data.message);
+      window.location.reload();
+    }
+  }
+
+  const handleDeleteBoard = async(idx) => {
+    const res = await deleteBoard(idx);
+    if(res != null && res.data.status === 200){
+      alert(res.data.message);
+      window.location.href = "/community";
+    }
+  }
+
   return(
     <Wrapper style={{paddingBottom: 100}}>
       <Card>
@@ -79,6 +108,17 @@ const CommunityPostContainer = () => {
             {contents}
           </Card.Text>
           <small className="text-muted">{date}</small>
+          {currentUser != null && writerIdx === currentUser ? (
+              <div className="text-muted" style={{fontSize:12}}>
+                <div style={{display:'inline-block'}}>수정</div> 
+                  &nbsp;|&nbsp;
+                <div style={{display:'inline-block'}} onClick={() => handleDeleteBoard(boardIdx)}>삭제</div>
+              </div>
+            ) : (
+              <>
+              </>
+            )
+          }
         </Card.Body>
         <Card.Footer>
           <small className="text-muted">by {writer}</small>
@@ -99,7 +139,18 @@ const CommunityPostContainer = () => {
                   <Card.Text style={{minHeight: 50}}>
                     {item.contents}
                   </Card.Text>
-                  <small className="text-muted">{item.date}</small>
+                  <small className="text-muted">{item.date} </small>
+                  {currentUser != null && item.writer_idx === currentUser ? (
+                      <div className="text-muted" style={{fontSize:12}}>
+                        <div style={{display:'inline-block'}}>수정</div> 
+                          &nbsp;|&nbsp;
+                        <div style={{display:'inline-block'}} onClick={() => handleDeleteComment(item.comment_idx)}>삭제</div>
+                      </div>
+                    ) : (
+                      <>
+                      </>
+                    )
+                  }
                 </Card.Body>
                 <Card.Footer>
                   <small className="text-muted">by {item.writer}</small>

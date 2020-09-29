@@ -87,3 +87,73 @@ export const getComment = async(idx) => {
     return null;
   })
 }
+
+export const putBoard = async(idx, title, contents) => {
+  return await axios.put(url + "/board/" + idx, {
+    title: title,
+    contents: contents,
+  },{
+    headers: {
+      token: window.sessionStorage.getItem("loginToken"),
+    }
+  })
+  .then((res) => {
+    console.log(res);
+    return res;
+  })
+  .catch((e) => {
+    console.log(e);
+    return null;
+  })
+}
+
+export const deleteBoard = async(idx) => {
+  return await axios.delete(url + "/board/" + idx, {
+    headers: {
+      token: window.sessionStorage.getItem("loginToken"),
+    }
+  })
+  .then((res) => {
+    console.log(res);
+    return res;
+  })
+  .catch((e) => {
+    console.log(e);
+    return null;
+  })
+}
+
+export const putComment = async(idx, title, contents) => {
+  return await axios.put(url + "/board/comment/" + idx, {
+    title: title,
+    contents: contents,
+  },{
+    headers: {
+      token: window.sessionStorage.getItem("loginToken"),
+    }
+  })
+  .then((res) => {
+    console.log(res);
+    return res;
+  })
+  .catch((e) => {
+    console.log(e);
+    return null;
+  })
+}
+
+export const deleteComment = async(idx) => {
+  return await axios.delete(url + "/board/comment/" + idx, {
+    headers: {
+      token: window.sessionStorage.getItem("loginToken"),
+    }
+  })
+  .then((res) => {
+    console.log(res);
+    return res;
+  })
+  .catch((e) => {
+    console.log(e);
+    return null;
+  })
+}

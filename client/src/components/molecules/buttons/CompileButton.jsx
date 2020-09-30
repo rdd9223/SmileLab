@@ -17,6 +17,7 @@ const CompileButton = (props) => {
       variant={"primary"}
       onClick={() => fetchPostSource()}
       name={"Compile"}
+      size={"sm"}
     />
   );
 };

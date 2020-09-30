@@ -86,6 +86,7 @@ const HintButton = ({ resultCode }) => {
       variant={"primary"}
       onClick={() => alert(resultMessage())}
       name={"?"}
+      size={"sm"}
     />
   );
 };

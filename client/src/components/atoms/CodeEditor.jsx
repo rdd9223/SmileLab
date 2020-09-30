@@ -21,6 +21,7 @@ const CodeEditor = (props) => {
       value={value}
       showGutter={true}
       setOptiosns={setOptions}
+      wrapEnabled={true}
     />
   );
 };

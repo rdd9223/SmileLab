@@ -10,7 +10,7 @@ const CodeSaveButton = (props) => {
     document.body.appendChild(element); // Required for this to work in FireFox
     element.click();
   };
-  return <Button variant={"primary"} onClick={handleCodeDownload} name={"코드 저장하기"} />;
+  return <Button variant={"primary"} onClick={handleCodeDownload} name={"코드 저장하기"} size={"sm"} />;
 };
 
 export default CodeSaveButton;

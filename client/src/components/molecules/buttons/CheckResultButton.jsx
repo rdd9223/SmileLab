@@ -15,6 +15,7 @@ const CheckResultButton = (props) => {
       variant={"primary"}
       onClick={onClick}
       name={"결과 확인하기"}
+      size={"sm"}
     />
   );
 };

@@ -22,15 +22,10 @@ const Container1 = styled.div`
 const MessageContainer = () => {
   const headers = ["#", "보낸사람", "날짜 및 시간", ""];
   const [data, setData] = React.useState([]);
-  const [open, setOpen] = React.useState(false);
   const [currentMessage, setCurrentMessage] = React.useState(null);
   const [currentPage, setCurrentPage] = React.useState(1);
 
-  React.useEffect(() => {
-    loadMessage(currentPage);
-  }, []);
-
-  const loadMessage = async(idx) => {
+  const loadMessage = async (idx) => {
     setData([]);
     const res = await getMessage(idx);
     if (currentPage !== 1 && res.data.data.length === 0) {
@@ -39,7 +34,9 @@ const MessageContainer = () => {
       //setData(data.concat(res.data.data));
       setData(res.data.data);
     }
-  }
+  };
+
+  React.useEffect(loadMessage(currentPage), []);
 
   // 각 메세지 별 "보기" 버튼 클릭 시 이벤트
   const onClickMessage = (idx) => {
@@ -48,22 +45,21 @@ const MessageContainer = () => {
         setCurrentMessage(data[i]);
       }
     }
-  }
+  };
 
-  const getPrevMessage = async() => {
+  const getPrevMessage = async () => {
     loadMessage(currentPage - 1);
-    setCurrentPage(currentPage - 1)
-  }
+    setCurrentPage(currentPage - 1);
+  };
 
-  const getNextMessage = async() => {
-    
+  const getNextMessage = async () => {
     loadMessage(currentPage + 1);
-    setCurrentPage(currentPage + 1)
-  }
+    setCurrentPage(currentPage + 1);
+  };
 
   const sendMessage = () => {
-    window.location.href = '/sendMessage';
-  }
+    window.location.href = "/sendMessage";
+  };
 
   return (
     <Wrapper>
@@ -72,41 +68,23 @@ const MessageContainer = () => {
         <Row>
           <Col lg={7}>
             <Container1>
-              <MessageTable
-                headers={headers}
-                rows={data}
-                onClick={onClickMessage}
-              />
-              <Button
-                name={"이전"}
-                size="sm"
-                onClick={getPrevMessage}
-                style={{ margin: "10px" }}
-              />
-              <Button 
-                name={"다음"} 
-                size="sm" 
-                onClick={getNextMessage} 
-              />
+              <MessageTable headers={headers} rows={data} onClick={onClickMessage} />
+              <Button name={"이전"} size="sm" onClick={getPrevMessage} style={{ margin: "10px" }} />
+              <Button name={"다음"} size="sm" onClick={getNextMessage} />
             </Container1>
           </Col>
           <Col lg={5}>
-            
             <Container1>
               <MessageBox message={currentMessage} />
             </Container1>
             <Container1>
-              <Button 
-                name={"메세지 보내기"} 
-                size="sm" 
-                onClick={sendMessage} 
-              />
+              <Button name={"메세지 보내기"} size="sm" onClick={sendMessage} />
             </Container1>
           </Col>
         </Row>
       </Container>
     </Wrapper>
   );
-}
+};
 
 export default MessageContainer;

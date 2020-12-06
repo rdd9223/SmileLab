@@ -1,6 +1,6 @@
 import React from "react";
 
-const BoardRow = ({ idx, body, setModalShow, onClick }) => {
+const BoardRow = ({ idx, body, onClick }) => {
   return (
     <>
       <tr onClick={() => onClick(idx)}>

@@ -15,27 +15,25 @@ const ClassModal = ({ updateClass }) => {
   const [open, setOpen] = React.useState(false);
 
   React.useEffect(() => {
+    const loadClass = async () => {
+      const res = await getClass();
+      if (res != null) {
+        setData(res.data.data);
+      }
+    };
+
+    const loadTake = async () => {
+      if (window.sessionStorage.getItem("loginToken") != null) {
+        const res = await getTake();
+        if (res != null && res.data.data.length !== 0) {
+          setCurrentClass(res.data.data[0].name);
+          if (updateClass != null) updateClass(res.data.data[0]);
+        }
+      }
+    };
     loadClass();
     loadTake();
-  }, []);
-
-  const loadClass = async () => {
-    const res = await getClass();
-    if (res != null) {
-      setData(res.data.data);
-    }
-  };
-
-  const loadTake = async () => {
-    if (window.sessionStorage.getItem("loginToken") != null) {
-      const res = await getTake();
-      console.log(res);
-      if (res != null && res.data.data.length !== 0) {
-        setCurrentClass(res.data.data[0].name);
-        if (updateClass != null) updateClass(res.data.data[0]);
-      }
-    }
-  };
+  }, [updateClass]);
 
   const handleClick = (idx) => {
     setCurrentClass(data[idx].class_name);
@@ -48,12 +46,7 @@ const ClassModal = ({ updateClass }) => {
       <FormLabel name="클래스" />
       <Row>
         <Col md={9}>
-          <FormControl
-            type="text"
-            placeholder="클래스를 선택 해 주세요."
-            readOnly={true}
-            value={currentClass}
-          />
+          <FormControl type="text" placeholder="클래스를 선택 해 주세요." readOnly={true} value={currentClass} />
         </Col>
         <Col md={3}>
           <Button name="검색하기" variant="primary" onClick={() => setOpen(true)} />
@@ -64,7 +57,7 @@ const ClassModal = ({ updateClass }) => {
           <Modal.Title>클래스를 선택 해 주세요.</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {data != null && (
+          {data !== null && (
             <Table responsive>
               <ClassSelectHeader headers={header} />
               <ClassSelectBody rows={data} onClick={handleClick} />

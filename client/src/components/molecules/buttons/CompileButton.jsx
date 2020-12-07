@@ -7,19 +7,10 @@ const CompileButton = (props) => {
 
   const fetchPostSource = async () => {
     const result = await postSource(code);
-    if(result !=null && result.data.data != null)
-      setResultCode(result.data.data);
+    if (result != null && result.data.data != null) setResultCode(result.data.data);
   };
 
-  return (
-    <Button
-      style={{ position: "absolute", bottom: "15px", right: "4%" }}
-      variant={"primary"}
-      onClick={() => fetchPostSource()}
-      name={"Compile"}
-      size={"sm"}
-    />
-  );
+  return <Button variant={"primary"} onClick={() => fetchPostSource()} name={"Compile"} size={"sm"} />;
 };
 
 export default CompileButton;

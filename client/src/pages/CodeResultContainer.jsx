@@ -25,15 +25,29 @@ const CodeResultContainer = () => {
   const [funcData, setFuncData] = React.useState("");
 
   React.useEffect(() => {
+    const loadResult = async () => {
+      const res = await getCompileResult();
+      console.log(res);
+      if (res != null && res.data.success) {
+        try {
+          const _data = JSON.parse(res.data.data);
+          setData(_data);
+          Feedback(_data);
+        } catch (e) {
+          alert("오류가 발생하였습니다. 다시 접근하여 주세요!");
+          //window.location.href="/";
+        }
+      }
+    };
     loadResult();
   }, []);
 
   const Feedback = (_data) => {
     if (_data.Name.length > 0) {
       var value = "";
-      _data.Name.map((item) => {
+      _data.Name.forEach((item) => {
         console.log(item);
-      })
+      });
       value += "정의된 변수의 개수는" + _data.Name.length + "개 입니다. \n";
       value +=
         "정의된 변수 중 숫자형은 " +
@@ -48,10 +62,10 @@ const CodeResultContainer = () => {
         " 또한, input 함수를 활용한 변수는 " +
         _data.input +
         "개 입니다. \n";
-      value += 
+      value +=
         "동적 타입을 지닌 변수는 " +
         (_data.Name.length - (_data.num + _data.Str + _data.tuple + _data.list + _data.input)) +
-        "개 입니다.\n"
+        "개 입니다.\n";
 
       value +=
         "위 변수 중 활용된 변수는 " +
@@ -98,8 +112,7 @@ const CodeResultContainer = () => {
           "for문을 활용하여 새로운 반복문을 만들어 볼 수 있습니다. for문에 range 함수를 결합하면 일정횟수 반복문을 만들 수 있습니다.\n ";
       }
       if (_data.For > 0 && _data.While === 0) {
-        loop +=
-          "while문을 활용하여 새로운 반복문을 만들어 볼 수 있습니다. while문은 조건식과 함께 사용됩니다.\n ";
+        loop += "while문을 활용하여 새로운 반복문을 만들어 볼 수 있습니다. while문은 조건식과 함께 사용됩니다.\n ";
       }
 
       //if(/*while문을 빠져나가지 못하는 경우*/){
@@ -125,8 +138,7 @@ const CodeResultContainer = () => {
         _data.Elif +
         "회 사용하였습니다.\n";
       if (_data.UniqIf > 0) {
-        condition +=
-          "다중 조건 판단을 가능하게 하는 if- elif-else 문을 쓰면 코드를 간결하게 나타낼 수 있습니다.\n";
+        condition += "다중 조건 판단을 가능하게 하는 if- elif-else 문을 쓰면 코드를 간결하게 나타낼 수 있습니다.\n";
       }
       setConditionData(condition);
     }
@@ -146,7 +158,7 @@ const CodeResultContainer = () => {
       }
     }
     if (_data.Function + _data.UsedInnerFunc.length > 0) {
-      const func =
+      func =
         "정의된 함수와 내장함수에서 활용된 함수는 " +
         (_data.Function + _data.UsedInnerFunc.length) +
         "개, 활용되지 않은 함수는 " +
@@ -154,21 +166,6 @@ const CodeResultContainer = () => {
         "개 입니다.";
     }
     setFuncData(func);
-  };
-
-  const loadResult = async () => {
-    const res = await getCompileResult();
-    console.log(res);
-    if (res != null && res.data.success) {
-      try {
-        const _data = JSON.parse(res.data.data);
-        setData(_data);
-        Feedback(_data);
-      } catch (e) {
-        alert("오류가 발생하였습니다. 다시 접근하여 주세요!");
-        //window.location.href="/";
-      }
-    }
   };
 
   const saveResult = async () => {
@@ -270,11 +267,7 @@ const CodeResultContainer = () => {
               <Container>
                 {valueData != null && valueData !== "" && (
                   <Jumbotron>
-                    <h6 
-                      style={{fontWeight:600, textAlign:'center', paddingBottom:24}} 
-                    >
-                      데이터 표현
-                    </h6>
+                    <h6 style={{ fontWeight: 600, textAlign: "center", paddingBottom: 24 }}>데이터 표현</h6>
                     {valueData.split("\n").map((item, idx) => {
                       return (
                         <Container key={idx}>
@@ -287,11 +280,7 @@ const CodeResultContainer = () => {
 
                 {opData != null && opData !== "" && (
                   <Jumbotron>
-                    <h6 
-                      style={{fontWeight:600, textAlign:'center', paddingBottom:24}} 
-                    >
-                      연산
-                    </h6>
+                    <h6 style={{ fontWeight: 600, textAlign: "center", paddingBottom: 24 }}>연산</h6>
                     {opData.split("\n").map((item, idx) => {
                       return (
                         <Container key={idx}>
@@ -304,11 +293,7 @@ const CodeResultContainer = () => {
 
                 {funcData != null && funcData !== "" && (
                   <Jumbotron>
-                    <h6 
-                      style={{fontWeight:600, textAlign:'center', paddingBottom:24}} 
-                    >
-                      추상화
-                    </h6>
+                    <h6 style={{ fontWeight: 600, textAlign: "center", paddingBottom: 24 }}>추상화</h6>
                     {funcData.split("\n").map((item, idx) => {
                       return (
                         <Container key={idx}>
@@ -321,11 +306,7 @@ const CodeResultContainer = () => {
 
                 {loopData != null && loopData !== "" && (
                   <Jumbotron>
-                    <h6 
-                      style={{fontWeight:600, textAlign:'center', paddingBottom:24}} 
-                    >
-                      플로우제어
-                    </h6>
+                    <h6 style={{ fontWeight: 600, textAlign: "center", paddingBottom: 24 }}>플로우제어</h6>
                     {loopData.split("\n").map((item, idx) => {
                       return (
                         <Container key={idx}>
@@ -336,13 +317,9 @@ const CodeResultContainer = () => {
                   </Jumbotron>
                 )}
 
-                {conditionData != null && conditionData != "" && (
+                {conditionData != null && conditionData !== "" && (
                   <Jumbotron>
-                    <h6 
-                      style={{fontWeight:600, textAlign:'center', paddingBottom:24}} 
-                    >
-                      논리적 사고
-                    </h6>
+                    <h6 style={{ fontWeight: 600, textAlign: "center", paddingBottom: 24 }}>논리적 사고</h6>
                     {conditionData.split("\n").map((item, idx) => {
                       return (
                         <Container key={idx}>
@@ -353,17 +330,13 @@ const CodeResultContainer = () => {
                   </Jumbotron>
                 )}
 
-                {conditionData === "" &&
-                  funcData === "" &&
-                  loopData === "" &&
-                  valueData === "" &&
-                  opData === "" && (
-                    <Jumbotron>
-                      <Container>
-                        <Text text={"피드백이 없습니다."} />
-                      </Container>
-                    </Jumbotron>
-                  )}
+                {conditionData === "" && funcData === "" && loopData === "" && valueData === "" && opData === "" && (
+                  <Jumbotron>
+                    <Container>
+                      <Text text={"피드백이 없습니다."} />
+                    </Container>
+                  </Jumbotron>
+                )}
               </Container>
               <Row>
                 <Col lg={2} />

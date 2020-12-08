@@ -1,5 +1,6 @@
 import axios from "axios";
 import { url } from "./config";
+import { convertInputArrToStr } from "../utils/converter";
 
 export const postSource = async (code, input) => {
   var userId = window.sessionStorage.getItem("userId");
@@ -12,7 +13,7 @@ export const postSource = async (code, input) => {
       .post(url + "/compile", {
         userId: userId,
         source: code,
-        input : input,
+        input : convertInputArrToStr(input),
       })
       .then((res) => {
         console.log(res);

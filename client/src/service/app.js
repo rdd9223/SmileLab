@@ -1,7 +1,7 @@
 import axios from "axios";
 import { url } from "./config";
 
-export const postSource = async (code) => {
+export const postSource = async (code, input) => {
   var userId = window.sessionStorage.getItem("userId");
   if (userId == null) {
     alert("로그인이 필요합니다.");
@@ -12,6 +12,7 @@ export const postSource = async (code) => {
       .post(url + "/compile", {
         userId: userId,
         source: code,
+        input : input,
       })
       .then((res) => {
         console.log(res);

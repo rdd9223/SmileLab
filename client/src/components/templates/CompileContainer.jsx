@@ -8,7 +8,8 @@ import CodeSaveButton from "../molecules/buttons/CodeSaveButton";
 import CheckResultButton from "../molecules/buttons/CheckResultButton";
 import CompileInputButton from "../molecules/buttons/CompileInputButton";
 import styled from "styled-components";
-import { Modal, Button, Container, InputGroup, FormControl } from "react-bootstrap";
+import CompileInputContainer from "components/templates/CompileInputContainer";
+
 
 const CompileContainer = () => {
   const [code, setCode] = useState(
@@ -16,27 +17,10 @@ const CompileContainer = () => {
   );
   const [modalShow, setModalShow] = useState(false);
   const [resultCode, setResultCode] = useState("");
-  const [inputList, setInputList] = useState([1, "안농", "dkslfajlakjsflkdajf"]);
+  const [inputList, setInputList] = useState([""]);
 
   const onChange = (e) => {
     setCode(e);
-  };
-
-  // const onChangeValue = (e = {});
-
-  const renderItem = (item, index) => {
-    return (
-      <InputGroup key={index}>
-        <InputGroup.Prepend>
-          <InputGroup.Text>{index}</InputGroup.Text>
-        </InputGroup.Prepend>
-        <FormControl placeholder="input값을 순서대로 입력해주세요." onChange={item} />
-        <InputGroup.Append>
-          <Button variant="outline-secondary">삭제</Button>
-          <Button variant="outline-primary">추가</Button>
-        </InputGroup.Append>
-      </InputGroup>
-    );
   };
 
   const handleClose = () => {
@@ -62,7 +46,7 @@ const CompileContainer = () => {
         <CodeInput code={code} onChange={onChange} />
         <ButtonArea>
           <CompileInputButton onClick={handleOpen} /> {"  "}
-          <CompileButton code={code} setResultCode={setResultCode} />
+          <CompileButton code={code} input={inputList} setResultCode={setResultCode} />
         </ButtonArea>
       </div>
       <div style={{ position: "relative", height: "200px", margin: "10px" }}>
@@ -73,26 +57,12 @@ const CompileContainer = () => {
         <CodeSaveButton code={code} />
         <CheckResultButton code={code} onClick={onResultButtonClick} />
       </div>
-      <Modal show={modalShow} onHide={handleClose} backdrop="static" keyboard={false} centered size="lg">
-        <Modal.Header closeButton>
-          <Modal.Title>Input값 입력</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Container>
-            {inputList.map((item, index) => {
-              return renderItem(item, index);
-            })}
-          </Container>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            닫기
-          </Button>
-          <Button variant="primary" onClick={handleClose}>
-            적용
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <CompileInputContainer 
+        inputList={inputList} 
+        setInputList={setInputList} 
+        modalShow={modalShow} 
+        handleClose={handleClose} 
+      />
     </div>
   );
 };

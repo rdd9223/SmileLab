@@ -7,11 +7,7 @@ import { getUser } from "../service/user";
 import { getBoard, getComment, postComment, putBoard, putComment, deleteBoard, deleteComment } from "../service/board";
 
 const Wrapper = styled.div`
-  width: 50em;
   margin: 50px auto;
-  Button {
-    float: right;
-  }
 `;
 
 const CommentContainer = ({ currentUser, item }) => {
@@ -41,8 +37,8 @@ const CommentContainer = ({ currentUser, item }) => {
     return (
       <Card style={{ marginTop: 20, marginBottom: 20 }}>
         <Card.Body>
-          <Card.Title>{item.title}</Card.Title>
-          <Card.Text style={{ minHeight: 50 }}>{item.contents}</Card.Text>
+          <Card.Title style={{fontSize: 16}}>{item.title}</Card.Title>
+          <Card.Text style={{ minHeight: 20, fontSize: 14 }}>{item.contents}</Card.Text>
           <small className="text-muted">{item.date} </small>
           {currentUser != null && item.writer_idx === currentUser ? (
             <div className="text-muted" style={{ fontSize: 12 }}>
@@ -58,7 +54,7 @@ const CommentContainer = ({ currentUser, item }) => {
             <></>
           )}
         </Card.Body>
-        <Card.Footer>
+        <Card.Footer style={{height: 'auto'}}>
           <small className="text-muted">by {item.writer}</small>
         </Card.Footer>
       </Card>
@@ -119,7 +115,7 @@ const EditForm = ({ title, contents, commentIdx, handleEditComment }) => {
   );
 };
 
-const CommunityPostContainer = () => {
+const CommunityPostContainer = ({ idx }) => {
   const [title, setTitle] = React.useState(null);
   const [contents, setContents] = React.useState(null);
   const [writer, setWriter] = React.useState(null);
@@ -133,8 +129,8 @@ const CommunityPostContainer = () => {
   const [edit, setEdit] = React.useState(false);
 
   React.useEffect(() => {
-    const href = window.location.href;
-    const idx = href.substring(href.lastIndexOf("/") + 1);
+    //const href = window.location.href;
+    //const idx = href.substring(href.lastIndexOf("/") + 1);
     setBoardIdx(idx);
     loadBoard(idx);
     loadComment(idx);
@@ -249,11 +245,13 @@ const CommunityPostContainer = () => {
     );
   } else {
     return (
-      <Wrapper style={{ paddingBottom: 100 }}>
+      <Wrapper style={{ paddingBottom: 20 }}>
         <Card>
           <Card.Body>
-            <Card.Title>{title}</Card.Title>
-            <Card.Text style={{ minHeight: 150 }}>{contents}</Card.Text>
+            <Card.Title style={{margin: 0, height: 'auto'}}>{title}</Card.Title>
+            <Card.Text style={{margin: 0, height: 'auto'}}>
+              {contents}
+            </Card.Text>
             <small className="text-muted">{date}</small>
             {currentUser != null && writerIdx === currentUser ? (
               <div className="text-muted" style={{ fontSize: 12 }}>
@@ -269,47 +267,46 @@ const CommunityPostContainer = () => {
               <></>
             )}
           </Card.Body>
-          <Card.Footer>
+          <Card.Footer style={{height: 'auto'}}>
             <small className="text-muted">by {writer}</small>
           </Card.Footer>
         </Card>
-        <hr />
-        <h6>Comments</h6>
-        <Container style={{ minHeight: 200 }}>
-          {commentList.length === 0 ? (
-            <small className="text-muted">작성 된 댓글이 없습니다.</small>
-          ) : (
+        <div style={{paddingLeft: 40}}>
+          {commentList.length > 0 ? (
             <>
               {commentList.map((item, idx) => {
                 return <CommentContainer currentUser={currentUser} item={item} />;
               })}
             </>
+          ): (
+            <div style={{paddingBottom: 20}} />
           )}
-        </Container>
-        <hr />
-        <h6>댓글 달기</h6>
-        <Card>
-          <Card.Body>
-            <Form>
-              <Form.Group>
-                <Form.Control
-                  type="text"
-                  placeholder="제목을 입력 해 주세요."
-                  onChange={(event) => handleCommentTitle(event)}
-                />
-              </Form.Group>
-              <Form.Group>
-                <Form.Control
-                  as="textarea"
-                  placeholder="내용을 입력 해 주세요."
-                  rows="3"
-                  onChange={(event) => handleCommentContents(event)}
-                />
-              </Form.Group>
-            </Form>
-            <Button name="등록" size="small" onClick={handleWriteButton} />
-          </Card.Body>
-        </Card>
+          
+        </div>
+        <div style={{paddingLeft: 40}}>
+          <Card>
+            <Card.Body>
+              <Form>
+                <Form.Group>
+                  <Form.Control
+                    type="text"
+                    placeholder="제목을 입력 해 주세요."
+                    onChange={(event) => handleCommentTitle(event)}
+                  />
+                  <div style={{paddingTop: 10}}>
+                    <Form.Control
+                      as="textarea"
+                      placeholder="내용을 입력 해 주세요."
+                      rows="3"
+                      onChange={(event) => handleCommentContents(event)}
+                    />
+                  </div>
+                  </Form.Group>
+                <Button name="등록" size="small" onClick={handleWriteButton} />
+              </Form>
+            </Card.Body>
+          </Card>
+        </div>
       </Wrapper>
     );
   }

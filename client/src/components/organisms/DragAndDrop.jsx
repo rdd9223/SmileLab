@@ -211,6 +211,21 @@ const DragAndDrop = (props) => {
           </Layer>
         </Stage>
       </div>
+      <div style={{display:'flex', marginTop: 10}}>
+        <div>
+          <Button name="예시" size="xs">예시</Button>
+        </div>
+        <div style={{flexGrow: 1}} />
+        <div style={{marginRight: 6}}>
+          <Button size="xs">전체삭제</Button>
+        </div>
+        <div style={{marginRight: 6}}>
+          <Button name="중간저장" size="xs">중간저장</Button>
+        </div>
+        <div>
+          <Button name="제출" size="xs" >제출</Button>
+        </div>
+      </div>
     </div>
   );
 };

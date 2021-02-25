@@ -4,34 +4,29 @@ import styled from "styled-components";
 import Intro from "../components/molecules/jumbotron/Intro";
 import Image from "../components/atoms/Images";
 
+const img_background = require("../images/img_background_intro.png")
+
+const BackgroundWrapper = styled.div`
+  background-image: url(${img_background});
+  background-size: cover;
+`
+
 const Wrapper = styled.div`
   width: 60rem;
-  margin: 50px auto;
-  height: 600px;
-`;
-
-const Img = styled(Image)`
-  height: auto;
-  width: 100%;
-`;
-
-const StyledCol = styled(Col)`
+  padding: 50px auto;
+  height: 100vh;  
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-end;
 `;
 
 const IntroContainer = () => {
   return (
-    <Wrapper>
-      <Row>
-        <Col>
-          <Intro />
-        </Col>
-        <StyledCol>
-          <Img src={"images/code.png"} />
-        </StyledCol>
-      </Row>
-    </Wrapper>
+    <BackgroundWrapper>
+      <Wrapper>
+        <Intro />
+      </Wrapper>
+    </BackgroundWrapper>
   );
 };
 

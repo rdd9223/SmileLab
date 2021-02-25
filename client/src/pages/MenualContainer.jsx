@@ -28,7 +28,7 @@ const MenualContainer = () => {
                 textAlign: "center",
               }}
             >
-              <h4 style={{ marginTop: "10px" }}>아이디어 나타내기</h4>
+              <h4 style={{ marginTop: "10px" }}>자료수집/분석자료표현, 문제분해</h4>
               <br />
               <h6>
                 순서도와 의사코드로 내 아이디어를 논리적으로 나타낼 수 있어요

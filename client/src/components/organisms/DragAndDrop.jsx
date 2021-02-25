@@ -7,6 +7,9 @@ import EditableText from "../molecules/figure/EditableText";
 import ArrowLine from "../molecules/figure/ArrowLine";
 import Parallelogram from "../molecules/figure/Parallelogram";
 import Transformer from "../molecules/figure/Transformer";
+import { Modal } from "react-bootstrap";
+const img_example = require("../../images/img_example_dragdrop.png")
+
 /*
   TODO:
   3. 도형 삭제 -> Transform처럼 코드 리펙토링 필요
@@ -14,8 +17,23 @@ import Transformer from "../molecules/figure/Transformer";
 
 const DragAndDrop = (props) => {
   const stageRef = useRef();
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState(JSON.parse(window.localStorage.getItem("text_drag")) || []);
   const [selectedShapeName, setSelectedShapeName] = useState("");
+  const [modalShow, setModalShow] = useState(false);
+
+  console.log(JSON.parse(window.localStorage.getItem("text_drag")))
+
+  const handleDelete = () => {
+    setImages([])
+    window.localStorage.removeItem("text_drag")
+    alert("전체 삭제가 완료되었습니다.")
+  }
+
+  const handleSave = () => {
+    console.log(images)
+    window.localStorage.setItem("text_drag", JSON.stringify(images))
+    alert("중간 저장이 완료되었습니다.")
+  }
 
   const style = {
     oval: {
@@ -213,14 +231,19 @@ const DragAndDrop = (props) => {
       </div>
       <div style={{display:'flex', marginTop: 10}}>
         <div>
-          <Button name="예시" size="xs">예시</Button>
+          <Button onClick={() => setModalShow(true)} name="예시" size="xs">예시</Button>
+          <Modal show={modalShow} onHide={() => setModalShow(false)} >
+            <div>
+              <img src={img_example} alt="example" width="100%" />
+            </div>
+          </Modal>
         </div>
         <div style={{flexGrow: 1}} />
         <div style={{marginRight: 6}}>
-          <Button size="xs">전체삭제</Button>
+          <Button onClick={handleDelete} size="xs">전체삭제</Button>
         </div>
         <div style={{marginRight: 6}}>
-          <Button name="중간저장" size="xs">중간저장</Button>
+          <Button onClick={handleSave} name="중간저장" size="xs">중간저장</Button>
         </div>
         <div>
           <Button name="제출" size="xs" >제출</Button>

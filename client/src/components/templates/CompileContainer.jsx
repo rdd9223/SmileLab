@@ -10,7 +10,6 @@ import CompileInputButton from "../molecules/buttons/CompileInputButton";
 import styled from "styled-components";
 import CompileInputContainer from "components/templates/CompileInputContainer";
 
-
 const CompileContainer = () => {
   const [code, setCode] = useState(
     localStorage.getItem("currentCode") != null ? localStorage.getItem("currentCode") : ""

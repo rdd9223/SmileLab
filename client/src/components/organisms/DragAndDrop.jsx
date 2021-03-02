@@ -17,11 +17,28 @@ const img_example = require("../../images/img_example_dragdrop.png")
 
 const DragAndDrop = (props) => {
   const stageRef = useRef();
-  const [images, setImages] = useState(JSON.parse(window.localStorage.getItem("text_drag")) || []);
+  //console.log()
+
+
+  const [images, setImages] = useState([]);
   const [selectedShapeName, setSelectedShapeName] = useState("");
   const [modalShow, setModalShow] = useState(false);
 
-  console.log(JSON.parse(window.localStorage.getItem("text_drag")))
+  //console.log(JSON.parse(window.localStorage.getItem("text_drag")).children[0].children)
+
+  React.useEffect(() => {
+    if(images.length === 0 && JSON.parse(window.localStorage.getItem("text_drag")).children[0].children != null){
+      const tempImages = []
+      const savedImages =  JSON.parse(window.localStorage.getItem("text_drag")).children[0].children
+      for(const savedImage of savedImages){
+        if(savedImage.attrs.name !== undefined){
+          tempImages.push(savedImage.attrs)
+        }
+      }
+      setImages(tempImages)
+    }
+    
+  }, [])
 
   const handleDelete = () => {
     setImages([])
@@ -30,8 +47,7 @@ const DragAndDrop = (props) => {
   }
 
   const handleSave = () => {
-    console.log(images)
-    window.localStorage.setItem("text_drag", JSON.stringify(images))
+    window.localStorage.setItem("text_drag", stageRef.current.toJSON())
     alert("중간 저장이 완료되었습니다.")
   }
 
@@ -205,6 +221,7 @@ const DragAndDrop = (props) => {
         <Stage ref={stageRef} width={510} height={1500} onMouseDown={handleStageMouseDown}>
           <Layer>
             {images.map((image, i) => {
+              console.log(image.name)
               if (image.name.indexOf("rect") !== -1) {
                 return <Square key={i} shapeProps={image} stageRef={stageRef} />;
               } else if (

@@ -27,7 +27,7 @@ const DragAndDrop = (props) => {
   //console.log(JSON.parse(window.localStorage.getItem("text_drag")).children[0].children)
 
   React.useEffect(() => {
-    if(images.length === 0 && JSON.parse(window.localStorage.getItem("text_drag")).children[0].children != null){
+    if(images.length === 0 && JSON.parse(window.localStorage.getItem("text_drag")) != null){
       const tempImages = []
       const savedImages =  JSON.parse(window.localStorage.getItem("text_drag")).children[0].children
       for(const savedImage of savedImages){

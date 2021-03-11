@@ -50,6 +50,10 @@ export const postBoard = async (title, contents, board_type) => {
   )
   .then((res) => {
     console.log(res);
+    if(res.data.code === 401){
+      alert("로그인을 먼저 해주세요!")
+      window.location.href="/"
+    }
     return res;
   })
   .catch((e) => {

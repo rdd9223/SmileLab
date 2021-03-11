@@ -117,7 +117,7 @@ const CommunityContainer = () => {
           </Col>
           <Col lg={6}></Col>
           <Col lg={2}>
-            <Link to="/write">
+            <Link to={"/write?type="+type}>
               <Button name={"글쓰기"} size={"md"} />
             </Link>
           </Col>

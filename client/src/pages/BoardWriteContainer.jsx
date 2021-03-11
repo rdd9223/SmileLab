@@ -17,7 +17,7 @@ const BoardWriteContainer = () => {
   const [contents, setContents] = React.useState(null);
   const [type, setType] = React.useState(0);
 
-  const typeHeader = ["동료찾기", "조언받기", "공유하기", "동료평가"];
+  const typeHeader = ["아이디어 얻기", "동료찾기", "질문하기", "코드공유/리뷰"];
   const changeTitle = (event) => {
     setTitle(event.target.value);
   }

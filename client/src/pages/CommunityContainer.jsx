@@ -6,22 +6,19 @@ import Button from "components/atoms/Button";
 import { Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { getBoardList } from "./../service/board.js";
+import CommunityPostContainer from "./CommunityPostContainer";
 
 const Wrapper = styled.div`
   width: 50em;
   margin: 50px auto;
-  div {
-    height: 200px;
-  }
 `;
 
 const CommunityContainer = () => {
-  const headers = ["#", "제목", "작성자", "작성일"];
   const [data, setData] = React.useState([]);
   const [currentPage, setCurrentPage] = React.useState(1);
   const [type, setType] = React.useState(0);
 
-  const typeHeader = ["동료찾기", "조언받기", "공유하기", "동료평가"];
+  const typeHeader = ["아이디어 얻기", "동료찾기", "질문하기", "코드공유/리뷰"];
 
   React.useEffect(() => {
     let search = window.location.search;
@@ -47,20 +44,50 @@ const CommunityContainer = () => {
     setCurrentPage(currentPage + 1);
   };
 
-  const onClickList = (idx) => {
-    window.location.href = "/community/" + idx;
-  };
-
   const handleType = (_type) => {
     window.location.href = "/community?type=" + _type;
   };
+
+  const renderDescription = () => {
+    if(type === 0){
+      return(
+        <div style={{borderRadius: 10, border:'1px solid #000', padding :10}}>
+          문제해결에 대한 아이디어를 동료들에게 얻는 공간입니다.
+          내 아이디어에 동료의 아이디어가 더해졌을 때, 더 정교하고 타당한 문제해결 방안을 찾을 수 있게 될 것입니다
+        </div>
+      )
+    }else if(type === 1){
+      return(
+        <div style={{borderRadius: 10, border:'1px solid #000', padding :10}}>
+          함께 프로젝트를 수행할 동료를 찾는 공간입니다.
+          동료와의 공동 프로젝트를 통해 조금 더 복잡한 코드를 학습할 수 있고, 나의 부족한 부분을 동료가 채워줄 수도 있습니다.
+          나와 마음이 맞는 동료를 찾아보세요.
+        </div>
+      )
+    }else if(type === 2){
+      return(
+        <div style={{borderRadius: 10, border:'1px solid #000', padding :10}}>
+          코드 작성 시 궁금증을 해결하기 위한 공간입니다.
+          이해하기 어려운 에러나 문제 개선에 대한 궁금점 등을 질문하거나, 반대로 동료들에게 내 지식을 활용하여 조언을 할 수도 있습니다.
+          질문을 하는것, 질문에 내 지식을 나누어 주는 것 또한 여러분의 학습능력과 사고력 향상을 위해 매우 중요한 과정입니다.
+        </div>
+      )
+    }else{
+      return(
+        <div style={{borderRadius: 10, border:'1px solid #000', padding :10}}>
+          내 코드를 공유하거나 동료의 코드를 리뷰하는 공간입니다. 코드에 대한 평가 뿐만 아니라 동료의 코드를 재사용하여 아이디어를 더해 더 훌륭한 코드를 만들어 볼 수도 있습니다.
+          내 코드 뿐만 아니라 다른 사람의 코드를 이해하고 개선시키는 것 또한 프로그래밍에 필요한 사고력을 기르는데 매우 중요한 과정입니다.
+        </div>
+      )
+    }
+  }
 
   return (
     <Wrapper>
       <div>
         <Jumbotron header={"Class Community"} text={"자유롭게 생각을 나눠보는 공간입니다."} />
       </div>
-      <div style={{ display: "flex", height: 50 }}>
+      <div style={{ display: "flex", height: 'auto' }}>
         {typeHeader.map((item, idx) => {
           if (idx === type) {
             return <Button name={item} size={"sm"} style={{ margin: 6 }} />;
@@ -76,7 +103,12 @@ const CommunityContainer = () => {
           }
         })}
       </div>
-      <CommunityTable headers={headers} rows={data} onClick={onClickList} />
+      <div>
+        {renderDescription()}
+      </div>
+      {data.map((item, idx) => {
+        return <div><CommunityPostContainer idx={item.board_idx} /></div>
+      })}
       <Wrapper>
         <Row>
           <Col lg={4}>

@@ -9,19 +9,20 @@ const  LoginInfoBox = ({ userType }) => {
   const logout = () => {
     window.sessionStorage.clear();
     window.sessionStorage.setItem("userType", 0);
-    window.location.reload(true);
+    window.location.reload();
   };
   
   return (
     <Container
       style={{
         textAlign: "center",
-        paddingTop: "200px",
-        paddingBottom: "200px",
+        paddingTop: "150px",
+        paddingBottom: "150px",
       }}
     >
-      <h6>로그인 되었습니다</h6>
-      <h6>상단에서 원하는 메뉴를 선택하세요.</h6>
+      <h6>SMILE Python에 오신걸 환영합니다.</h6>
+      <h6>SMILE Python은 초보자를 위해 설계된 컴퓨팅 사고력에 기반한 학습 지원 시스템입니다.</h6>
+      <h6>위의 활용방법을 보고 학습을 시작해보세요!</h6>
       <Row style={{ marginTop: "100px" }}>
         <Col>
           <Link to="/">

@@ -7,6 +7,9 @@ import EditableText from "../molecules/figure/EditableText";
 import ArrowLine from "../molecules/figure/ArrowLine";
 import Parallelogram from "../molecules/figure/Parallelogram";
 import Transformer from "../molecules/figure/Transformer";
+import { Modal } from "react-bootstrap";
+const img_example = require("../../images/img_example_dragdrop.png")
+
 /*
   TODO:
   3. 도형 삭제 -> Transform처럼 코드 리펙토링 필요
@@ -14,8 +17,39 @@ import Transformer from "../molecules/figure/Transformer";
 
 const DragAndDrop = (props) => {
   const stageRef = useRef();
+  //console.log()
+
+
   const [images, setImages] = useState([]);
   const [selectedShapeName, setSelectedShapeName] = useState("");
+  const [modalShow, setModalShow] = useState(false);
+
+  //console.log(JSON.parse(window.localStorage.getItem("text_drag")).children[0].children)
+
+  React.useEffect(() => {
+    if(images.length === 0 && JSON.parse(window.localStorage.getItem("text_drag")).children[0].children != null){
+      const tempImages = []
+      const savedImages =  JSON.parse(window.localStorage.getItem("text_drag")).children[0].children
+      for(const savedImage of savedImages){
+        if(savedImage.attrs.name !== undefined){
+          tempImages.push(savedImage.attrs)
+        }
+      }
+      setImages(tempImages)
+    }
+    
+  }, [])
+
+  const handleDelete = () => {
+    setImages([])
+    window.localStorage.removeItem("text_drag")
+    alert("전체 삭제가 완료되었습니다.")
+  }
+
+  const handleSave = () => {
+    window.localStorage.setItem("text_drag", stageRef.current.toJSON())
+    alert("중간 저장이 완료되었습니다.")
+  }
 
   const style = {
     oval: {
@@ -187,6 +221,7 @@ const DragAndDrop = (props) => {
         <Stage ref={stageRef} width={510} height={1500} onMouseDown={handleStageMouseDown}>
           <Layer>
             {images.map((image, i) => {
+              console.log(image.name)
               if (image.name.indexOf("rect") !== -1) {
                 return <Square key={i} shapeProps={image} stageRef={stageRef} />;
               } else if (
@@ -210,6 +245,26 @@ const DragAndDrop = (props) => {
             <Transformer selectedShapeName={selectedShapeName} />
           </Layer>
         </Stage>
+      </div>
+      <div style={{display:'flex', marginTop: 10}}>
+        <div>
+          <Button onClick={() => setModalShow(true)} name="예시" size="xs">예시</Button>
+          <Modal show={modalShow} onHide={() => setModalShow(false)} >
+            <div>
+              <img src={img_example} alt="example" width="100%" />
+            </div>
+          </Modal>
+        </div>
+        <div style={{flexGrow: 1}} />
+        <div style={{marginRight: 6}}>
+          <Button onClick={handleDelete} size="xs">전체삭제</Button>
+        </div>
+        <div style={{marginRight: 6}}>
+          <Button onClick={handleSave} name="중간저장" size="xs">중간저장</Button>
+        </div>
+        <div>
+          <Button name="제출" size="xs" >제출</Button>
+        </div>
       </div>
     </div>
   );

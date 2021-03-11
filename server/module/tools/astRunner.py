@@ -9,7 +9,7 @@ def main():
     with open(sys.argv[1], encoding='UTF8') as source:
         tree = ast.parse(source.read())
 
-    #pprint(ast.dump(tree) + "\n")
+    # pprint(ast.dump(tree) + "\n")
     analyzer = Analyzer()
     analyzer.visit(tree)
     analyzer.report()
@@ -40,7 +40,7 @@ class Analyzer(ast.NodeVisitor):
             "FunctionUse": [], "FunctionDef": [], "UnusedFunc": 0, 
             "ParamOverThree" : 0, "CountPrint": [], "PrintRepeat" : 0, 
             "UsedInnerFunc" : [], "UsedName": [], "NameUsedAssign": [], 
-            "NameUsedOp": []
+            "NameUsedOp": [], "Dictionary": 0, "Set": 0, 'Import': 0, 'Class': 0
         }
 
         self.elifFlag = 0
@@ -77,9 +77,24 @@ class Analyzer(ast.NodeVisitor):
                     self.stats["SelfOp"] += 1
         self.generic_visit(node)
 
+    def visit_Import(self, node):
+        "Import 카운터"
+        self.stats['Import'] += 1
+        self.generic_visit(node)
+
+    def visit_ClassDef(self, node):
+        "Class 카운터"
+        self.stats['Class'] += 1
+        self.generic_visit(node)
+
     def visit_Constant(self, node):
         "constant 카운터"
         self.stats["Constant"] += 1
+        self.generic_visit(node)
+
+    def visit_Dict(self, node):
+        "dictionary 카운터"
+        self.stats["Dictionary"] += 1
         self.generic_visit(node)
 
     def visit_Tuple(self, node):
@@ -106,7 +121,7 @@ class Analyzer(ast.NodeVisitor):
     def visit_Attribute(self, node):
         "Attribute 카운터"
         if isinstance(node.value, ast.Name):
-            if node.value.id is "self" and isinstance(node.value.ctx, ast.Load) and isinstance(node.ctx, ast.Store):
+            if node.value.id == "self" and isinstance(node.value.ctx, ast.Load) and isinstance(node.ctx, ast.Store):
                 self.stats["Name"].append(node.attr)
             if isinstance(node.value.ctx, ast.Load) and isinstance(node.ctx, ast.Load):
                 if node.attr not in self.stats["UsedName"]:
@@ -119,8 +134,12 @@ class Analyzer(ast.NodeVisitor):
         self.stats["FunctionUseCount"] += 1
 
         if isinstance(node.func, ast.Name):
-            if node.func.id is "input":
+            if node.func.id == "input":
                 self.stats["input"] += 1
+
+        if isinstance(node.func, ast.Name):
+            if node.func.id == "set":
+                self.stats["Set"] += 1
         
         if isinstance(node.func, ast.Name):
             length = len(node.args)
@@ -156,7 +175,7 @@ class Analyzer(ast.NodeVisitor):
             if node.id in self.stats["Name"]:
                 if node.id not in self.stats["UsedName"]:
                     self.stats["UsedName"].append(node.id)
- 
+
     def visit_AugAssign(self, node):
         "단항연산자 카운터"
         self.stats["AugAssign"] += 1
@@ -239,9 +258,9 @@ class Analyzer(ast.NodeVisitor):
     def report(self):
         self.stats["UnusedFunc"] = (len(self.stats["FunctionDef"])-len(self.stats["FunctionUse"]))
         for e in self.IFStacks:
-            if len(e) is 1:
+            if len(e) == 1:
                 self.stats["If"] += 1
-            elif len(e) is 2:
+            elif len(e) == 2:
                 if "Expr" in e[len(e)-1]:
                     self.stats["ElseIf"] += 1
                 else:

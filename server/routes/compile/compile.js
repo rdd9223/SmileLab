@@ -41,7 +41,9 @@ router.post("/", async (req, res) => {
 
 // 컴파일 결과 확인하기
 router.post("/result", async (req, res) => {
-  let sourcePath = path.join(__dirname, `../../source/${req.body.userId}`);
+  const { userId } = req.body;
+
+  let sourcePath = path.join(__dirname, `../../source/${userId}`);
   let testPath = path.join(__dirname, `../../module/tools`);
   sourcePath = sourcePath.replace(/\\/gi, "/");
   testPath = testPath.replace(/\\/gi, "/");

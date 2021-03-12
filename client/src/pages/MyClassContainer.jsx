@@ -6,16 +6,16 @@ import Button from "../components/atoms/Button";
 import { getResult } from "./../service/result.js";
 
 const Wrapper = styled.div`
-  width: 50em;
-  margin: 50px auto;
+  margin: 50px 50px;
   height: 600px;
   Button {
     float: right;
   }
 `;
 
+
 const MyClassContainer = () => {
-  const header = ["날짜", "데이터표현", "연산", "논리적 사고", "플로우제어", "추상화", ""];
+  const header = ["날짜", "자료구조", "변수정의", "문제해결 절차수립", "연산", "조건", "반복", "함수", "Class 메서드", "import", ""];
   const [checked, setChecked] = React.useState([]);
   const [data, setData] = React.useState(null);
 
@@ -27,6 +27,7 @@ const MyClassContainer = () => {
     const res = await getResult();
     if (res != null) {
       setData(res.data.data);
+      console.log(res)
     }
   };
 
@@ -55,7 +56,7 @@ const MyClassContainer = () => {
     const res = await deleteResult(ids);
     if (res.data.status === 200) {
       alert(res.data.message);
-      window.location.reload(true);
+      window.location.reload();
     }
   };
 

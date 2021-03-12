@@ -52,7 +52,7 @@ const MenualContainer = () => {
         </div>
         <div style={{background : `url(${img_background})`, backgroundSize:'cover', width:'100%', height:500}}>
           <div style={{display:'flex', paddingTop: 10, justifyContent:'space-between', textAlign:'center'}}>
-            <div style={{ backgroundColor:'rgba(255,255,255, 0.8)', padding: 20, borderRadius:'100%', border:'2px solid #222', marginTop: 90 }}>
+            <div style={{ backgroundColor:'rgba(255,255,255, 0.8)', padding: 20, borderRadius:'100%', border:'2px solid #222', marginTop: 90,  }}>
               <Text text="순서도" />
               <Text text="메모장" />
               <Text text="커뮤니티" />

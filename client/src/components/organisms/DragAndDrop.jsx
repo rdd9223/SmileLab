@@ -8,6 +8,7 @@ import ArrowLine from "../molecules/figure/ArrowLine";
 import Parallelogram from "../molecules/figure/Parallelogram";
 import Transformer from "../molecules/figure/Transformer";
 import { Modal } from "react-bootstrap";
+import Line from "components/molecules/figure/Line";
 const img_example = require("../../images/img_example_dragdrop.png")
 
 /*
@@ -50,6 +51,18 @@ const DragAndDrop = (props) => {
   }
 
   const style = {
+    line: {
+      type: "직선",
+      x: 50,
+      y: 50,
+      points: [0, 0, 0, 50],
+      pointerLength: 20,
+      pointerWidth: 10,
+      fill: "black",
+      stroke: "black",
+      strokeWidth: 1,
+      name: "line" + (images.length + 1),
+    },
     oval: {
       type: "시작/종료",
       x: 150,
@@ -102,7 +115,7 @@ const DragAndDrop = (props) => {
       name: "arrowLine" + (images.length + 1),
     },
     rhombus: {
-      type: "조건",
+      type: "결정, 비교",
       width: 200,
       height: 50,
       stroke: "black",
@@ -119,7 +132,7 @@ const DragAndDrop = (props) => {
       },
     },
     parallelogram: {
-      type: "입/출력",
+      type: "입력",
       width: 200,
       height: 50,
       stroke: "black",
@@ -136,20 +149,23 @@ const DragAndDrop = (props) => {
       },
     },
     hexagon: {
-      type: "준비",
+      type: "출력",
       width: 200,
-      height: 50,
+      height: 100,
       stroke: "black",
       strokeWidth: 1,
       name: "hexagon" + (images.length + 1),
       sceneFunc: (context, shape) => {
         context.beginPath();
-        context.moveTo(20, 0);
-        context.lineTo(180, 0);
-        context.lineTo(200, 25);
-        context.lineTo(180, 50);
+        context.moveTo(180, 0);
+        context.lineTo(20, 0);
         context.lineTo(20, 50);
-        context.lineTo(0, 25);
+        const x= 180
+        for(var i=20;i<x;i++){ // Loop from left side to current x
+          const y = 70.0 - Math.sin(i*Math.PI/-90)*20; // calculate y flipped horizontally, converting from DEG to RADIAN
+          context.lineTo(i,y)
+        }
+        context.lineTo(180, 0);        
         context.closePath();
         context.fillStrokeShape(shape);
       },
@@ -157,8 +173,42 @@ const DragAndDrop = (props) => {
   };
 
   const buttonArray = [
-    [style.oval, style.square, style.parallelogram, style.rhombus],
-    [style.circle, style.hexagon, style.textArea, style.arrowLine],
+    [
+      {
+        ...style.oval, 
+        img: require("../../images/start-end.png")
+      }, 
+      {
+        ...style.square,
+        img: require("../../images/action.png")
+      }, 
+      {
+        ...style.parallelogram,
+        img: require("../../images/input-output.png")
+      }, 
+      {
+        ...style.rhombus,
+        img: require("../../images/decision.png")
+      }
+    ],
+    [
+      {
+        ...style.line,
+        img: null
+      }, 
+      {
+        ...style.hexagon,
+        img: require("../../images/document.png")
+      }, 
+      {
+        ...style.textArea,
+        img: null
+      }, 
+      {
+        ...style.arrowLine,
+        img: null,
+      }
+    ],
   ];
 
   const handleStageMouseDown = (e) => {
@@ -183,28 +233,40 @@ const DragAndDrop = (props) => {
 
   return (
     <div style={{ justifyContent: "center" }}>
-      <div style={{ width: 468.8, height: 80, margin: "auto" }}>
+      <div style={{ width: 468.8, height: 160, margin: "auto" }}>
         <Container>
           <Row style={{ paddingBottom: 5 }}>
             {buttonArray[0].map((img, i) => {
               return (
                 <Col key={i}>
-                  <Button size="sm" onClick={() => setImages(images.concat(img))} block>
-                    {img.type}
-                  </Button>
+                  <div onClick={() => setImages(images.concat(img))} style={{textAlign:'center', cursor:'pointer'}}>
+                    <img src={img.img} alt={img.type} width="100%" style={{display:'block', height: 40}} />
+                    <p style={{fontSize:'14px'}}>{img.type}</p>
+                  </div>
                 </Col>
               );
             })}
           </Row>
           <Row>
             {buttonArray[1].map((img, i) => {
-              return (
-                <Col key={i}>
-                  <Button size="sm" onClick={() => setImages(images.concat(img))} block>
-                    {img.type}
-                  </Button>
-                </Col>
-              );
+              if(img.img === null){
+                return(
+                  <Col key={i}>
+                    <Button size="sm" onClick={() => setImages(images.concat(img))} block>
+                      {img.type}
+                    </Button>
+                  </Col>
+                )
+              }else{
+                return(
+                  <Col key={i}>
+                    <div onClick={() => setImages(images.concat(img))} style={{textAlign:'center', cursor:'pointer'}}>
+                      <img src={img.img} alt={img.type} width="100%" style={{display:'block', height: 40}} />
+                      <p style={{fontSize:'14px'}}>{img.type}</p>
+                    </div>
+                  </Col>
+                )
+              }
             })}
           </Row>
         </Container>
@@ -232,6 +294,8 @@ const DragAndDrop = (props) => {
                 return <EditableText key={i} shapeProps={image} stageRef={stageRef} />;
               } else if (image.name.indexOf("arrowLine") !== -1) {
                 return <ArrowLine key={i} shapeProps={image} stageRef={stageRef} />;
+              }else if (image.name.indexOf("line") !== -1) {
+                return <Line key={i} shapeProps={image} stageRef={stageRef} />;
               } else if (
                 image.name.indexOf("circle") !== -1 ||
                 image.name.indexOf("ellipse") !== -1

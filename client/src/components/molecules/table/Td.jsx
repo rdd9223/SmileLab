@@ -15,6 +15,7 @@ const Td = ({ body, onClick }) => {
   return (
     <tr>
       <td>{body.date}</td>
+      <td>{renderOX(body.data_abstract)}</td>
       <td>
         <div style={{fontSize: 12}}>튜플{renderOX(body.tuple)}</div>
         <div style={{fontSize: 12}}>딕셔너리{renderOX(body.dictionary)}</div>

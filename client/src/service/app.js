@@ -41,18 +41,11 @@ export const getCompileResult = async () => {
     });
 };
 
-export const postResult = async (variable, operator, data, conditional, repeat, func) => {
+export const postResult = async (body) => {
   return await axios
     .post(
       url + "/result/save",
-      {
-        variable: variable,
-        operator: operator,
-        data: data,
-        conditional: conditional,
-        repeat: repeat,
-        func: func,
-      },
+      body,
       {
         headers: {
           token: window.sessionStorage.getItem("loginToken"),

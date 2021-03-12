@@ -34,7 +34,7 @@ const LoginForm = () => {
     if (res != null && res.data.status === 200) {
       window.sessionStorage.clear();
       window.sessionStorage.setItem("loginToken", res.data.data.token);
-      window.location.reload(true);
+      window.location.reload();
     } else if (res != null && res.data.status === 400) {
       alert(res.data.message);
     }else{

@@ -50,6 +50,11 @@ const DragAndDrop = (props) => {
     alert("중간 저장이 완료되었습니다.")
   }
 
+  const handleSubmit = () => {
+    window.localStorage.setItem("text_drag", stageRef.current.toJSON())
+    alert("제출이 완료되었습니다.")
+  }
+
   const style = {
     line: {
       type: "직선",
@@ -281,7 +286,6 @@ const DragAndDrop = (props) => {
         <Stage ref={stageRef} width={510} height={1500} onMouseDown={handleStageMouseDown}>
           <Layer>
             {images.map((image, i) => {
-              console.log(image.name)
               if (image.name.indexOf("rect") !== -1) {
                 return <Square key={i} shapeProps={image} stageRef={stageRef} />;
               } else if (
@@ -325,7 +329,7 @@ const DragAndDrop = (props) => {
           <Button onClick={handleSave} name="중간저장" size="xs">중간저장</Button>
         </div>
         <div>
-          <Button name="제출" size="xs" >제출</Button>
+          <Button onClick={handleSubmit} name="제출" size="xs" >제출</Button>
         </div>
       </div>
     </div>

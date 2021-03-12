@@ -30,7 +30,6 @@ const CodeResultContainer = () => {
       if (res != null && res.data.success) {
         try {
           const _data = JSON.parse(res.data.data);
-          console.log(_data)
           setData(_data);
           Feedback(_data);
         } catch (e) {
@@ -207,14 +206,29 @@ const CodeResultContainer = () => {
   };
 
   const saveResult = async () => {
-    const res = await postResult(
-      data.Name.length,
-      data.BinOp + data.AugAssign + data.Compare + data.Logical,
-      0,
-      data.If + data.ElseIf + data.Elif,
-      data.For + data.While,
-      data.Function
-    );
+    const dataAbstract = 
+      window.localStorage.getItem("text_drag") != null ||
+      window.localStorage.getItem("text_idea") != null ? 1 : 0
+     
+    const problomResolving = 
+      window.localStorage.getItem("text_drag") != null ||
+      window.localStorage.getItem("text_idea") != null ? 1 : 0
+    const res = await postResult({
+      variable : data.Name.length > 0 ? 1 : 0,
+      operator: data.BinOp + data.AugAssign + data.Compare + data.Logical > 0 ? 1 : 0,
+      data: data.list + data.tuple + data.Set + data.Dictionary > 0 ? 1 : 0,
+      conditional : data.If + data.ElseIf + data.Elif > 0 ? 1 : 0,
+      repeat: data.For + data.While > 0 ? 1 : 0,
+      func: data.Function > 0 ? 1 : 0,
+      classMethod: data.Class > 0 ? 1 : 0,
+      importMethod: data.Import > 0 ? 1 : 0,
+      dataAbstract : dataAbstract,
+      problemResolving: problomResolving,
+      list : data.list > 0 ? 1 : 0,
+      tuple : data.tuple > 0 ? 1: 0,
+      dictionary: data.Dictionary > 0 ? 1 : 0,
+      set: data.Set > 0 ? 1 : 0,
+    });
     if (res.data.status === 201) {
       alert("저장 성공!");
       window.location.href = "/myclass";
@@ -262,7 +276,10 @@ const CodeResultContainer = () => {
                       <h6>
                         <strong>데이터의 추상화</strong>
                       </h6>
-                      <CTListItem text="문제분해/자료표현" checked={false} />
+                      <CTListItem text="문제분해/자료표현" checked={
+                        window.localStorage.getItem("text_drag") != null ||
+                        window.localStorage.getItem("text_idea") != null
+                      } />
                       <CTListItem text="변수의 정의" checked={data.Name.length > 0} />
                       <CTListItem text="데이터 유형(자료구조)" checked={data.list + data.tuple > 0} />
                     </div>

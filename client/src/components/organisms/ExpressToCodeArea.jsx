@@ -17,6 +17,12 @@ const ExpressToCodeArea = () => {
 
   const handleSave = () => {
     window.localStorage.setItem("text_idea", text)
+    alert("중간저장이 완료되었습니다.")
+  }
+
+  const handleSubmit = () => {
+    window.localStorage.setItem("text_idea", text)
+    alert("제출이 완료되었습니다.")
   }
 
   return (
@@ -39,7 +45,7 @@ const ExpressToCodeArea = () => {
           <Button onClick={handleSave} name="중간저장" size="xs" />
         </div>
         <div>
-          <Button name="제출" size="xs" />
+          <Button onClick={handleSubmit} name="제출" size="xs" />
         </div>
       </div>
     </div>

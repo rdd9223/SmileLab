@@ -49,7 +49,7 @@ export const postBoard = async (title, contents, board_type) => {
     }
   )
   .then((res) => {
-    console.log(res);
+    //console.log(res);
     if(res.data.code === 401){
       alert("로그인을 먼저 해주세요!")
       window.location.href="/"
@@ -57,7 +57,7 @@ export const postBoard = async (title, contents, board_type) => {
     return res;
   })
   .catch((e) => {
-    console.log(e);
+    //console.log(e);
     return null;
   });
 };
@@ -73,11 +73,11 @@ export const postComment = async(idx, title, contents) => {
     }
   })
   .then((res) => {
-    console.log(res);
+    //console.log(res);
     return res;
   })
   .catch((e) => {
-    console.log(e);
+    //console.log(e);
     return null;
   })
 }
@@ -92,7 +92,7 @@ export const getComment = async(idx) => {
     return res;
   })
   .catch((e) => {
-    console.log(e);
+    //console.log(e);
     return null;
   })
 }
@@ -107,11 +107,11 @@ export const putBoard = async(idx, title, contents) => {
     }
   })
   .then((res) => {
-    console.log(res);
+    //console.log(res);
     return res;
   })
   .catch((e) => {
-    console.log(e);
+    //console.log(e);
     return null;
   })
 }
@@ -123,11 +123,11 @@ export const deleteBoard = async(idx) => {
     }
   })
   .then((res) => {
-    console.log(res);
+    //console.log(res);
     return res;
   })
   .catch((e) => {
-    console.log(e);
+    //console.log(e);
     return null;
   })
 }
@@ -142,11 +142,11 @@ export const putComment = async(idx, title, contents) => {
     }
   })
   .then((res) => {
-    console.log(res);
+    //console.log(res);
     return res;
   })
   .catch((e) => {
-    console.log(e);
+    //console.log(e);
     return null;
   })
 }
@@ -158,11 +158,11 @@ export const deleteComment = async(idx) => {
     }
   })
   .then((res) => {
-    console.log(res);
+    //console.log(res);
     return res;
   })
   .catch((e) => {
-    console.log(e);
+    //console.log(e);
     return null;
   })
 }

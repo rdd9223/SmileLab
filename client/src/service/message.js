@@ -21,7 +21,7 @@ export const postMessage = async (class_idx, receiver, contents) => {
       return res;
     })
     .catch((e) => {
-      console.log(e);
+      //console.log(e);
       return;
     });
 };
@@ -38,7 +38,7 @@ export const getMessage = async (idx) => {
     })
     .catch((e) => {
       //Catch Err
-      console.log(e);
+      //console.log(e);
       return;
     });
 };

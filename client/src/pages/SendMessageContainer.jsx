@@ -52,7 +52,7 @@ const SendMessageContainer = () => {
     const idx = event;
     if (idx != null) {
       const res = await getProfClass(idx);
-      console.log(res);
+      //console.log(res);
       if (res != null) {
         setStudent(res.data.data);
         setCurrentClass(idx);
@@ -65,7 +65,7 @@ const SendMessageContainer = () => {
 
     if (idx != null) {
       const res = await getProfClass(idx);
-      console.log(res);
+      //console.log(res);
       if (res != null) {
         setStudent(res.data.data);
         setCurrentClass(idx);
@@ -79,7 +79,7 @@ const SendMessageContainer = () => {
   };
 
   const sendMessage = async () => {
-    console.log(currentClass, currentReceiver, message);
+    //console.log(currentClass, currentReceiver, message);
     if (currentClass == null) {
       alert("강의를 선택 해 주세요.");
     } else if (message.length === 0) {

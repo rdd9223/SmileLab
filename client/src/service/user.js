@@ -97,7 +97,7 @@ export const signIn = async (id, pw) => {
       return res;
     })
     .catch((e) => {
-      console.log(e);
+      //console.log(e);
       return;
     });
 };

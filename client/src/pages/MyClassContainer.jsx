@@ -27,7 +27,7 @@ const MyClassContainer = () => {
     const res = await getResult();
     if (res != null) {
       setData(res.data.data);
-      console.log(res)
+      //console.log(res)
     }
   };
 

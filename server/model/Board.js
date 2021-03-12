@@ -17,7 +17,7 @@ const board = {
       }else{
         getUserTakeClassQuery = `SELECT class_idx FROM take WHERE student_idx = ${user_idx}`;
       }
-      console.log(await pool.queryParam_Parse(getUserTakeClassQuery));
+      //console.log(await pool.queryParam_Parse(getUserTakeClassQuery));
       
       const getBoardListQuery = `SELECT board_idx, board_type, title, date, writer_idx, class_idx, contents, user.name as writer FROM board LEFT JOIN user ON board.writer_idx = user_idx WHERE class_idx = (${getUserTakeClassQuery}) AND board_type = ${board_type} ORDER BY board_idx DESC LIMIT ${
         (page - 1) * 10

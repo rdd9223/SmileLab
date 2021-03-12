@@ -8,9 +8,41 @@ const RESULT = require("../../model/Result");
 
 // 컴파일 결과 저장하기
 router.post("/", jwt.checkLogin, async (req, res) => {
-    const { user_idx } = req.decoded;
-    const { variable, operator, data, conditional, repeat, func } = req.body;
-    RESULT.saveResult({ user_idx, variable, operator, data, conditional, repeat, func })
+  const { user_idx } = req.decoded;
+  const {
+    variable,
+    operator,
+    data,
+    conditional,
+    repeat,
+    func,
+    classMethod,
+    importMethod,
+    dataAbstract,
+    problemResolving,
+    list,
+    tuple,
+    dictionary,
+    set,
+  } = req.body;
+
+  RESULT.saveResult({
+    user_idx,
+    variable,
+    operator,
+    data,
+    conditional,
+    repeat,
+    func,
+    classMethod,
+    importMethod,
+    dataAbstract,
+    problemResolving,
+    list,
+    tuple,
+    dictionary,
+    set,
+  })
     .then(({ json }) => {
       res.status(200).send(json);
     })
@@ -18,12 +50,7 @@ router.post("/", jwt.checkLogin, async (req, res) => {
       console.log(err);
       res
         .status(200)
-        .send(
-          authUtil.successFalse(
-            statusCode.INTERNAL_SERVER_ERROR,
-            responseMessage.INTERNAL_SERVER_ERROR
-          )
-        );
+        .send(authUtil.successFalse(statusCode.INTERNAL_SERVER_ERROR, responseMessage.INTERNAL_SERVER_ERROR));
     });
 });
 

@@ -35,7 +35,9 @@ const MessageContainer = () => {
     }
   };
 
-  React.useEffect(() => loadMessage(currentPage), []);
+  React.useEffect(() => {
+    loadMessage(currentPage)
+  }, []);
 
   // 각 메세지 별 "보기" 버튼 클릭 시 이벤트
   const onClickMessage = (idx) => {

@@ -26,7 +26,6 @@ const MessageContainer = () => {
   const [currentPage, setCurrentPage] = React.useState(1);
 
   const loadMessage = async (idx) => {
-    setData([]);
     const res = await getMessage(idx);
     if (currentPage !== 1 && res.data.data.length === 0) {
       alert("마지막페이지입니다!");
@@ -36,7 +35,7 @@ const MessageContainer = () => {
     }
   };
 
-  React.useEffect(loadMessage(currentPage), []);
+  React.useEffect(() => loadMessage(currentPage), []);
 
   // 각 메세지 별 "보기" 버튼 클릭 시 이벤트
   const onClickMessage = (idx) => {

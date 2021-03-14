@@ -12,14 +12,9 @@ const board = {
       
       var getUserTakeClassQuery = ''
       //교수 일 경우 추가
-      if( type == userType.Professor) {
-        getUserTakeClassQuery = `SELECT class_idx FROM class WHERE professor_idx = ${user_idx}`;
-      }else{
-        getUserTakeClassQuery = `SELECT class_idx FROM take WHERE student_idx = ${user_idx}`;
-      }
       //console.log(await pool.queryParam_Parse(getUserTakeClassQuery));
       
-      const getBoardListQuery = `SELECT board_idx, board_type, title, date, writer_idx, class_idx, contents, user.name as writer FROM board LEFT JOIN user ON board.writer_idx = user_idx WHERE class_idx = (${getUserTakeClassQuery}) AND board_type = ${board_type} ORDER BY board_idx DESC LIMIT ${
+      const getBoardListQuery = `SELECT board_idx, board_type, title, date, writer_idx, contents, user.name as writer FROM board LEFT JOIN user ON board.writer_idx = user_idx WHERE board_type = ${board_type} ORDER BY board_idx DESC LIMIT ${
         (page - 1) * 10
       }, 10`;
       const getBoardListResult = await pool.queryParam_Parse(getBoardListQuery);
@@ -49,8 +44,7 @@ const board = {
           json: authUtil.successFalse(statusCode.BAD_REQUEST, responseMessage.NULL_VALUE),
         });
       }
-      const getUserTakeClassQuery = `SELECT class_idx FROM take WHERE student_idx = ${user_idx}`;
-      const postBoardQuery = `INSERT INTO board (title, contents, writer_idx, date, board_type ,class_idx) VALUES (?, ?, ?, ?, ?, (${getUserTakeClassQuery}))`;
+      const postBoardQuery = `INSERT INTO board (title, contents, writer_idx, date, board_type) VALUES (?, ?, ?, ?, ?)`;
       const postBoardResult = await pool.queryParam_Parse(postBoardQuery, [
         title,
         contents,

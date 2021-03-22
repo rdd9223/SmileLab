@@ -115,45 +115,23 @@ const EditForm = ({ title, contents, commentIdx, handleEditComment }) => {
   );
 };
 
-const CommunityPostContainer = ({ idx }) => {
-  const [title, setTitle] = React.useState(null);
-  const [contents, setContents] = React.useState(null);
-  const [writer, setWriter] = React.useState(null);
-  const [writerIdx, setWriterIdx] = React.useState(null);
-  const [date, setDate] = React.useState(null);
+const CommunityPostContainer = ({ item, currentUser }) => {
+  const [title, setTitle] = React.useState(item.title);
+  const [contents, setContents] = React.useState(item.contents);
+  const [writer, setWriter] = React.useState(item.writer);
+  const [writerIdx, setWriterIdx] = React.useState(item.writer_idx);
+  const [date, setDate] = React.useState(item.date);
   const [commentTitle, setCommentTitle] = React.useState(null);
   const [commentContents, setCommentContents] = React.useState(null);
   const [commentList, setCommentList] = React.useState([]);
-  const [boardIdx, setBoardIdx] = React.useState(null);
-  const [currentUser, setCurrentUser] = React.useState(null);
+  const [boardIdx, setBoardIdx] = React.useState(item.board_idx);
   const [edit, setEdit] = React.useState(false);
 
+  console.log(currentUser)
+
   React.useEffect(() => {
-    //const href = window.location.href;
-    //const idx = href.substring(href.lastIndexOf("/") + 1);
-    setBoardIdx(idx);
-    loadBoard(idx);
-    loadComment(idx);
-    loadUser();
+    loadComment(item.board_idx);
   }, []);
-
-  const loadUser = async () => {
-    const res = await getUser();
-    if (res != null && res.data.status === 200) {
-      setCurrentUser(res.data.data.user_idx);
-    }
-  };
-
-  const loadBoard = async (idx) => {
-    const res = await getBoard(idx);
-    if (res != null && res.data.status === 200) {
-      setTitle(res.data.data[0].title);
-      setContents(res.data.data[0].contents);
-      setWriter(res.data.data[0].writer);
-      setDate(res.data.data[0].date);
-      setWriterIdx(res.data.data[0].writer_idx);
-    }
-  };
 
   const loadComment = async (idx) => {
     const res = await getComment(idx);
@@ -168,6 +146,7 @@ const CommunityPostContainer = ({ idx }) => {
       window.location.reload();
       //refresh
     } else {
+      console.log(res)
       alert("잠시 후 다시 시도 해 주세요.");
     }
   };

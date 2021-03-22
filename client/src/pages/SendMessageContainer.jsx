@@ -79,7 +79,6 @@ const SendMessageContainer = () => {
   };
 
   const sendMessage = async () => {
-    //console.log(currentClass, currentReceiver, message);
     if (currentClass == null) {
       alert("강의를 선택 해 주세요.");
     } else if (message.length === 0) {

@@ -1,17 +1,18 @@
 import axios from "axios";
 import { url } from "./config";
 
-export const getBoardList = async (idx, board_type) => {
+export const getBoardList = async (idx, board_type, class_idx) => {
   return await axios.get(url + "/board/list/" + idx, {
     headers: {
       token: window.sessionStorage.getItem("loginToken"),
     },
     params: {
       board_type: board_type,
+      class_idx: class_idx,
     }
   })
   .then((res) => {
-    //console.log(res);
+    console.log(res);
     return res;
   })
   .catch((e) => {
@@ -33,7 +34,7 @@ export const getBoard = async (idx) => {
   })
 }
 
-export const postBoard = async (title, contents, board_type) => {
+export const postBoard = async (title, contents, board_type, class_idx) => {
   return await axios
   .post(
     url + "/board",
@@ -46,6 +47,9 @@ export const postBoard = async (title, contents, board_type) => {
       headers: {
         token: window.sessionStorage.getItem("loginToken"),
       },
+      params:{
+        class_idx : class_idx
+      }
     }
   )
   .then((res) => {

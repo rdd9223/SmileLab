@@ -3,10 +3,13 @@ import styled from "styled-components";
 import CommunityTable from "../components/templates/CommunityTable";
 import Jumbotron from "components/atoms/Jumbotron";
 import Button from "components/atoms/Button";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { getBoardList } from "./../service/board.js";
 import CommunityPostContainer from "./CommunityPostContainer";
+import { getUser } from "service/user";
+import { getProfClass, getProfClassAll } from "service/class";
+import { current } from "immer";
 
 const Wrapper = styled.div`
   width: 50em;
@@ -15,20 +18,61 @@ const Wrapper = styled.div`
 
 const CommunityContainer = () => {
   const [data, setData] = React.useState([]);
+  const [clazz, setClass] = React.useState([]);
+  const [currentClass, setCurrentClass] = React.useState(null);
   const [currentPage, setCurrentPage] = React.useState(1);
   const [type, setType] = React.useState(0);
+  const [userType, setUserType] = React.useState(null)
+  const [userIdx, setUserIdx] = React.useState(null)
 
   const typeHeader = ["아이디어 얻기", "동료찾기", "질문하기", "코드공유/리뷰"];
+
+  const loadUser = async () => {
+    const res = await getUser();
+    if (res != null && res.data.status === 200) {
+      setUserType(res.data.data.type);
+      setUserIdx(res.data.data.user_idx);
+    }
+  };
+
+  React.useEffect(() => {
+    loadUser()
+  }, [])
+
+  React.useEffect(() => {
+    if(userType === 2){
+      loadBoard(currentPage, type);
+    }else{
+      initClassList()
+    }
+    
+  }, [userType])
+
+  const initClassList = async() => {
+    if(userType != null && userType != 2){
+      const res = await getProfClassAll();
+      if (res != null) {
+        setClass(res.data.data);
+        loadBoard(currentPage, type);
+      }
+    }
+  }
+
+  React.useEffect(() => {
+    if(currentClass != null){
+      loadBoard(currentPage, type);
+    }
+  }, [currentClass])
 
   React.useEffect(() => {
     let search = window.location.search;
     let params = new URLSearchParams(search);
+    setCurrentClass(Number(params.get("class")));
     setType(Number(params.get("type")));
-    loadBoard(currentPage, Number(params.get("type")));
   }, [currentPage]);
 
   const loadBoard = async (idx, type) => {
-    const res = await getBoardList(idx, type);
+    const res = await getBoardList(idx, type, currentClass);
     if (res != null && res.data.status === 200) {
       setData(res.data.data);
     }
@@ -45,8 +89,21 @@ const CommunityContainer = () => {
   };
 
   const handleType = (_type) => {
-    window.location.href = "/community?type=" + _type;
+    if(userType === 2){
+      window.location.href = "/community?type=" + _type;
+    }else{
+      window.location.href = "/community?type=" + _type+"&class="+currentClass;
+    }
   };
+
+  const changeClass = async (event) => {
+    const idx = event.target.value;
+    if (idx != null) {
+      setCurrentClass(idx);
+      window.location.href = "/community?type=0&class="+idx;
+    }
+  };
+
 
   const renderDescription = () => {
     if(type === 0){
@@ -82,49 +139,113 @@ const CommunityContainer = () => {
     }
   }
 
-  return (
-    <Wrapper>
-      <div>
-        <Jumbotron header={"Class Community"} text={"자유롭게 생각을 나눠보는 공간입니다."} />
-      </div>
-      <div style={{ display: "flex", height: 'auto' }}>
-        {typeHeader.map((item, idx) => {
-          if (idx === type) {
-            return <Button name={item} size={"sm"} style={{ margin: 6 }} />;
-          } else {
-            return (
-              <Button
-                name={item}
-                size={"sm"}
-                style={{ margin: 6, backgroundColor: "#fff", color: "#000" }}
-                onClick={() => handleType(idx)}
-              />
-            );
-          }
-        })}
-      </div>
-      <div>
-        {renderDescription()}
-      </div>
-      {data.map((item, idx) => {
-        return <div><CommunityPostContainer idx={item.board_idx} /></div>
-      })}
+  if(userType === null){
+    return(
+      <div>잠시만 기다려주세요...</div>
+    )
+  }else if(userType === 2){
+    return (
       <Wrapper>
-        <Row>
-          <Col lg={4}>
-            <Button name={"이전"} size={"md"} onClick={getPrevBoard} style={{ margin: "10px" }} />
-            <Button name={"다음"} size={"md"} onClick={getNextBoard} />
-          </Col>
-          <Col lg={6}></Col>
-          <Col lg={2}>
-            <Link to={"/write?type="+type}>
-              <Button name={"글쓰기"} size={"md"} />
-            </Link>
-          </Col>
-        </Row>
+        <div>
+          <Jumbotron header={"Class Community"} text={"자유롭게 생각을 나눠보는 공간입니다."} />
+        </div>
+        <div style={{ display: "flex", height: 'auto' }}>
+          {typeHeader.map((item, idx) => {
+            if (idx === type) {
+              return <Button name={item} size={"sm"} style={{ margin: 6 }} />;
+            } else {
+              return (
+                <Button
+                  name={item}
+                  size={"sm"}
+                  style={{ margin: 6, backgroundColor: "#fff", color: "#000" }}
+                  onClick={() => handleType(idx)}
+                />
+              );
+            }
+          })}
+        </div>
+        <div>
+          {renderDescription()}
+        </div>
+        {data.map((item, idx) => {
+          return <div><CommunityPostContainer item={item} currentUser={userIdx} /></div>
+        })}
+        <Wrapper>
+          <Row>
+            <Col lg={4}>
+              <Button name={"이전"} size={"md"} onClick={getPrevBoard} style={{ margin: "10px" }} />
+              <Button name={"다음"} size={"md"} onClick={getNextBoard} />
+            </Col>
+            <Col lg={6}></Col>
+            <Col lg={2}>
+              <Link to={"/write?type="+type}>
+                <Button name={"글쓰기"} size={"md"} />
+              </Link>
+            </Col>
+          </Row>
+        </Wrapper>
       </Wrapper>
-    </Wrapper>
-  );
+    );
+  }else{
+    return(
+      <Wrapper>
+        <div>
+          <Jumbotron header={"Class Community"} text={"자유롭게 생각을 나눠보는 공간입니다."} />
+        </div>
+        <Form.Control as="select" defaultValue={currentClass} onChange={changeClass}>
+          <option key={0} value={null}>
+            강의를 선택 하세요.
+          </option>
+          {clazz != null &&
+            clazz.map((item, idx) => {
+              return (
+                <option key={idx + 1} value={item.class_idx}>
+                  {item.name}
+                </option>
+              );
+            })}
+        </Form.Control>
+        <div style={{ display: "flex", height: 'auto' }}>
+          {typeHeader.map((item, idx) => {
+            if (idx === type) {
+              return <Button name={item} size={"sm"} style={{ margin: 6 }} />;
+            } else {
+              return (
+                <Button
+                  name={item}
+                  size={"sm"}
+                  style={{ margin: 6, backgroundColor: "#fff", color: "#000" }}
+                  onClick={() => handleType(idx)}
+                />
+              );
+            }
+          })}
+        </div>
+        <div>
+          {renderDescription()}
+        </div>
+        {data.map((item, idx) => {
+          return <div><CommunityPostContainer item={item} currentUser={userIdx} /></div>
+        })}
+        <Wrapper>
+          <Row>
+            <Col lg={4}>
+              <Button name={"이전"} size={"md"} onClick={getPrevBoard} style={{ margin: "10px" }} />
+              <Button name={"다음"} size={"md"} onClick={getNextBoard} />
+            </Col>
+            <Col lg={6}></Col>
+            <Col lg={2}>
+              <Link to={"/write?type="+type+"&class="+currentClass}>
+                <Button name={"글쓰기"} size={"md"} />
+              </Link>
+            </Col>
+          </Row>
+        </Wrapper>
+      </Wrapper>
+    )
+  }
+  
 };
 
 export default CommunityContainer;

@@ -16,11 +16,13 @@ const BoardWriteContainer = () => {
   const [title, setTitle] = React.useState(null);
   const [contents, setContents] = React.useState(null);
   const [type, setType] = React.useState(0);
+  const [clazz, setClass] = React.useState(null)
 
   React.useEffect(() => {
     let search = window.location.search;
     let params = new URLSearchParams(search);
     setType(Number(params.get("type")));
+    setClass(Number(params.get("class")));
   }, []);
 
   const typeHeader = ["아이디어 얻기", "동료찾기", "질문하기", "코드공유/리뷰"];
@@ -37,11 +39,12 @@ const BoardWriteContainer = () => {
     const res = await postBoard(
       title,
       contents,
-      type
+      type,
+      clazz
     );
     if(res != null && res.data.status === 201){
       alert(res.data.message);
-      window.location.href = "/community";
+      window.location.href = "/community?type="+type+"&class="+clazz;
     }
   }
   const handleType = ( _type ) => {

@@ -10,8 +10,6 @@ const message = {
       const date = moment().format("YYYY-MM-DD HH:mm:ss");
       const ALL = 0;
 
-
-
       if (!class_idx || !contents || !receiver) {
         if(receiver !== 0){
           return resolve({

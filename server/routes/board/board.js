@@ -10,9 +10,9 @@ const BOARD = require("../../model/Board");
 router.get("/list/:page", jwt.checkLogin, async (req, res) => {
   const { user_idx, type } = req.decoded;
   const { page } = req.params;
-  const { board_type } = req.query;
+  const { board_type, class_idx } = req.query;
 
-  BOARD.getBoardList({ user_idx, type, page, board_type })
+  BOARD.getBoardList({ user_idx, type, page, board_type, class_idx })
     .then(({ json }) => {
       res.status(200).send(json);
     })

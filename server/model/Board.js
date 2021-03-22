@@ -4,19 +4,38 @@ const responseMessage = require("../module/utils/responseMessage");
 const authUtil = require("../module/utils/authUtil");
 const pool = require("../module/db/pool");
 const moment = require("moment");
+const { Professor, Student } = require("../module/utils/userStatus");
 require("moment-timezone");
 
 const board = {
-  getBoardList: ({ user_idx, type, page, board_type }) => {
+  getBoardList: ({ user_idx, type, page, board_type, class_idx }) => {
     return new Promise(async (resolve, reject) => {
+      var getBoardListQuery = `
+        SELECT board.*, user.name as writer 
+        FROM board
+        LEFT JOIN user 
+        ON board.writer_idx = user_idx
+        WHERE board_type = ${board_type} 
+        AND class_idx = ${class_idx}
+        ORDER BY board_idx DESC LIMIT ${(page - 1) * 10}, 10
+      `
       
-      var getUserTakeClassQuery = ''
-      //교수 일 경우 추가
-      //console.log(await pool.queryParam_Parse(getUserTakeClassQuery));
+      if(type === Student){
+        getBoardListQuery = `
+          SELECT  board.*, user.name as writer 
+          FROM board 
+          LEFT JOIN user 
+          ON board.writer_idx = user_idx 
+          WHERE board_type = ${board_type} 
+          AND class_idx = (
+            SELECT class_idx
+            FROM take
+            WHERE student_idx = ${user_idx}
+          )
+          ORDER BY board_idx DESC LIMIT ${(page - 1) * 10}, 10
+        `;
+      }
       
-      const getBoardListQuery = `SELECT board_idx, board_type, title, date, writer_idx, contents, user.name as writer FROM board LEFT JOIN user ON board.writer_idx = user_idx WHERE board_type = ${board_type} ORDER BY board_idx DESC LIMIT ${
-        (page - 1) * 10
-      }, 10`;
       const getBoardListResult = await pool.queryParam_Parse(getBoardListQuery);
       if (getBoardListResult !== undefined) {
         return resolve({
@@ -36,7 +55,7 @@ const board = {
       }
     });
   },
-  postBoard: ({ user_idx, title, contents, board_type }) => {
+  postBoard: ({ user_idx, type, title, contents, board_type, class_idx }) => {
     return new Promise(async (resolve, reject) => {
       const date = moment().format("YYYY-MM-DD HH:mm:ss");
       if (!title || !contents) {
@@ -44,8 +63,30 @@ const board = {
           json: authUtil.successFalse(statusCode.BAD_REQUEST, responseMessage.NULL_VALUE),
         });
       }
-      const postBoardQuery = `INSERT INTO board (title, contents, writer_idx, date, board_type) VALUES (?, ?, ?, ?, ?)`;
+
+      var postBoardQuery = `
+        INSERT INTO board (
+          class_idx, title, contents, writer_idx, date, board_type
+        ) VALUES (
+          ?, ?, ?, ?, ?, ?
+        )
+      `
+
+      if(type === Student){
+        postBoardQuery = `
+          INSERT INTO board (
+            class_idx, title, contents, writer_idx, date, board_type
+          ) VALUES (
+            (select 
+              class_idx
+              from take 
+              where student_idx = ?
+            ), ?, ?, ?, ?, ?
+          )`;
+      }
+
       const postBoardResult = await pool.queryParam_Parse(postBoardQuery, [
+        type === Student ? user_idx : class_idx,
         title,
         contents,
         user_idx,
@@ -68,12 +109,15 @@ const board = {
           ),
         });
       }
+      
     });
   },
   getBoard: ({ user_idx, boardIdx }) => {
     return new Promise(async (resolve, reject) => {
-      const getBoardInfoQuery = `SELECT board.*, user.name as writer FROM board LEFT JOIN user ON board.writer_idx = user_idx WHERE board_idx = ${boardIdx}`;
-      const getBoardInfoResult = await pool.queryParam_Parse(getBoardInfoQuery);
+      const getBoardInfoQuery = `SELECT board.*, user.name as writer FROM board LEFT JOIN user ON board.writer_idx = user_idx WHERE board_idx = (select class_idx from take where student_idx = ?)`;
+      const getBoardInfoResult = await pool.queryParam_Parse(getBoardInfoQuery, [
+        boardIdx
+      ]);
 
       if (getBoardInfoResult[0] !== undefined) {
         return resolve({

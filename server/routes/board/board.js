@@ -34,7 +34,7 @@ router.get("/:boardIdx", jwt.checkLogin, async (req, res) => {
   const { user_idx, type } = req.decoded;
   const { boardIdx } = req.params;
 
-  BOARD.getBoard({ user_idx, boardIdx })
+  BOARD.getBoard({ user_idx, boardIdx, type })
     .then(({ json }) => {
       res.status(200).send(json);
     })

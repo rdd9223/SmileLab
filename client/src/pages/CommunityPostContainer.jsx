@@ -127,8 +127,6 @@ const CommunityPostContainer = ({ item, currentUser }) => {
   const [boardIdx, setBoardIdx] = React.useState(item.board_idx);
   const [edit, setEdit] = React.useState(false);
 
-  console.log(currentUser)
-
   React.useEffect(() => {
     loadComment(item.board_idx);
   }, []);
@@ -146,7 +144,7 @@ const CommunityPostContainer = ({ item, currentUser }) => {
       window.location.reload();
       //refresh
     } else {
-      console.log(res)
+      //console.log(res)
       alert("잠시 후 다시 시도 해 주세요.");
     }
   };

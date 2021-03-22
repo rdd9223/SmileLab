@@ -18,9 +18,6 @@ const img_example = require("../../images/img_example_dragdrop.png")
 
 const DragAndDrop = (props) => {
   const stageRef = useRef();
-  //console.log()
-
-
   const [images, setImages] = useState([]);
   const [selectedShapeName, setSelectedShapeName] = useState("");
   const [modalShow, setModalShow] = useState(false);
@@ -34,6 +31,7 @@ const DragAndDrop = (props) => {
           tempImages.push(savedImage.attrs)
         }
       }
+      console.log(tempImages)
       setImages(tempImages)
     }
     
@@ -47,6 +45,7 @@ const DragAndDrop = (props) => {
 
   const handleSave = () => {
     window.localStorage.setItem("text_drag", stageRef.current.toJSON())
+    console.log(stageRef.current.toJSON())
     alert("중간 저장이 완료되었습니다.")
   }
 
@@ -65,7 +64,7 @@ const DragAndDrop = (props) => {
       pointerWidth: 10,
       fill: "black",
       stroke: "black",
-      strokeWidth: 2,
+      strokeWidth: 3,
       dragDistance: 100,
       name: "line" + (images.length + 1),
     },
@@ -289,12 +288,12 @@ const DragAndDrop = (props) => {
             {images.map((image, i) => {
               if (image.name.indexOf("rect") !== -1) {
                 return <Square key={i} shapeProps={image} stageRef={stageRef} />;
-              } else if (
-                image.name.indexOf("parallelogram") !== -1 ||
-                image.name.indexOf("rhombus") !== -1 ||
-                image.name.indexOf("hexagon") !== -1
-              ) {
-                return <Parallelogram key={i} shapeProps={image} stageRef={stageRef} />;
+              } else if (image.name.indexOf("rhombus") !== -1) {
+                return <Parallelogram key={i} shapeProps={{...image, sceneFunc : style.rhombus.sceneFunc}} stageRef={stageRef} />;
+              } else if (image.name.indexOf("hexagon") !== -1) {
+                return <Parallelogram key={i} shapeProps={{...image, sceneFunc : style.hexagon.sceneFunc}} stageRef={stageRef} />;
+              } else if (image.name.indexOf("parallelogram") !== -1) {
+                return <Parallelogram key={i} shapeProps={{...image, sceneFunc : style.parallelogram.sceneFunc}} stageRef={stageRef} />;
               } else if (image.name.indexOf("textArea") !== -1) {
                 return <EditableText key={i} shapeProps={image} stageRef={stageRef} />;
               } else if (image.name.indexOf("arrowLine") !== -1) {

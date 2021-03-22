@@ -58,7 +58,7 @@ const CodeResultContainer = () => {
 
     const variableFeedback = `
       정의된 변수는 ${data.Name.length}개이며, 이 중 활용되지 않은 변수가 
-      ${data.Name.length - data.UsedName.length}개 있습니다. 
+      ${data.Name.length - data.UsedName.length < 0 ? 0 : data.Name.length - data.UsedName.length}개 있습니다. 
       만약 활용되지 않는 변수가 있다면 삭제하여 코드의 효율성을 높일 수 있습니다.
     `
 
@@ -79,10 +79,6 @@ const CodeResultContainer = () => {
       그러나 리스트보다 비용적 측면, 안정성에서 리스트보다 뛰어납니다.
       튜플 값 변경이 필요하다면 list함수를 사용하여 리스트로 변경할 수 있습니다.
       (예: interest=('flowers', 'bugs', 'animals') -> list(interest))
-    `
-
-    const unusedVariableFeedback = `
-      사용되지 않은 변수가 있습니다. 삭제하여 코드의 효율성을 높여보세요.
     `
 
     const operationFeedback = `
@@ -155,32 +151,33 @@ const CodeResultContainer = () => {
 
     const classFeedback = data.Class === 0 ? `
       공통된 속성을 여러 번 코딩했다면, 코드와 코드가 처리할 데이터를 묶어 class로 정의해보세요. (아래 기본형 제시)
-      Class 이름:
-      def __init__(self, 초기값):
-      멤버 초기화
-      메서드 정의
+      Class 이름:\n`
+      +"\u00a0\u00a0\u00a0\u00a0def __init__(self, 초기값):\n"
+      +"\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0멤버 초기화\n"
+      +"\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0메서드 정의\n"
+      +
+      `
       여기서 __init__는 통상 객체를 초기화 하는 특수 메서드이며, 클래스에 소속된 함수르 메서드라고 칭합니다.
     ` : `
       class의 정의를 통해 같은 속성을 가진 객체를 얼마든지 만들 수 있습니다. 
       또한 '상속'을 통해 기존 클래스를 확장하여 멤버(변수, 함수)를 추가하거나 동작을 변경할 수 있습니다.(아래의 예시 제시)
-      예)   
-        class Parent():
-         def __init__(self):
-              self.a=5
-          def method_a(self):
-                print("부모클래스 A")
-        class Child(Parent):
-          def __init__(self):
-              super().__init__()
-              self.b=10
-        c=Child()
-        print(c.a, c.b)
+      예)
+      \u00a0\u00a0class Parent():   
+      \u00a0\u00a0\u00a0\u00a0def __init__(self):
+      \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0self.a=5
+      \u00a0\u00a0\u00a0\u00a0def method_a(self):
+      \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0print("부모클래스 A")
+      \u00a0\u00a0class Child(Parent):
+      \u00a0\u00a0\u00a0\u00a0def __init__(self):
+      \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0super().__init__()
+      \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0self.b=10
+      \u00a0\u00a0c=Child()
+      \u00a0\u00a0print(c.a, c.b)
     `
-
     const importFeedback = data.Import === 0 ? `
-      현재 코드와 관련된 기존 코드를 수정하여 활용하는 것은 코드를 일반화에 도움을 줄 수 있습니다.
+      새로 작성하는 코드와 관련된 기존 모듈/코드를 수정하여 활용하는 것은 코드를 일반화에 도움을 줄 수 있습니다.
     ` : `
-      기존의 데이터를 또 다른 코드에 활용함으로써 코드를 일반화하는데 도움이 되었습니다.
+      기존의 데이터/모듈을 새로운 코드에 활용함으로써 코드를 일반화하는데 도움이 되었습니다.
     `
 
     setFeedback({
@@ -188,8 +185,7 @@ const CodeResultContainer = () => {
         precodeFeedback + " \spacer"+
         variableFeedback + " \spacer"+ 
         listFeedback + " \spacer"+ 
-        tupleFeedback + " \spacer"+ 
-        unusedVariableFeedback
+        tupleFeedback
       ),
       "process" : (
         operationFeedback + " \spacer"+
@@ -297,7 +293,7 @@ const CodeResultContainer = () => {
                         <strong>객체지향</strong>
                       </h6>
                       <CTListItem text="class/method" checked={data.Class > 0} />
-                      <CTListItem text="impot 모듈/데이터" checked={data.Import > 0} />
+                      <CTListItem text="import 모듈/데이터" checked={data.Import > 0} />
                     </div>
                   </div>
                 } 

@@ -21,8 +21,6 @@ const  LoginInfoBox = ({ userType }) => {
       }}
     >
       <h6>SMILE Python에 오신걸 환영합니다.</h6>
-      <h6>SMILE Python은 초보자를 위해 설계된 컴퓨팅 사고력에 기반한 학습 지원 시스템입니다.</h6>
-      <h6>위의 활용방법을 보고 학습을 시작해보세요!</h6>
       <Row style={{ marginTop: "100px" }}>
         <Col>
           <Link to="/">

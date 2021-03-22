@@ -31,7 +31,6 @@ const DragAndDrop = (props) => {
           tempImages.push(savedImage.attrs)
         }
       }
-      console.log(tempImages)
       setImages(tempImages)
     }
     
@@ -45,7 +44,6 @@ const DragAndDrop = (props) => {
 
   const handleSave = () => {
     window.localStorage.setItem("text_drag", stageRef.current.toJSON())
-    console.log(stageRef.current.toJSON())
     alert("중간 저장이 완료되었습니다.")
   }
 

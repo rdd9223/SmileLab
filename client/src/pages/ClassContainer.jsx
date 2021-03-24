@@ -52,9 +52,6 @@ const ClassContainer = () => {
     width: 50em;
     margin: 50px auto;
     height: 600px;
-    Button {
-      float: right;
-    }
   `;
   return (
     <Wrapper>
@@ -94,14 +91,14 @@ const ClassContainer = () => {
           <StudentClassTable headers={header} rows={currentData} />
         </Row>
       )}
-      <div style={{ position: "absolute", bottom: "15px", right: "13%" }}>
+      <div style={{ float: "right" }}>
         <Link to="/sendMessage">
           <SendMessageButton size={"sm"} />
-        </Link>
+        </Link>{" "}
         <Link to="/createClass">
           <ClassCreateButton size={"sm"} />
-        </Link>
-        <ClassDeleteButton class_idx={currentClass} loadClass={loadClass} />
+        </Link>{" "}
+        <ClassDeleteButton class_idx={currentClass} loadClass={loadClass} size={"sm"} />
       </div>
     </Wrapper>
   );

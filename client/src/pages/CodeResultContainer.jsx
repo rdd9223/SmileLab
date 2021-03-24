@@ -151,12 +151,11 @@ const CodeResultContainer = () => {
 
     const classFeedback = data.Class === 0 ? `
       공통된 속성을 여러 번 코딩했다면, 코드와 코드가 처리할 데이터를 묶어 class로 정의해보세요. (아래 기본형 제시)
-      Class 이름:\n`
-      +"\u00a0\u00a0\u00a0\u00a0def __init__(self, 초기값):\n"
-      +"\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0멤버 초기화\n"
-      +"\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0메서드 정의\n"
-      +
-      `
+      Class 이름:\n` +
+          "\u00a0\u00a0\u00a0\u00a0def __init__(self, 초기값):\n" +
+          "\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0멤버 초기화\n" +
+          "\u00a0\u00a0\u00a0\u00a0메서드 정의\n" +
+          `
       여기서 __init__는 통상 객체를 초기화 하는 특수 메서드이며, 클래스에 소속된 함수르 메서드라고 칭합니다.
     ` : `
       class의 정의를 통해 같은 속성을 가진 객체를 얼마든지 만들 수 있습니다. 

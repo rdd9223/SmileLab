@@ -439,22 +439,15 @@ const CodeResultContainer = () => {
                     </Jumbotron>
                   </div>
               </Container>
-              <Row>
-                <Col lg={2} />
-                <Col lg={4}>
-                  <Link to="/start">
-                    <Button name="코드로 돌아가기" />
-                  </Link>
-                </Col>
-                <Col lg={3}>
-                  <Link to="/start">
-                    <Button name="새 프로젝트" onClick={resetCode} />
-                  </Link>
-                </Col>
-                <Col lg={3}>
-                  <Button name="결과 저장" onClick={saveResult} />
-                </Col>
-              </Row>
+              <div style={{ float: "right" }}>
+                <Link to="/start">
+                  <Button name="코드로 돌아가기" />
+                </Link>{" "}
+                <Link to="/start">
+                  <Button name="새 프로젝트" onClick={resetCode} />
+                </Link>{" "}
+                <Button name="결과 저장" onClick={saveResult} />
+              </div>
             </Col>
           </Row>
         </Wrapper>

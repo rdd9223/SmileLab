@@ -69,9 +69,9 @@ router.post("/", jwt.checkLogin, async (req, res) => {
 });
 
 // 클래스 삭제
-router.delete("/", jwt.checkLogin, async (req, res) => {
+router.delete("/:class_idx", jwt.checkLogin, async (req, res) => {
   const { user_idx, type } = req.decoded;
-  const { class_idx } = req.body;
+  const { class_idx } = req.params;
 
   CLASS.deleteClass({ user_idx, class_idx })
     .then(({ json }) => {

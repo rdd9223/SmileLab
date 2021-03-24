@@ -68,3 +68,18 @@ export const getProfClassAll = async () => {
       return null;
     });
 };
+
+export const deleteClass = async (class_idx) => {
+  return await axios
+    .delete(url + "/class/" + class_idx, {
+      headers: {
+        token: window.sessionStorage.getItem("loginToken"),
+      },
+    })
+    .then((res) => {
+      return res;
+    })
+    .catch((e) => {
+      return null;
+    });
+}

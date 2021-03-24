@@ -1,13 +1,14 @@
 import React from "react";
 import { Form, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import Button from "../components/molecules/buttons/SendMessageButton";
-import Button2 from "../components/molecules/buttons/ClassCreateButton";
+import SendMessageButton from "../components/molecules/buttons/SendMessageButton";
+import ClassCreateButton from "../components/molecules/buttons/ClassCreateButton";
 import styled from "styled-components";
 import Jumbotron from "./../components/atoms/Jumbotron";
 import StudentClassTable from "./../components/organisms/StudentClassTable";
 import { getProfClassAll, getProfClass } from "./../service/class.js";
 import { getStuResult } from "./../service/result.js";
+import ClassDeleteButton from "components/molecules/buttons/ClassDeleteButton";
 
 const ClassContainer = () => {
   const header = ["날짜", "변수", "연산자", "데이터", "조건문", "반복문", "함수"];
@@ -109,11 +110,12 @@ const ClassContainer = () => {
       )}
       <div style={{ position: "absolute", bottom: "15px", right: "13%" }}>
         <Link to="/sendMessage">
-          <Button size={"sm"} />
+          <SendMessageButton size={"sm"} />
         </Link>
         <Link to="/createClass">
-          <Button2 size={"sm"} />
+          <ClassCreateButton size={"sm"} />
         </Link>
+        <ClassDeleteButton class_idx={currentClass} />
       </div>
     </Wrapper>
   );

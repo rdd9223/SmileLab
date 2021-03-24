@@ -17,36 +17,36 @@ const ClassContainer = () => {
   const [currentStudent, setCurrentStudent] = React.useState(null);
   const [currentData, setCurrentData] = React.useState([]);
   const [currentClass, setCurrentClass] = React.useState(null);
-  
+
   React.useEffect(() => {
     loadClass();
-  }, [])
+  }, []);
 
-  const loadClass = async() => {
+  const loadClass = async () => {
     const res = await getProfClassAll();
-    if(res != null){
+    if (res != null) {
       setClass(res.data.data);
     }
-  }
+  };
 
-  const changeClass = async(e) => {
+  const changeClass = async (e) => {
     const idx = e.target.value;
     const res = await getProfClass(idx);
     if (res != null) {
       setStudent(res.data.data);
       setCurrentClass(idx);
-      setCurrentData([])
+      setCurrentData([]);
     }
-  }
+  };
 
-  const changeStudent = async(e) => {
+  const changeStudent = async (e) => {
     const idx = e.target.value;
     const res = await getStuResult(currentClass, idx);
-    if(res != null){
-      setCurrentData(res.data.data)
-      setCurrentStudent(idx)
+    if (res != null) {
+      setCurrentData(res.data.data);
+      setCurrentStudent(idx);
     }
-  }
+  };
 
   const Wrapper = styled.div`
     width: 50em;
@@ -59,19 +59,12 @@ const ClassContainer = () => {
   return (
     <Wrapper>
       <div>
-        <Jumbotron
-          header={"클래스 관리"}
-          text={"학생들을 학습 내용을 조회 할 수 있습니다."}
-        ></Jumbotron>
+        <Jumbotron header={"클래스 관리"} text={"학생들을 학습 내용을 조회 할 수 있습니다."}></Jumbotron>
       </div>
       <br />
       <Row>
         <Col>
-          <Form.Control
-            as="select"
-            defaultValue={currentClass}
-            onChange={changeClass}
-          >
+          <Form.Control as="select" defaultValue={currentClass} onChange={changeClass}>
             <option>강의를 선택 하세요.</option>
             {clazz.map((item, idx) => {
               return (
@@ -83,11 +76,7 @@ const ClassContainer = () => {
           </Form.Control>
         </Col>
         <Col>
-          <Form.Control
-            as="select"
-            defaultValue={currentStudent}
-            onChange={changeStudent}
-          >
+          <Form.Control as="select" defaultValue={currentStudent} onChange={changeStudent}>
             <option>학생을 선택 하세요.</option>
             {student.map((item, idx) => {
               return (
@@ -102,10 +91,7 @@ const ClassContainer = () => {
       <br />
       {currentData != null && (
         <Row>
-          <StudentClassTable
-            headers={header}
-            rows={currentData}
-          />
+          <StudentClassTable headers={header} rows={currentData} />
         </Row>
       )}
       <div style={{ position: "absolute", bottom: "15px", right: "13%" }}>
@@ -115,11 +101,10 @@ const ClassContainer = () => {
         <Link to="/createClass">
           <ClassCreateButton size={"sm"} />
         </Link>
-        <ClassDeleteButton class_idx={currentClass} />
+        <ClassDeleteButton class_idx={currentClass} loadClass={loadClass} />
       </div>
     </Wrapper>
   );
-  
-}
+};
 
 export default ClassContainer;

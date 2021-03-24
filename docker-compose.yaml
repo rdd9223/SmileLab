@@ -9,6 +9,7 @@ services:
       - /app/node_modules
     networks:
       - backend
+    restart: "unless-stopped"
   server:
     build:
       dockerfile: Dockerfile
@@ -19,23 +20,9 @@ services:
     environment:
       - NODE_PATH=src
       - PORT=4000
-      # - DB_HOST=mysql
-      # - DB=test
     networks:
       - backend
-    # depends_on:
-    #   - mysql
-    # ports:
-    #   - "4000:4000"
-  # mysql:
-  #   container_name: mysql
-  #   image: mysql
-  #   volumes:
-  #     - data:/data/db
-  #   ports:
-  #     - "3306:3306"
-  #   networks:
-  #     - backend
+    restart: "unless-stopped"
 
   nginx:
     restart: always
@@ -44,6 +31,7 @@ services:
       context: ./nginx
     ports:
       - "80:80"
+      - "443:443"
     networks:
       - backend
 

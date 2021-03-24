@@ -27,7 +27,7 @@ const LoginForm = () => {
   const [id, setId] = React.useState(null);
   const [pw, setPw] = React.useState(null);
 
-  const handleSubmit = async(event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const res = await signIn(id, pw);
     //로그인 성공 시 반환되는 토큰을 session에 저장
@@ -37,37 +37,27 @@ const LoginForm = () => {
       window.location.reload();
     } else if (res != null && res.data.status === 400) {
       alert(res.data.message);
-    }else{
-      
+    } else {
     }
-  }
+  };
 
   const handleId = (event) => {
     const value = event.target.value;
     setId(value);
-  }
+  };
 
   const handlePw = (event) => {
     const value = event.target.value;
     setPw(value);
-  }
+  };
 
   return (
     <Wrapper>
       <Form onSubmit={handleSubmit}>
         <Form.Group>
           <FormText name={"아이디와 비밀번호를 입력해주세요"} />
-          <FormLabelSet
-            onChange={(event) => handleId(event)}
-            type={"id"}
-            readOnly={false}
-            placeholder={"ID"}
-          />
-          <FormLabelSet
-            onChange={(event) => handlePw(event)}
-            type={"password"}
-            placeholder={"Password"}
-          />
+          <FormLabelSet onChange={(event) => handleId(event)} type={"id"} readOnly={false} placeholder={"ID"} />
+          <FormLabelSet onChange={(event) => handlePw(event)} type={"password"} placeholder={"Password"} />
         </Form.Group>
         <Row>
           <Column>
@@ -82,7 +72,6 @@ const LoginForm = () => {
       </Form>
     </Wrapper>
   );
-  
-}
+};
 
 export default LoginForm;

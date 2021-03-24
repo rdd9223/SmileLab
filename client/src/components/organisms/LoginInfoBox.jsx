@@ -3,15 +3,13 @@ import { Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { FiLogOut, FiUser, FiMail } from "react-icons/fi";
 
-
-
-const  LoginInfoBox = ({ userType }) => {
+const LoginInfoBox = ({ userType }) => {
   const logout = () => {
     window.sessionStorage.clear();
     window.sessionStorage.setItem("userType", 0);
     window.location.reload();
   };
-  
+
   return (
     <Container
       style={{
@@ -46,6 +44,6 @@ const  LoginInfoBox = ({ userType }) => {
       </Row>
     </Container>
   );
-}
+};
 
 export default LoginInfoBox;

@@ -16,9 +16,9 @@ const ExpressRadioGroup = (props) => {
         </Col>
         <Col>
           <FormRadio
-            name={"의사코드로 표현하기"}
+            name={"메모장으로 표현하기"}
             group={"expression"}
-            checked={props.selectOption === "의사코드로 표현하기"}
+            checked={props.selectOption === "메모장으로 표현하기"}
             onChange={props.onChange}
           />
         </Col>

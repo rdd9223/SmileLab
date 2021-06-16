@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import CommunityTable from "../components/templates/CommunityTable";
 import Jumbotron from "components/atoms/Jumbotron";
 import Button from "components/atoms/Button";
 import { Row, Col, Form } from "react-bootstrap";
@@ -8,8 +7,7 @@ import { Link } from "react-router-dom";
 import { getBoardList } from "./../service/board.js";
 import CommunityPostContainer from "./CommunityPostContainer";
 import { getUser } from "service/user";
-import { getProfClass, getProfClassAll } from "service/class";
-import { current } from "immer";
+import { getProfClassAll } from "service/class";
 
 const Wrapper = styled.div`
   width: 50em;

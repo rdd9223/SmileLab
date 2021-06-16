@@ -1,8 +1,6 @@
 import Text from "components/atoms/Text";
 import React from "react";
-import { Container, Row, Col } from "react-bootstrap";
 import styled from "styled-components";
-import Img from "./../components/atoms/Images";
 
 const img_arrow = require("../images/img_icon_arrow.png");
 const img_background = require("../images/img_background_menual.png");

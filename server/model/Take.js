@@ -53,7 +53,6 @@ const take = {
           ),
         });
       }
-      //console.log(user_idx);
       const getClassInfoQuery = `SELECT class.name, class_idx FROM class  WHERE professor_idx = ${user_idx}`;
       const getClassInfoResult = await pool.queryParam_Parse(getClassInfoQuery);
 
@@ -104,7 +103,6 @@ const take = {
         });
       }
       const getStudentCompileInfoQuery = `SELECT * FROM result WHERE writer_idx = ${student}`;
-      //console.log(getStudentCompileInfoQuery)
       const getStudentCompileInfoResult = await pool.queryParam_Parse(getStudentCompileInfoQuery);
       if (getStudentCompileInfoResult !== undefined) {
         return resolve({

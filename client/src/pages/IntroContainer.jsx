@@ -1,8 +1,6 @@
 import React from "react";
-import { Row, Col } from "react-bootstrap";
 import styled from "styled-components";
 import Intro from "../components/molecules/jumbotron/Intro";
-import Image from "../components/atoms/Images";
 
 const img_background = require("../images/img_background_intro.png");
 

@@ -1,11 +1,9 @@
 import React from "react";
 import Button from "components/atoms/Button";
-import { Container, Card, Form } from "react-bootstrap";
+import { Card, Form } from "react-bootstrap";
 import styled from "styled-components";
 
-import { getUser } from "../service/user";
 import {
-  getBoard,
   getComment,
   postComment,
   putBoard,

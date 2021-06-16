@@ -15,7 +15,6 @@ module.exports = {
           });
         });
       } catch (err) {
-        console.log(err);
         reject(err);
       }
     });
@@ -32,7 +31,6 @@ module.exports = {
           });
         });
       } catch (err) {
-        console.log(err);
         reject(err);
       }
     });

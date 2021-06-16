@@ -12,11 +12,9 @@ export const postUser = async (id, password, phone_number, name, type, class_idx
       class_idx: class_idx,
     })
     .then((res) => {
-      //console.log(res);
       return res;
     })
     .catch((e) => {
-      console.log(e);
       return;
     });
 };
@@ -27,11 +25,9 @@ export const checkDouble = async (id) => {
       id: id,
     })
     .then((res) => {
-      //console.log(res);
       return res;
     })
     .catch((e) => {
-      console.log(e);
       return;
     });
 };
@@ -44,11 +40,9 @@ export const getUser = async () => {
       },
     })
     .then((res) => {
-      //console.log(res);
       return res;
     })
     .catch((e) => {
-      console.log(e);
       return;
     });
 };
@@ -70,11 +64,9 @@ export const updateUser = async (pw, name, phone_number, class_idx) => {
       }
     )
     .then((res) => {
-      //console.log(res);
       return res;
     })
     .catch((e) => {
-      console.log(e);
       return;
     });
 };
@@ -90,7 +82,6 @@ export const signIn = async (id, pw) => {
       return res;
     })
     .catch((e) => {
-      //console.log(e);
       return;
     });
 };

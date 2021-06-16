@@ -9,7 +9,6 @@ export const getStuResult = async (currentClass, idx) => {
       },
     })
     .then((res) => {
-      console.log(res);
       return res;
     })
     .catch((e) => {

@@ -22,7 +22,6 @@ export const postClass = async (className) => {
       }
     })
     .catch((e) => {
-      console.log(e);
       return;
     });
 };
@@ -34,7 +33,6 @@ export const getClass = async () => {
       return res;
     })
     .catch((e) => {
-      console.log(e);
       return;
     });
 };

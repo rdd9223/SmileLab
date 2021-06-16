@@ -4,7 +4,15 @@ import { Container, Card, Form } from "react-bootstrap";
 import styled from "styled-components";
 
 import { getUser } from "../service/user";
-import { getBoard, getComment, postComment, putBoard, putComment, deleteBoard, deleteComment } from "../service/board";
+import {
+  getBoard,
+  getComment,
+  postComment,
+  putBoard,
+  putComment,
+  deleteBoard,
+  deleteComment,
+} from "../service/board";
 
 const Wrapper = styled.div`
   margin: 50px auto;
@@ -37,7 +45,7 @@ const CommentContainer = ({ currentUser, item }) => {
     return (
       <Card style={{ marginTop: 20, marginBottom: 20 }}>
         <Card.Body>
-          <Card.Title style={{fontSize: 16}}>{item.title}</Card.Title>
+          <Card.Title style={{ fontSize: 16 }}>{item.title}</Card.Title>
           <Card.Text style={{ minHeight: 20, fontSize: 14 }}>{item.contents}</Card.Text>
           <small className="text-muted">{item.date} </small>
           {currentUser != null && item.writer_idx === currentUser ? (
@@ -46,7 +54,10 @@ const CommentContainer = ({ currentUser, item }) => {
                 수정
               </div>
               &nbsp;|&nbsp;
-              <div style={{ display: "inline-block" }} onClick={() => handleDeleteComment(item.comment_idx)}>
+              <div
+                style={{ display: "inline-block" }}
+                onClick={() => handleDeleteComment(item.comment_idx)}
+              >
                 삭제
               </div>
             </div>
@@ -54,7 +65,7 @@ const CommentContainer = ({ currentUser, item }) => {
             <></>
           )}
         </Card.Body>
-        <Card.Footer style={{height: 'auto'}}>
+        <Card.Footer style={{ height: "auto" }}>
           <small className="text-muted">by {item.writer}</small>
         </Card.Footer>
       </Card>
@@ -129,7 +140,7 @@ const CommunityPostContainer = ({ item, currentUser }) => {
 
   React.useEffect(() => {
     loadComment(item.board_idx);
-  }, []);
+  }, [contents, item.board_idx]);
 
   const loadComment = async (idx) => {
     const res = await getComment(idx);
@@ -225,8 +236,8 @@ const CommunityPostContainer = ({ item, currentUser }) => {
       <Wrapper style={{ paddingBottom: 20 }}>
         <Card>
           <Card.Body>
-            <Card.Title style={{margin: 0, height: 'auto'}}>{title}</Card.Title>
-            <Card.Text style={{margin: 0, height: 'auto'}}>
+            <Card.Title style={{ margin: 0, height: "auto" }}>{title}</Card.Title>
+            <Card.Text style={{ margin: 0, height: "auto", whiteSpace: "pre-line" }}>
               {contents}
             </Card.Text>
             <small className="text-muted">{date}</small>
@@ -236,7 +247,10 @@ const CommunityPostContainer = ({ item, currentUser }) => {
                   수정
                 </div>
                 &nbsp;|&nbsp;
-                <div style={{ display: "inline-block" }} onClick={() => handleDeleteBoard(boardIdx)}>
+                <div
+                  style={{ display: "inline-block" }}
+                  onClick={() => handleDeleteBoard(boardIdx)}
+                >
                   삭제
                 </div>
               </div>
@@ -244,23 +258,22 @@ const CommunityPostContainer = ({ item, currentUser }) => {
               <></>
             )}
           </Card.Body>
-          <Card.Footer style={{height: 'auto'}}>
+          <Card.Footer style={{ height: "auto" }}>
             <small className="text-muted">by {writer}</small>
           </Card.Footer>
         </Card>
-        <div style={{paddingLeft: 40}}>
+        <div style={{ paddingLeft: 40 }}>
           {commentList.length > 0 ? (
             <>
               {commentList.map((item, idx) => {
                 return <CommentContainer currentUser={currentUser} item={item} />;
               })}
             </>
-          ): (
-            <div style={{paddingBottom: 20}} />
+          ) : (
+            <div style={{ paddingBottom: 20 }} />
           )}
-          
         </div>
-        <div style={{paddingLeft: 40}}>
+        <div style={{ paddingLeft: 40 }}>
           <Card>
             <Card.Body>
               <Form>
@@ -270,7 +283,7 @@ const CommunityPostContainer = ({ item, currentUser }) => {
                     placeholder="제목을 입력 해 주세요."
                     onChange={(event) => handleCommentTitle(event)}
                   />
-                  <div style={{paddingTop: 10}}>
+                  <div style={{ paddingTop: 10 }}>
                     <Form.Control
                       as="textarea"
                       placeholder="내용을 입력 해 주세요."
@@ -278,7 +291,7 @@ const CommunityPostContainer = ({ item, currentUser }) => {
                       onChange={(event) => handleCommentContents(event)}
                     />
                   </div>
-                  </Form.Group>
+                </Form.Group>
                 <Button name="등록" size="small" onClick={handleWriteButton} />
               </Form>
             </Card.Body>

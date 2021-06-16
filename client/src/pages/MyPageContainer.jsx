@@ -65,7 +65,6 @@ const MyPageContainer = () => {
   };
 
   const handleSubmit = async (event) => {
-    console.log(password1, password2);
     event.preventDefault();
     if (!isValidPassword) {
       alert("비밀번호를 확인 해 주세요.");

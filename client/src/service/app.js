@@ -16,13 +16,11 @@ export const postSource = async (code, input) => {
         input: convertInputArrToStr(input),
       })
       .then((res) => {
-        console.log(res);
         localStorage.setItem("currentCode", code);
         window.sessionStorage.setItem("validCompile", true);
         return res;
       })
       .catch((e) => {
-        console.log(e);
         return;
       });
   }

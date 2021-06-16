@@ -52,7 +52,6 @@ const SendMessageContainer = () => {
     const idx = event;
     if (idx != null) {
       const res = await getProfClass(idx);
-      //console.log(res);
       if (res != null) {
         setStudent(res.data.data);
         setCurrentClass(idx);
@@ -65,7 +64,6 @@ const SendMessageContainer = () => {
 
     if (idx != null) {
       const res = await getProfClass(idx);
-      //console.log(res);
       if (res != null) {
         setStudent(res.data.data);
         setCurrentClass(idx);

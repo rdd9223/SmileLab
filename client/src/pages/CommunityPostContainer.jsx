@@ -155,7 +155,6 @@ const CommunityPostContainer = ({ item, currentUser }) => {
       window.location.reload();
       //refresh
     } else {
-      //console.log(res)
       alert("잠시 후 다시 시도 해 주세요.");
     }
   };

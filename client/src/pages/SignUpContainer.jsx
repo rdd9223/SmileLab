@@ -78,7 +78,6 @@ const SignUpContainer = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     isValidPassword();
-    //console.log(classIdx);
     if (isDoubleId) {
       alert("아이디 중복 검사를 해 주세요!");
     } else if (!isValidPassword) {

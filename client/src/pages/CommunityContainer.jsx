@@ -39,6 +39,26 @@ const CommunityContainer = () => {
     loadUser();
   }, []);
 
+  const loadBoard = React.useCallback(
+    async (idx, type) => {
+      const res = await getBoardList(idx, type, currentClass);
+      if (res != null && res.data.status === 200) {
+        setData(res.data.data);
+      }
+    },
+    [currentClass]
+  );
+
+  const initClassList = React.useCallback(async () => {
+    if (userType != null && userType !== 2) {
+      const res = await getProfClassAll();
+      if (res != null) {
+        setClass(res.data.data);
+        loadBoard(currentPage, type);
+      }
+    }
+  }, [currentPage, loadBoard, type, userType]);
+
   React.useEffect(() => {
     if (userType === 2) {
       loadBoard(currentPage, type);
@@ -46,16 +66,6 @@ const CommunityContainer = () => {
       initClassList();
     }
   }, [currentPage, initClassList, loadBoard, type, userType]);
-
-  const initClassList = async () => {
-    if (userType != null && userType != 2) {
-      const res = await getProfClassAll();
-      if (res != null) {
-        setClass(res.data.data);
-        loadBoard(currentPage, type);
-      }
-    }
-  };
 
   React.useEffect(() => {
     if (currentClass != null) {
@@ -69,16 +79,6 @@ const CommunityContainer = () => {
     setCurrentClass(Number(params.get("class")));
     setType(Number(params.get("type")));
   }, [currentPage]);
-
-  const loadBoard = React.useCallback(
-    async (idx, type) => {
-      const res = await getBoardList(idx, type, currentClass);
-      if (res != null && res.data.status === 200) {
-        setData(res.data.data);
-      }
-    },
-    [currentClass]
-  );
 
   const getPrevBoard = async () => {
     await loadBoard(currentPage - 1);

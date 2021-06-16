@@ -2,54 +2,68 @@ import React from "react";
 import produce from "immer";
 import { Modal, Button, Container, InputGroup, FormControl } from "react-bootstrap";
 
-
 const CodeInputContainer = ({ inputList, setInputList, modalShow, handleClose }) => {
   const handleDeleteList = (index) => {
-    if(index === 0){
-      alert("첫 번째 열은 삭제할 수 없습니다.")
-    }else {
+    if (index === 0) {
+      alert("첫 번째 열은 삭제할 수 없습니다.");
+    } else {
       setInputList(
-        produce(inputList, draft => {
+        produce(inputList, (draft) => {
           draft = draft.splice(index, 1);
         })
-      )
+      );
     }
-  }
+  };
 
   const handleAddList = (index) => {
     setInputList(
-      produce(inputList, draft => {
-        draft = draft.splice(index+1, 0, "");
+      produce(inputList, (draft) => {
+        draft = draft.splice(index + 1, 0, "");
       })
-    )
-  }
+    );
+  };
 
   const handleChangeList = (e, index) => {
     const value = e.target.value;
     setInputList(
-      produce(inputList, draft => {
-        draft[index] = value
+      produce(inputList, (draft) => {
+        draft[index] = value;
       })
-    )
-  }
+    );
+  };
 
   const renderItem = (item, index) => {
     return (
-      <InputGroup key={index} style={{margin: 6}}>
+      <InputGroup key={index} style={{ margin: 6 }}>
         <InputGroup.Prepend>
-          <InputGroup.Text style={{width:40}}>{index}</InputGroup.Text>
+          <InputGroup.Text style={{ width: 40 }}>{index}</InputGroup.Text>
         </InputGroup.Prepend>
-        <FormControl placeholder="input값을 순서대로 입력해주세요." onChange={(e) => handleChangeList(e, index)} value={item} />
+        <FormControl
+          placeholder="input값을 순서대로 입력해주세요."
+          onChange={(e) => handleChangeList(e, index)}
+          value={item}
+        />
         <InputGroup.Append>
-          <Button variant="outline-secondary" onClick={()=>handleDeleteList(index)}>삭제</Button>
-          <Button variant="outline-primary" onClick={()=>handleAddList(index)}>추가</Button>
+          <Button variant="outline-secondary" onClick={() => handleDeleteList(index)}>
+            삭제
+          </Button>
+          <Button variant="outline-primary" onClick={() => handleAddList(index)}>
+            추가
+          </Button>
         </InputGroup.Append>
       </InputGroup>
     );
   };
 
-  return(
-    <Modal show={modalShow} onHide={handleClose} backdrop="static" keyboard={false} centered size="lg">
+  return (
+    <Modal
+      show={modalShow}
+      onHide={handleClose}
+      backdrop="static"
+      keyboard={false}
+      centered
+      size="lg"
+    >
       <Modal.Header closeButton>
         <Modal.Title>Input값 입력</Modal.Title>
       </Modal.Header>
@@ -69,7 +83,7 @@ const CodeInputContainer = ({ inputList, setInputList, modalShow, handleClose })
         </Button>
       </Modal.Footer>
     </Modal>
-  )
-}
+  );
+};
 
 export default CodeInputContainer;

@@ -11,7 +11,7 @@ module.exports = {
           const hashedPW = derivedKey.toString("hex");
           resolve({
             salt,
-            hashedPW
+            hashedPW,
           });
         });
       } catch (err) {
@@ -28,7 +28,7 @@ module.exports = {
           const hashed = derivedKey.toString("hex");
           resolve({
             salt,
-            hashed
+            hashed,
           });
         });
       } catch (err) {
@@ -36,5 +36,5 @@ module.exports = {
         reject(err);
       }
     });
-  }
+  },
 };

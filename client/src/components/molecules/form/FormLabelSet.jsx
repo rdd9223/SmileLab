@@ -6,7 +6,13 @@ const FormLabelSet = ({ name, type, placeholder, onChange, id, value }) => {
   return (
     <>
       <FormLabel name={name} />
-      <FormControl type={type} placeholder={placeholder} onChange={onChange} id={id} value={value} />
+      <FormControl
+        type={type}
+        placeholder={placeholder}
+        onChange={onChange}
+        id={id}
+        value={value}
+      />
     </>
   );
 };

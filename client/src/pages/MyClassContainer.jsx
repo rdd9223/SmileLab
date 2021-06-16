@@ -13,9 +13,21 @@ const Wrapper = styled.div`
   }
 `;
 
-
 const MyClassContainer = () => {
-  const header = ["날짜", "데이터의 추상화", "자료구조", "변수정의", "문제해결 절차수립", "연산", "조건", "반복", "함수", "Class 메서드", "import", ""];
+  const header = [
+    "날짜",
+    "데이터의 추상화",
+    "자료구조",
+    "변수정의",
+    "문제해결 절차수립",
+    "연산",
+    "조건",
+    "반복",
+    "함수",
+    "Class 메서드",
+    "import",
+    "",
+  ];
   const [checked, setChecked] = React.useState([]);
   const [data, setData] = React.useState(null);
 

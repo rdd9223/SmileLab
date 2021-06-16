@@ -25,19 +25,22 @@ const MessageContainer = () => {
   const [currentMessage, setCurrentMessage] = React.useState(null);
   const [currentPage, setCurrentPage] = React.useState(1);
 
-  const loadMessage = async (idx) => {
-    const res = await getMessage(idx);
-    if (currentPage !== 1 && res.data.data.length === 0) {
-      alert("마지막페이지입니다!");
-    } else {
-      //setData(data.concat(res.data.data));
-      setData(res.data.data);
-    }
-  };
+  const loadMessage = React.useCallback(
+    async (idx) => {
+      const res = await getMessage(idx);
+      if (currentPage !== 1 && res.data.data.length === 0) {
+        alert("마지막페이지입니다!");
+      } else {
+        //setData(data.concat(res.data.data));
+        setData(res.data.data);
+      }
+    },
+    [currentPage]
+  );
 
   React.useEffect(() => {
-    loadMessage(currentPage)
-  }, []);
+    loadMessage(currentPage);
+  }, [currentPage, loadMessage]);
 
   // 각 메세지 별 "보기" 버튼 클릭 시 이벤트
   const onClickMessage = (idx) => {

@@ -13,7 +13,7 @@ export const postSource = async (code, input) => {
       .post(url + "/compile", {
         userId: userId,
         source: code,
-        input : convertInputArrToStr(input),
+        input: convertInputArrToStr(input),
       })
       .then((res) => {
         console.log(res);
@@ -43,15 +43,11 @@ export const getCompileResult = async () => {
 
 export const postResult = async (body) => {
   return await axios
-    .post(
-      url + "/result/save",
-      body,
-      {
-        headers: {
-          token: window.sessionStorage.getItem("loginToken"),
-        },
-      }
-    )
+    .post(url + "/result/save", body, {
+      headers: {
+        token: window.sessionStorage.getItem("loginToken"),
+      },
+    })
     .then((res) => {
       return res;
     })

@@ -9,7 +9,7 @@ import Parallelogram from "../molecules/figure/Parallelogram";
 import Transformer from "../molecules/figure/Transformer";
 import { Modal } from "react-bootstrap";
 import Line from "components/molecules/figure/Line";
-const img_example = require("../../images/img_example_dragdrop.png")
+const img_example = require("../../images/img_example_dragdrop.png");
 
 /*
   TODO:
@@ -23,34 +23,33 @@ const DragAndDrop = (props) => {
   const [modalShow, setModalShow] = useState(false);
 
   React.useEffect(() => {
-    if(images.length === 0 && JSON.parse(window.localStorage.getItem("text_drag")) != null){
-      const tempImages = []
-      const savedImages =  JSON.parse(window.localStorage.getItem("text_drag")).children[0].children
-      for(const savedImage of savedImages){
-        if(savedImage.attrs.name !== undefined){
-          tempImages.push(savedImage.attrs)
+    if (images.length === 0 && JSON.parse(window.localStorage.getItem("text_drag")) != null) {
+      const tempImages = [];
+      const savedImages = JSON.parse(window.localStorage.getItem("text_drag")).children[0].children;
+      for (const savedImage of savedImages) {
+        if (savedImage.attrs.name !== undefined) {
+          tempImages.push(savedImage.attrs);
         }
       }
-      setImages(tempImages)
+      setImages(tempImages);
     }
-    
-  }, [])
+  }, [images.length]);
 
   const handleDelete = () => {
-    setImages([])
-    window.localStorage.removeItem("text_drag")
-    alert("전체 삭제가 완료되었습니다.")
-  }
+    setImages([]);
+    window.localStorage.removeItem("text_drag");
+    alert("전체 삭제가 완료되었습니다.");
+  };
 
   const handleSave = () => {
-    window.localStorage.setItem("text_drag", stageRef.current.toJSON())
-    alert("중간 저장이 완료되었습니다.")
-  }
+    window.localStorage.setItem("text_drag", stageRef.current.toJSON());
+    alert("중간 저장이 완료되었습니다.");
+  };
 
   const handleSubmit = () => {
-    window.localStorage.setItem("text_drag", stageRef.current.toJSON())
-    alert("제출이 완료되었습니다.")
-  }
+    window.localStorage.setItem("text_drag", stageRef.current.toJSON());
+    alert("제출이 완료되었습니다.");
+  };
 
   const style = {
     line: {
@@ -163,12 +162,13 @@ const DragAndDrop = (props) => {
         context.moveTo(180, 0);
         context.lineTo(20, 0);
         context.lineTo(20, 50);
-        const x= 180
-        for(var i=20;i<x;i++){ // Loop from left side to current x
-          const y = 70.0 - Math.sin(i*Math.PI/-90)*20; // calculate y flipped horizontally, converting from DEG to RADIAN
-          context.lineTo(i,y)
+        const x = 180;
+        for (var i = 20; i < x; i++) {
+          // Loop from left side to current x
+          const y = 70.0 - Math.sin((i * Math.PI) / -90) * 20; // calculate y flipped horizontally, converting from DEG to RADIAN
+          context.lineTo(i, y);
         }
-        context.lineTo(180, 0);        
+        context.lineTo(180, 0);
         context.closePath();
         context.fillStrokeShape(shape);
       },
@@ -178,39 +178,39 @@ const DragAndDrop = (props) => {
   const buttonArray = [
     [
       {
-        ...style.oval, 
-        img: require("../../images/start-end.png")
-      }, 
+        ...style.oval,
+        img: require("../../images/start-end.png"),
+      },
       {
         ...style.square,
-        img: require("../../images/action.png")
-      }, 
+        img: require("../../images/action.png"),
+      },
       {
         ...style.parallelogram,
-        img: require("../../images/input-output.png")
-      }, 
+        img: require("../../images/input-output.png"),
+      },
       {
         ...style.rhombus,
-        img: require("../../images/decision.png")
-      }
+        img: require("../../images/decision.png"),
+      },
     ],
     [
       {
         ...style.line,
-        img: null
-      }, 
+        img: null,
+      },
       {
         ...style.hexagon,
-        img: require("../../images/document.png")
-      }, 
+        img: require("../../images/document.png"),
+      },
       {
         ...style.textArea,
-        img: null
-      }, 
+        img: null,
+      },
       {
         ...style.arrowLine,
         img: null,
-      }
+      },
     ],
   ];
 
@@ -242,9 +242,17 @@ const DragAndDrop = (props) => {
             {buttonArray[0].map((img, i) => {
               return (
                 <Col key={i}>
-                  <div onClick={() => setImages(images.concat(img))} style={{textAlign:'center', cursor:'pointer'}}>
-                    <img src={img.img} alt={img.type} width="100%" style={{display:'block', height: 40}} />
-                    <p style={{fontSize:'14px'}}>{img.type}</p>
+                  <div
+                    onClick={() => setImages(images.concat(img))}
+                    style={{ textAlign: "center", cursor: "pointer" }}
+                  >
+                    <img
+                      src={img.img}
+                      alt={img.type}
+                      width="100%"
+                      style={{ display: "block", height: 40 }}
+                    />
+                    <p style={{ fontSize: "14px" }}>{img.type}</p>
                   </div>
                 </Col>
               );
@@ -252,23 +260,31 @@ const DragAndDrop = (props) => {
           </Row>
           <Row>
             {buttonArray[1].map((img, i) => {
-              if(img.img === null){
-                return(
+              if (img.img === null) {
+                return (
                   <Col key={i}>
                     <Button size="sm" onClick={() => setImages(images.concat(img))} block>
                       {img.type}
                     </Button>
                   </Col>
-                )
-              }else{
-                return(
+                );
+              } else {
+                return (
                   <Col key={i}>
-                    <div onClick={() => setImages(images.concat(img))} style={{textAlign:'center', cursor:'pointer'}}>
-                      <img src={img.img} alt={img.type} width="100%" style={{display:'block', height: 40}} />
-                      <p style={{fontSize:'14px'}}>{img.type}</p>
+                    <div
+                      onClick={() => setImages(images.concat(img))}
+                      style={{ textAlign: "center", cursor: "pointer" }}
+                    >
+                      <img
+                        src={img.img}
+                        alt={img.type}
+                        width="100%"
+                        style={{ display: "block", height: 40 }}
+                      />
+                      <p style={{ fontSize: "14px" }}>{img.type}</p>
                     </div>
                   </Col>
-                )
+                );
               }
             })}
           </Row>
@@ -287,16 +303,34 @@ const DragAndDrop = (props) => {
               if (image.name.indexOf("rect") !== -1) {
                 return <Square key={i} shapeProps={image} stageRef={stageRef} />;
               } else if (image.name.indexOf("rhombus") !== -1) {
-                return <Parallelogram key={i} shapeProps={{...image, sceneFunc : style.rhombus.sceneFunc}} stageRef={stageRef} />;
+                return (
+                  <Parallelogram
+                    key={i}
+                    shapeProps={{ ...image, sceneFunc: style.rhombus.sceneFunc }}
+                    stageRef={stageRef}
+                  />
+                );
               } else if (image.name.indexOf("hexagon") !== -1) {
-                return <Parallelogram key={i} shapeProps={{...image, sceneFunc : style.hexagon.sceneFunc}} stageRef={stageRef} />;
+                return (
+                  <Parallelogram
+                    key={i}
+                    shapeProps={{ ...image, sceneFunc: style.hexagon.sceneFunc }}
+                    stageRef={stageRef}
+                  />
+                );
               } else if (image.name.indexOf("parallelogram") !== -1) {
-                return <Parallelogram key={i} shapeProps={{...image, sceneFunc : style.parallelogram.sceneFunc}} stageRef={stageRef} />;
+                return (
+                  <Parallelogram
+                    key={i}
+                    shapeProps={{ ...image, sceneFunc: style.parallelogram.sceneFunc }}
+                    stageRef={stageRef}
+                  />
+                );
               } else if (image.name.indexOf("textArea") !== -1) {
                 return <EditableText key={i} shapeProps={image} stageRef={stageRef} />;
               } else if (image.name.indexOf("arrowLine") !== -1) {
                 return <ArrowLine key={i} shapeProps={image} stageRef={stageRef} />;
-              }else if (image.name.indexOf("line") !== -1) {
+              } else if (image.name.indexOf("line") !== -1) {
                 return <Line key={i} shapeProps={image} stageRef={stageRef} />;
               } else if (
                 image.name.indexOf("circle") !== -1 ||
@@ -310,24 +344,32 @@ const DragAndDrop = (props) => {
           </Layer>
         </Stage>
       </div>
-      <div style={{display:'flex', marginTop: 10}}>
+      <div style={{ display: "flex", marginTop: 10 }}>
         <div>
-          <Button onClick={() => setModalShow(true)} name="예시" size="xs">예시</Button>
-          <Modal show={modalShow} onHide={() => setModalShow(false)} >
+          <Button onClick={() => setModalShow(true)} name="예시" size="xs">
+            예시
+          </Button>
+          <Modal show={modalShow} onHide={() => setModalShow(false)}>
             <div>
               <img src={img_example} alt="example" width="100%" />
             </div>
           </Modal>
         </div>
-        <div style={{flexGrow: 1}} />
-        <div style={{marginRight: 6}}>
-          <Button onClick={handleDelete} size="xs">전체삭제</Button>
+        <div style={{ flexGrow: 1 }} />
+        <div style={{ marginRight: 6 }}>
+          <Button onClick={handleDelete} size="xs">
+            전체삭제
+          </Button>
         </div>
-        <div style={{marginRight: 6}}>
-          <Button onClick={handleSave} name="중간저장" size="xs">중간저장</Button>
+        <div style={{ marginRight: 6 }}>
+          <Button onClick={handleSave} name="중간저장" size="xs">
+            중간저장
+          </Button>
         </div>
         <div>
-          <Button onClick={handleSubmit} name="제출" size="xs" >제출</Button>
+          <Button onClick={handleSubmit} name="제출" size="xs">
+            제출
+          </Button>
         </div>
       </div>
     </div>

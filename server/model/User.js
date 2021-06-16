@@ -108,7 +108,11 @@ const user = {
 
       if (getUserInfoQuery[0] !== undefined) {
         return resolve({
-          json: authUtil.successTrue(statusCode.OK, responseMessage.X_READ_SUCCESS("유저정보"), getUserInfoResult[0]),
+          json: authUtil.successTrue(
+            statusCode.OK,
+            responseMessage.X_READ_SUCCESS("유저정보"),
+            getUserInfoResult[0]
+          ),
         });
       } else {
         return resolve({
@@ -132,7 +136,10 @@ const user = {
 
       if (updateUserInfoResult === undefined) {
         return resolve({
-          json: authUtil.successFalse(statusCode.DB_ERROR, responseMessage.X_UPDATE_FAIL("유저정보")),
+          json: authUtil.successFalse(
+            statusCode.DB_ERROR,
+            responseMessage.X_UPDATE_FAIL("유저정보")
+          ),
         });
       } else {
         return resolve({

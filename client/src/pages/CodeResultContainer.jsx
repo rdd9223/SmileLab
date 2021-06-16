@@ -58,7 +58,9 @@ const CodeResultContainer = () => {
 
     const variableFeedback = `
       정의된 변수는 ${data.Name.length}개이며, 이 중 활용되지 않은 변수가 
-      ${data.Name.length - data.UsedName.length < 0 ? 0 : data.Name.length - data.UsedName.length}개 있습니다. 
+      ${
+        data.Name.length - data.UsedName.length < 0 ? 0 : data.Name.length - data.UsedName.length
+      }개 있습니다. 
       만약 활용되지 않는 변수가 있다면 삭제하여 코드의 효율성을 높일 수 있습니다.
     `;
 
@@ -213,19 +215,38 @@ const CodeResultContainer = () => {
     `;
 
     setFeedback({
-      data: precodeFeedback + " spacer" + variableFeedback + " spacer" + listFeedback + " spacer" + tupleFeedback,
+      data:
+        precodeFeedback +
+        " spacer" +
+        variableFeedback +
+        " spacer" +
+        listFeedback +
+        " spacer" +
+        tupleFeedback,
       process:
-        operationFeedback + " spacer" + conditionFeedback + " spacer" + loopFeedback + " spacer" + functionFeedback,
+        operationFeedback +
+        " spacer" +
+        conditionFeedback +
+        " spacer" +
+        loopFeedback +
+        " spacer" +
+        functionFeedback,
       oo: classFeedback + " spacer" + importFeedback,
     });
   };
 
   const saveResult = async () => {
     const dataAbstract =
-      window.localStorage.getItem("text_drag") != null || window.localStorage.getItem("text_idea") != null ? 1 : 0;
+      window.localStorage.getItem("text_drag") != null ||
+      window.localStorage.getItem("text_idea") != null
+        ? 1
+        : 0;
 
     const problomResolving =
-      window.localStorage.getItem("text_drag") != null || window.localStorage.getItem("text_idea") != null ? 1 : 0;
+      window.localStorage.getItem("text_drag") != null ||
+      window.localStorage.getItem("text_idea") != null
+        ? 1
+        : 0;
     const res = await postResult({
       variable: data.Name.length > 0 ? 1 : 0,
       operator: data.BinOp + data.AugAssign + data.Compare + data.Logical > 0 ? 1 : 0,
@@ -297,16 +318,25 @@ const CodeResultContainer = () => {
                         }
                       />
                       <CTListItem text="변수의 정의" checked={data.Name.length > 0} />
-                      <CTListItem text="데이터 유형(자료구조)" checked={data.list + data.tuple > 0} />
+                      <CTListItem
+                        text="데이터 유형(자료구조)"
+                        checked={data.list + data.tuple > 0}
+                      />
                     </div>
                     <div style={{ marginBottom: 40 }}>
                       <h6>
                         <strong>절차의 추상화</strong>
                       </h6>
-                      <CTListItem text="연산" checked={data.BinOp + data.AugAssign + data.Compare + data.Logical > 0} />
+                      <CTListItem
+                        text="연산"
+                        checked={data.BinOp + data.AugAssign + data.Compare + data.Logical > 0}
+                      />
                       <CTListItem text="조건문" checked={data.If + data.ElseIf + data.Elif > 0} />
                       <CTListItem text="반복문" checked={data.For + data.While > 0} />
-                      <CTListItem text="함수" checked={data.Function + data.UsedInnerFunc.length > 0} />
+                      <CTListItem
+                        text="함수"
+                        checked={data.Function + data.UsedInnerFunc.length > 0}
+                      />
                     </div>
                     <div style={{ marginBottom: 40 }}>
                       <h6>

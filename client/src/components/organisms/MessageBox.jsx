@@ -8,7 +8,7 @@ const Wrapper = styled(Jumbotron1)`
   height: 100%;
 `;
 
-const MessageBox = ({ message}) => {
+const MessageBox = ({ message }) => {
   if (message != null) {
     return (
       <Wrapper fluid>
@@ -19,11 +19,8 @@ const MessageBox = ({ message}) => {
       </Wrapper>
     );
   } else {
-    return (
-      <Jumbotron header={""} text={"메세지를 선택 해 주세요."} />
-    );
+    return <Jumbotron header={""} text={"메세지를 선택 해 주세요."} />;
   }
-
-}
+};
 
 export default MessageBox;

@@ -10,7 +10,9 @@ const CompileButton = (props) => {
     if (result != null && result.data.data != null) setResultCode(result.data.data);
   };
 
-  return <Button variant={"primary"} onClick={() => fetchPostSource()} name={"Compile"} size={"sm"} />;
+  return (
+    <Button variant={"primary"} onClick={() => fetchPostSource()} name={"Compile"} size={"sm"} />
+  );
 };
 
 export default CompileButton;

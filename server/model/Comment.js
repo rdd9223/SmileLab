@@ -48,10 +48,7 @@ const comment = {
 
       if (postCommentResult.affectedRows !== 0) {
         return resolve({
-          json: authUtil.successTrue(
-            statusCode.CREATED,
-            responseMessage.X_CREATE_SUCCESS("댓글")
-          ),
+          json: authUtil.successTrue(statusCode.CREATED, responseMessage.X_CREATE_SUCCESS("댓글")),
         });
       } else {
         return resolve({
@@ -75,10 +72,7 @@ const comment = {
 
       if (putCommentResult.affectedRows !== 0) {
         return resolve({
-          json: authUtil.successTrue(
-            statusCode.OK,
-            responseMessage.X_UPDATE_SUCCESS("댓글"),
-          ),
+          json: authUtil.successTrue(statusCode.OK, responseMessage.X_UPDATE_SUCCESS("댓글")),
         });
       } else {
         return resolve({
@@ -100,21 +94,18 @@ const comment = {
 
       if (deleteCommentResult.affectedRows !== 0) {
         return resolve({
-          json: authUtil.successTrue(
-            statusCode.OK,
-            responseMessage.X_DELETE_SUCCESS("댓글"),
-          ),
+          json: authUtil.successTrue(statusCode.OK, responseMessage.X_DELETE_SUCCESS("댓글")),
         });
       } else {
         return resolve({
           json: authUtil.successFalse(
             statusCode.BAD_REQUEST,
-            responseMessage.X_DELETE_FAIL("댓글"),
+            responseMessage.X_DELETE_FAIL("댓글")
           ),
         });
       }
     });
   },
-}
+};
 
 module.exports = comment;

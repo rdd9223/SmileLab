@@ -56,7 +56,10 @@ const ClassContainer = () => {
   return (
     <Wrapper>
       <div>
-        <Jumbotron header={"클래스 관리"} text={"학생들을 학습 내용을 조회 할 수 있습니다."}></Jumbotron>
+        <Jumbotron
+          header={"클래스 관리"}
+          text={"학생들을 학습 내용을 조회 할 수 있습니다."}
+        ></Jumbotron>
       </div>
       <br />
       <Row>

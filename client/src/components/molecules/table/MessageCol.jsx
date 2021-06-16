@@ -7,10 +7,9 @@ const StyledTh = styled.th`
       return "1em";
     } else if (props.id === 1) {
       return "10em";
-    } else if (props.id === 2){
+    } else if (props.id === 2) {
       return "15em";
-    }
-    else {
+    } else {
       return "10em";
     }
   }};

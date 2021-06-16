@@ -46,7 +46,12 @@ const ClassModal = ({ updateClass }) => {
       <FormLabel name="클래스" />
       <Row>
         <Col md={9}>
-          <FormControl type="text" placeholder="클래스를 선택 해 주세요." readOnly={true} value={currentClass} />
+          <FormControl
+            type="text"
+            placeholder="클래스를 선택 해 주세요."
+            readOnly={true}
+            value={currentClass}
+          />
         </Col>
         <Col md={3}>
           <Button name="검색하기" variant="primary" onClick={() => setOpen(true)} />

@@ -5,13 +5,12 @@ const statusCode = require("../../../module/utils/statusCode");
 const responseMessage = require("../../../module/utils/responseMessage");
 const authUtil = require("../../../module/utils/authUtil");
 const jwt = require("../../../module/auth/jwt");
-const COMMENT = require("../../../model/Comment")
+const COMMENT = require("../../../model/Comment");
 
 // 게시글 목록 조회
 router.get("/:idx", jwt.checkLogin, async (req, res) => {
   const { user_idx } = req.decoded;
   const { idx } = req.params;
-  console.log(idx);
   COMMENT.getCommentList({ user_idx, idx })
     .then(({ json }) => {
       res.status(200).send(json);
@@ -70,12 +69,11 @@ router.put("/:commentIdx", jwt.checkLogin, async (req, res) => {
           )
         );
     });
-})
+});
 
 router.delete("/:commentIdx", jwt.checkLogin, async (req, res) => {
   const { user_idx, type } = req.decoded;
   const { commentIdx } = req.params;
-  console.log(commentIdx);
 
   COMMENT.deleteComment({ user_idx, commentIdx })
     .then(({ json }) => {

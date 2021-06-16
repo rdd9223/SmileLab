@@ -35,7 +35,9 @@ router.post("/", async (req, res) => {
     });
   } catch (err) {
     console.log(err);
-    return res.status(200).send(authUtil.successTrue(statusCode.INTERNAL_SERVER_ERROR, "컴파일 실패", err));
+    return res
+      .status(200)
+      .send(authUtil.successTrue(statusCode.INTERNAL_SERVER_ERROR, "컴파일 실패", err));
   }
 });
 

@@ -63,8 +63,7 @@ const take = {
           responseMessage.X_READ_SUCCESS("클래스"),
           getClassInfoResult
         ),
-      })
-
+      });
     });
   },
   getTake: ({ user_idx, type }) => {
@@ -72,13 +71,12 @@ const take = {
       const getTakeQuery = `SELECT class.name, take.class_idx FROM take LEFT JOIN class ON take.class_idx = class.class_idx  WHERE take.student_idx = ${user_idx}`;
       const getTakeResult = await pool.queryParam_Parse(getTakeQuery);
       return resolve({
-          json: authUtil.successTrue(
-            statusCode.OK,
-            responseMessage.X_READ_SUCCESS("클래스"),
-            getTakeResult
-          ),
-        })
-
+        json: authUtil.successTrue(
+          statusCode.OK,
+          responseMessage.X_READ_SUCCESS("클래스"),
+          getTakeResult
+        ),
+      });
     });
   },
   getStudentFromClass: ({ type, idx }) => {
@@ -87,12 +85,12 @@ const take = {
       const getStudentFromClassResult = await pool.queryParam_Parse(getStudentFromClassQuery);
 
       return resolve({
-          json: authUtil.successTrue(
-            statusCode.OK,
-            responseMessage.X_READ_SUCCESS("수강 학생"),
-            getStudentFromClassResult
-          ),
-        })
+        json: authUtil.successTrue(
+          statusCode.OK,
+          responseMessage.X_READ_SUCCESS("수강 학생"),
+          getStudentFromClassResult
+        ),
+      });
     });
   },
   getStudentCompileInfo: ({ type, idx, student }) => {
@@ -108,7 +106,7 @@ const take = {
       const getStudentCompileInfoQuery = `SELECT * FROM result WHERE writer_idx = ${student}`;
       //console.log(getStudentCompileInfoQuery)
       const getStudentCompileInfoResult = await pool.queryParam_Parse(getStudentCompileInfoQuery);
-      if(getStudentCompileInfoResult !== undefined ){
+      if (getStudentCompileInfoResult !== undefined) {
         return resolve({
           json: authUtil.successTrue(
             statusCode.OK,

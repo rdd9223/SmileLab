@@ -50,7 +50,12 @@ router.post("/", jwt.checkLogin, async (req, res) => {
       console.log(err);
       res
         .status(200)
-        .send(authUtil.successFalse(statusCode.INTERNAL_SERVER_ERROR, responseMessage.INTERNAL_SERVER_ERROR));
+        .send(
+          authUtil.successFalse(
+            statusCode.INTERNAL_SERVER_ERROR,
+            responseMessage.INTERNAL_SERVER_ERROR
+          )
+        );
     });
 });
 

@@ -1,5 +1,5 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
 
 export default class Portal extends React.Component {
   componentDidMount() {
@@ -20,13 +20,13 @@ export default class Portal extends React.Component {
 
   renderPortal(props) {
     if (!this.props.node && !this.defaultNode) {
-      this.defaultNode = document.createElement('div');
+      this.defaultNode = document.createElement("div");
       document.body.appendChild(this.defaultNode);
     }
 
     let children = this.props.children;
     // https://gist.github.com/jimfb/d99e0678e9da715ccf6454961ef04d1b
-    if (typeof children.type === 'function') {
+    if (typeof children.type === "function") {
       children = React.cloneElement(children);
     }
 

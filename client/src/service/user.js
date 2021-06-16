@@ -1,14 +1,7 @@
 import axios from "axios";
 import { url } from "./config";
 
-export const postUser = async (
-  id,
-  password,
-  phone_number,
-  name,
-  type,
-  class_idx
-) => {
+export const postUser = async (id, password, phone_number, name, type, class_idx) => {
   return await axios
     .post(url + "/auth/signup", {
       id: id,

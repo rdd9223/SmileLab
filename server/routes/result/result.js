@@ -7,7 +7,7 @@ const jwt = require("../../module/auth/jwt");
 const RESULT = require("../../model/Result");
 
 // 내 컴파일 결과 조회
-router.get("/", jwt.checkLogin ,async (req, res) => {
+router.get("/", jwt.checkLogin, async (req, res) => {
   const { user_idx } = req.decoded;
   RESULT.getMyCompileResult({ user_idx })
     .then(({ json }) => {
@@ -30,9 +30,9 @@ router.get("/", jwt.checkLogin ,async (req, res) => {
 router.delete("/", jwt.checkLogin, async (req, res) => {
   const { user_idx } = req.decoded;
   const data = req.body.data;
-  
+
   RESULT.deleteResult({ data })
-  .then(({ json }) => {
+    .then(({ json }) => {
       res.status(200).send(json);
     })
     .catch((err) => {

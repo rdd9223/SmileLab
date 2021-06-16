@@ -50,8 +50,6 @@ router.get("/take", jwt.checkLogin, async (req, res) => {
     });
 });
 
-
-
 // 수강클래스와 학생 전체 조회하기 -> 교수가 가지고 있는 클래스 조회하기
 // 2020 06 22.
 // 수정 내용 :
@@ -104,7 +102,7 @@ router.get("/:idx", jwt.checkLogin, async (req, res) => {
         );
     });
 });
-router.get("/:idx/:student", jwt.checkLogin, async(req, res) => {
+router.get("/:idx/:student", jwt.checkLogin, async (req, res) => {
   const { type, user_idx } = req.decoded;
   const { idx, student } = req.params;
 

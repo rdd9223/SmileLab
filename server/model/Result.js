@@ -20,7 +20,10 @@ const result = {
         });
       } else {
         return resolve({
-          json: authUtil.successFalse(statusCode.BAD_REQUEST, responseMessage.X_READ_ALL_FAIL(`컴파일 결과`)),
+          json: authUtil.successFalse(
+            statusCode.BAD_REQUEST,
+            responseMessage.X_READ_ALL_FAIL(`컴파일 결과`)
+          ),
         });
       }
     });
@@ -35,7 +38,10 @@ const result = {
 
       if (deleteResultResult.affectedRows === 0) {
         return resolve({
-          json: authUtil.successFalse(statusCode.BAD_REQUEST, responseMessage.X_DELETE_FAIL("결과")),
+          json: authUtil.successFalse(
+            statusCode.BAD_REQUEST,
+            responseMessage.X_DELETE_FAIL("결과")
+          ),
         });
       } else {
         return resolve({
@@ -92,7 +98,10 @@ const result = {
         });
       } else {
         return resolve({
-          json: authUtil.successFalse(statusCode.BAD_REQUEST, responseMessage.X_CREATE_FAIL("결과")),
+          json: authUtil.successFalse(
+            statusCode.BAD_REQUEST,
+            responseMessage.X_CREATE_FAIL("결과")
+          ),
         });
       }
     });

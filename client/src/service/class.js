@@ -82,4 +82,4 @@ export const deleteClass = async (class_idx) => {
     .catch((e) => {
       return null;
     });
-}
+};

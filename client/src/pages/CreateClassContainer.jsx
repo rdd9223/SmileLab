@@ -11,28 +11,29 @@ const Wrapper = styled.div`
   margin: 50px auto;
 `;
 
-
 const CreateClassContainer = () => {
   const [className, setClassName] = React.useState(null);
 
-
-  const createClass = async() => {
+  const createClass = async () => {
     await postClass(className);
-  }
+  };
 
   const handleClassName = (event) => {
     const value = event.target.value;
     setClassName(value);
-  }
+  };
 
-  return(
+  return (
     <Wrapper>
       <Jumbotron header={"클래스 생성"} text={"이 페이지에서 클래스를 생성 할 수 있습니다."} />
       <br />
       <Container>
         <Form>
           <Row>
-            <FormLabelSet name={"생성 할 클래스 이름"} onChange={(event) => handleClassName(event)} />
+            <FormLabelSet
+              name={"생성 할 클래스 이름"}
+              onChange={(event) => handleClassName(event)}
+            />
             <br />
             <br />
             <Button name={"생성하기"} onClick={createClass} />
@@ -40,7 +41,7 @@ const CreateClassContainer = () => {
         </Form>
       </Container>
     </Wrapper>
-  )
-}
+  );
+};
 
 export default CreateClassContainer;

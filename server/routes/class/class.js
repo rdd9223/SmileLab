@@ -12,7 +12,7 @@ router.get("/", async (req, res) => {
 
   CLASS.searchClass({ className })
     .then(({ json }) => {
-      console.log(json)
+      console.log(json);
       res.status(200).send(json);
     })
     .catch((err) => {

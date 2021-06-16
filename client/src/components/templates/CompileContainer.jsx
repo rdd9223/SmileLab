@@ -56,11 +56,11 @@ const CompileContainer = () => {
         <CodeSaveButton code={code} />
         <CheckResultButton code={code} onClick={onResultButtonClick} />
       </div>
-      <CompileInputContainer 
-        inputList={inputList} 
-        setInputList={setInputList} 
-        modalShow={modalShow} 
-        handleClose={handleClose} 
+      <CompileInputContainer
+        inputList={inputList}
+        setInputList={setInputList}
+        modalShow={modalShow}
+        handleClose={handleClose}
       />
     </div>
   );

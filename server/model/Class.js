@@ -69,7 +69,7 @@ const classInfo = {
             statusCode.BAD_REQUEST,
             responseMessage.X_DELETE_FAIL("강의")
           ),
-        }); 
+        });
       } else {
         return resolve({
           json: authUtil.successTrue(statusCode.OK, responseMessage.X_DELETE_SUCCESS("강의")),
@@ -79,7 +79,7 @@ const classInfo = {
   },
   getClassList: () => {
     return new Promise(async (resolve, reject) => {
-      const getClassListQuery = `SELECT class_idx, class.name as class_name, user.name as professor_name FROM class LEFT JOIN user ON class.professor_idx = user.user_idx WHERE user.type = 1`
+      const getClassListQuery = `SELECT class_idx, class.name as class_name, user.name as professor_name FROM class LEFT JOIN user ON class.professor_idx = user.user_idx WHERE user.type = 1`;
       const getClassListResult = await pool.queryParam_Parse(getClassListQuery);
       if (getClassListResult === undefined) {
         return resolve({

@@ -56,8 +56,17 @@ const LoginForm = () => {
       <Form onSubmit={handleSubmit}>
         <Form.Group>
           <FormText name={"아이디와 비밀번호를 입력해주세요"} />
-          <FormLabelSet onChange={(event) => handleId(event)} type={"id"} readOnly={false} placeholder={"ID"} />
-          <FormLabelSet onChange={(event) => handlePw(event)} type={"password"} placeholder={"Password"} />
+          <FormLabelSet
+            onChange={(event) => handleId(event)}
+            type={"id"}
+            readOnly={false}
+            placeholder={"ID"}
+          />
+          <FormLabelSet
+            onChange={(event) => handlePw(event)}
+            type={"password"}
+            placeholder={"Password"}
+          />
         </Form.Group>
         <Row>
           <Column>

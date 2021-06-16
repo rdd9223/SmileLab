@@ -1,7 +1,6 @@
 import React from "react";
 import Button from "../../atoms/Button";
 
-
 const MessageRow = ({ body, onClick }) => {
   const idx = body.message_idx;
   return (
@@ -11,16 +10,11 @@ const MessageRow = ({ body, onClick }) => {
         <td>{body.class_name}</td>
         <td>{body.date}</td>
         <td>
-          <Button
-            name={"보기"}
-            size="sm"
-            onClick={() => onClick(idx)}
-          />
+          <Button name={"보기"} size="sm" onClick={() => onClick(idx)} />
         </td>
       </tr>
     </>
   );
-  
-}
+};
 
 export default MessageRow;

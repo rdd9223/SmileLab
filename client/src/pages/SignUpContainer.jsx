@@ -55,7 +55,7 @@ const SignUpContainer = () => {
 
   //checkPassword를 통한 검사 뒤 유효한지 한번 더 확인
   const isValidPassword = () => {
-    return (password1 != null && password1 === password2) ? true : false
+    return password1 != null && password1 === password2 ? true : false;
   };
 
   const handleName = (event) => {

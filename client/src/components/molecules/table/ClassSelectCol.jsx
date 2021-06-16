@@ -7,7 +7,7 @@ const StyledTh = styled.th`
       return "65em";
     } else {
       return "35em";
-    } 
+    }
   }};
 `;
 

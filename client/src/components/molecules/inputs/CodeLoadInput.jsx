@@ -1,7 +1,6 @@
 import React from "react";
 
-const CodeLoadInput = props => {
-
+const CodeLoadInput = (props) => {
   const handleCodeChange = (e) => {
     let file = e.target.files[0];
     let fileReader = new FileReader();
@@ -10,7 +9,7 @@ const CodeLoadInput = props => {
       props.onChange(fileReader.result);
     };
     fileReader.readAsText(file);
-  } 
+  };
   return (
     <div className="custom-file">
       <input

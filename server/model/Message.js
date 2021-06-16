@@ -11,7 +11,7 @@ const message = {
       const ALL = 0;
 
       if (!class_idx || !contents || !receiver) {
-        if(receiver !== 0){
+        if (receiver !== 0) {
           return resolve({
             json: authUtil.successFalse(statusCode.BAD_REQUEST, responseMessage.NULL_VALUE),
           });

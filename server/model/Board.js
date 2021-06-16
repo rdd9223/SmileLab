@@ -18,9 +18,9 @@ const board = {
         WHERE board_type = ${board_type} 
         AND class_idx = ${class_idx}
         ORDER BY board_idx DESC LIMIT ${(page - 1) * 10}, 10
-      `
-      
-      if(type === Student){
+      `;
+
+      if (type === Student) {
         getBoardListQuery = `
           SELECT  board.*, user.name as writer 
           FROM board 
@@ -35,7 +35,7 @@ const board = {
           ORDER BY board_idx DESC LIMIT ${(page - 1) * 10}, 10
         `;
       }
-      
+
       const getBoardListResult = await pool.queryParam_Parse(getBoardListQuery);
       if (getBoardListResult !== undefined) {
         return resolve({
@@ -70,9 +70,9 @@ const board = {
         ) VALUES (
           ?, ?, ?, ?, ?, ?
         )
-      `
+      `;
 
-      if(type === Student){
+      if (type === Student) {
         postBoardQuery = `
           INSERT INTO board (
             class_idx, title, contents, writer_idx, date, board_type
@@ -84,14 +84,13 @@ const board = {
             ), ?, ?, ?, ?, ?
           )`;
       }
-
       const postBoardResult = await pool.queryParam_Parse(postBoardQuery, [
         type === Student ? user_idx : class_idx,
         title,
-        contents,
+        `${contents}`,
         user_idx,
         date,
-        board_type
+        board_type,
       ]);
 
       if (postBoardResult.affectedRows !== 0) {
@@ -109,15 +108,12 @@ const board = {
           ),
         });
       }
-      
     });
   },
   getBoard: ({ user_idx, boardIdx }) => {
     return new Promise(async (resolve, reject) => {
       const getBoardInfoQuery = `SELECT board.*, user.name as writer FROM board LEFT JOIN user ON board.writer_idx = user_idx WHERE board_idx = (select class_idx from take where student_idx = ?)`;
-      const getBoardInfoResult = await pool.queryParam_Parse(getBoardInfoQuery, [
-        boardIdx
-      ]);
+      const getBoardInfoResult = await pool.queryParam_Parse(getBoardInfoQuery, [boardIdx]);
 
       if (getBoardInfoResult[0] !== undefined) {
         return resolve({
@@ -149,10 +145,7 @@ const board = {
 
       if (putBoardInfoResult.affectedRows !== 0) {
         return resolve({
-          json: authUtil.successTrue(
-            statusCode.OK,
-            responseMessage.X_UPDATE_SUCCESS("게시글"),
-          ),
+          json: authUtil.successTrue(statusCode.OK, responseMessage.X_UPDATE_SUCCESS("게시글")),
         });
       } else {
         return resolve({
@@ -166,7 +159,6 @@ const board = {
   },
   deleteBoard: ({ user_idx, boardIdx }) => {
     return new Promise(async (resolve, reject) => {
-
       const deleteBoardCommentQuery = `DELETE FROM comment WHERE board_idx = ?`;
       const deleteBoardCommentResult = await pool.queryParam_Parse(deleteBoardCommentQuery, [
         boardIdx,
@@ -180,16 +172,13 @@ const board = {
 
       if (deleteBoardInfoResult.affectedRows !== 0) {
         return resolve({
-          json: authUtil.successTrue(
-            statusCode.OK,
-            responseMessage.X_DELETE_SUCCESS("게시글"),
-          ),
+          json: authUtil.successTrue(statusCode.OK, responseMessage.X_DELETE_SUCCESS("게시글")),
         });
       } else {
         return resolve({
           json: authUtil.successFalse(
             statusCode.BAD_REQUEST,
-            responseMessage.X_DELETE_FAIL("게시글"),
+            responseMessage.X_DELETE_FAIL("게시글")
           ),
         });
       }

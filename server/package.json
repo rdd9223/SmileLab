@@ -17,7 +17,7 @@
     "jade": "~1.11.0",
     "jsonwebtoken": "8.5.1",
     "moment": "2.24.0",
-    "moment-timezone": "0.5.28",
+    "moment-timezone": "0.5.35",
     "morgan": "~1.9.1",
     "nodemon": "2.0.3",
     "pbkdf2": "3.0.17",
